@@ -15,6 +15,10 @@ table tbody td{
   font-weight: normal !important;
 }
 
+.table > tbody > tr> td:nth-child(1) {
+  text-align: left !important;
+}
+
 .main_container
 {
   position:absolute;
@@ -34,9 +38,6 @@ table tbody td{
   height: 100%;
 }
 
-
-
-
 .row{
   margin: 0 !important;
 }
@@ -45,29 +46,24 @@ table tbody td{
     text-align: center;
 }
 
-table th:nth-child(1){
-  width: 20px;
+
+.resourceSelect{
+  position: absolute;
 }
 
-table th:nth-child(2){
-  width: 15px;
+.rowModifiedHighlight{
+  background: #fdfda7 !important;
+  opacity: 1;
+  animation: fade .5s linear;
 }
 
-table th:nth-child(5),table th:nth-child(6){
-  width: 150px;
+@keyframes fade {
+  0%,100% { opacity: 0 }
+  50% { opacity: 1 }
 }
 
-table th:nth-child(7){
-  width: 60px;
-}
 
 /*common*/
-.tabs-header .tabs-pill li.tabs-selected a.tabs-inner {
-    background: #33b5e5 !important;
-    color: #ffffff !important;
-    border-color: #4c72a7 !important;
-}
-
 .table-striped>tbody>tr:nth-of-type(odd) {
     background-color: #eaf7fb;
 }

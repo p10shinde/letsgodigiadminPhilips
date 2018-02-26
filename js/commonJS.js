@@ -1,5 +1,5 @@
 GoogleData = {}
-GoogleData.client_id = '848626933775-1ev04tltptuh8a332unt3aqhohaqh839.apps.googleusercontent.com';
+GoogleData.client_id = '58895878910-g39rj0mojh2h0tlafp2oo135lqm6eue1.apps.googleusercontent.com';
 disabledChannels = ['Second Channel','Full Screen','Groups','Clients','Users','Advertisers','Clusters','Devices']
 $.ajaxSetup({
     beforeSend: function(xhr) {
@@ -14,9 +14,9 @@ $.ajaxSetup({
     }
 });
 
-if(!sessionStorage.apiurl || !sessionStorage.userName || !sessionStorage.clientLocation || !sessionStorage.userName || !sessionStorage.id_token || !sessionStorage.clientName){
-	window.location.href = 'login.html'
-}else{
+// if(!sessionStorage.apiurl || !sessionStorage.userName || !sessionStorage.clientLocation || !sessionStorage.userName || !sessionStorage.id_token || !sessionStorage.clientName){
+// 	window.location.href = 'login.html'
+// }else{
 commonData = {};
 commonData.username = sessionStorage.username;
 commonData.usernamefull = sessionStorage.usernamefull;
@@ -168,4 +168,4 @@ XMLHttpRequest.prototype.realSend = XMLHttpRequest.prototype.send;
 	    }, false);
 	    this.realSend(value);
 	};
-}
+// }

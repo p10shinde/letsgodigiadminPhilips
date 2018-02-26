@@ -34,9 +34,6 @@ table tbody td{
   height: 100%;
 }
 
-
-
-
 .row{
   margin: 0 !important;
 }
@@ -53,16 +50,9 @@ table th:nth-child(2){
   width: 15px;
 }
 
-table th:nth-child(7), table th:nth-child(6){
-  width: 150px;
+table th:nth-child(9){
+  width: 60px;
 }
-
-table td{
-  text-align: center;
-  vertical-align: middle !important;
-}
-
-
 
 /*common*/
 .tabs-header .tabs-pill li.tabs-selected a.tabs-inner {
@@ -85,7 +75,17 @@ table td{
 }
 
 
+.panel.window.panel-htop{
+  overflow: visible;
+}
 
+.ms-choice{
+  height: 34px;
+}
+
+.ms-choice span, .ms-choice div{
+  top : 4px !important;
+}
 
 ::-webkit-scrollbar {
     width: .8em;

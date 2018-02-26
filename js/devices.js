@@ -1,14 +1,22 @@
-devices = {};
+groups = {};
 window.onload = function(){
 	// XMLHttpRequest.prototype.realSend = XMLHttpRequest.prototype.send;
 	// XMLHttpRequest.prototype.send = function(value) {
 	// 	this.addEventListener('error', function(xx,yy){
-			
+	//         $(".ldBar div.ldBar-label").hide()
+	// 		$(".ldBar").append('<label class="text-danger loadingError">Error</label>')
+	// 		setTimeout(function(){
+	//         	$("#loadingDiv").hide();
+	//         },1300)
 	// 	}, false);
 	// 	this.addEventListener("loadstart", function(xx,yy){
 	//     	$("#loadingDiv").show();
+	//     	$(".ldBar div.ldBar-label").show()
+	//     	$(".ldBar div.loadingError").hide()
 	//     }, false);
 	//     this.addEventListener("progress", function(xx,yy){
+	//     	$(".ldBar div.ldBar-label").show()
+	//     	$(".ldBar div.loadingError").hide()
 	//     	loadedPer = xx.loaded/xx.total*100
 	//     	if(isNaN(loadedPer)) $(".ldBar")[0].ldBar.set(0)
 	//     	else $(".ldBar")[0].ldBar.set(loadedPer)
@@ -24,9 +32,9 @@ window.onload = function(){
 	// initialize tooltips
 	$('[data-toggle="tooltip"]').tooltip();
 
-	devices.devicesTableAPI = $('#devicesTable').DataTable({
+	groups.groupsTableAPI = $('#groupsTable').DataTable({
         "ajax" : {
-			url : commonData.apiurl + "devices/" + clientName,
+			url : commonData.apiurl + "groups",
 			'async': 'false',
 			dataSrc : function(data){
 				// sno = 1;
@@ -45,7 +53,7 @@ window.onload = function(){
 				}
 			},
 			error : function(jqXHR, textStatus, errorThrown){
-				devices.devicesTableAPI.clear().draw();
+				groups.groupsTableAPI.clear().draw();
 			}
  		},
  		keys : true,
@@ -58,60 +66,78 @@ window.onload = function(){
         	  			</div>`;
     	  		}, sortable : false
     	  	},
-            { "data": "deviceName" },
-            { "data": "deviceLocation" },
-            { "data": "updatedBy" },
-            { "data": "updatedAt" },
-        	{ render : function(data, type, row){
-        	  	return `<div class="tableButtons">
-        	  				<button class="btn btn-info btn-xs editDevice"><i class="fa fa-pencil" style="font-size: 8px;"></i></button>
+            { "data": "groupName" },
+            { render: function(data, type, row){
+            	return `<div class="takess-lgd">
+        	  				<a href="#">Take Screenshot<a/>
         	  			</div>`;
-        	  				// <button class="btn btn-danger btn-xs deleteDevice"><i class="fa fa-minus" style="font-size: 8px;"></i></button>
     	  		},
     	  		sortable : false
-    		}
+            },
+            { render: function(data, type, row){
+            	return `<div class="preview-lgd">
+        	  				<img src="" width="100px" height="100px" />
+        	  			</div>`;
+    	  		},
+    	  		sortable : false
+            },
+            // { "data": "clientName" },
+            { "data": "updatedBy" },
+            { "data": "updatedAt" },
+      //   	{ render : function(data, type, row){
+      //   	  	return `<div class="tableButtons">
+      //   	  				<button class="btn btn-info btn-xs editGroup"><i class="fa fa-pencil" style="font-size: 8px;"></i></button>
+      //   	  			</div>`;
+      //   	  				// <button class="btn btn-danger btn-xs deleteGroup"><i class="fa fa-minus" style="font-size: 8px;"></i></button>
+    	 //  		},
+    	 //  		sortable : false
+    		// }
     	]
     });
 
-    devices.devicesTableJQ = $('#devicesTable').dataTable()
+    groups.groupsTableJQ = $('#groupsTable').dataTable();
+
+    
 
 	// keep the dialog box in center when user changes orientation or resizes the window
 	$("#EditorPanel").panel({
 		onResize:function(){
-            if($('#addNewDeviceDialog').is(':visible'))
-	            $('#addNewDeviceDialog').dialog('center');
+            if($('#addNewGroupDialog').is(':visible'))
+            	$('#addNewGroupDialog').dialog('center');
         }
 	})
 
 
-    $("#addNewDeviceButton").off('click').on('click',function(evt){
-    	initializeDeviceDialog("","",123456789);
+    $("#addNewGroupButton").off('click').on('click',function(evt){
+    	initializeGroupDialog("","",123456789);
     });
 
-    $('table tbody').on('click','td:nth-child(7)',function(evt){
-		deleteOrEditDevice(evt);
+ //    $('table tbody').on('click','td:nth-child(7)',function(evt){
+	// 	deleteOrEditGroup(evt);
 
-	});
+	// });
 
-	$("#deleteSelectedDeviceButton").off('click').on('click',function(evt){
-		
+	$("#deleteSelectedGroupButton").off('click').on('click',function(evt){
 		if(confirm("Are you you want to delete selected entries?")){
 			$("#loadingDiv").show();
-			// page = devices.devicesTableAPI.page.info().page;
-			checkboxTD = devices.devicesTableAPI.rows().nodes().toJQuery();
+			page = groups.groupsTableAPI.page.info().page;
+			checkboxTD = groups.groupsTableAPI.rows().nodes().toJQuery();
 			deleteRowsIndexes = []
+			deleteRowClientNames = [];
 			$.each(checkboxTD, function(index, value){
 				isChecked = $(value).find('td:nth-child(2) input').is(':checked')
 				if(isChecked){
 					rowNo = parseInt($(value).find('td:nth-child(1)').text()) - 1;
-					deviceName = $(value).find('td:nth-child(3)').text();
-					deleteRowsIndexes.push(deviceName)
+					groupName = $(value).find('td:nth-child(3)').text();
+					clName = $(value).find('td:nth-child(4)').text();
+					deleteRowClientNames.push(clName)
+					deleteRowsIndexes.push(groupName);
 				}
 
 			})
-			$.each(deleteRowsIndexes, function(index,deviceName){
+			$.each(deleteRowsIndexes, function(index,groupName){
 				$.ajax({
-				    url: commonData.apiurl + "devices/" + clientName + "/" + deviceName,
+				    url: commonData.apiurl + "groups/" + deleteRowClientNames[index] + "/" + groupName,
 				    type: 'DELETE',
 				    "async" : false,
 				    success: function(result) {
@@ -123,62 +149,65 @@ window.onload = function(){
 				 		}
 					}
 				});
-				// devices.devicesTableJQ.fnDeleteRow(value-index, function(lg){
-					// console.log(lg)
+
+
+				// groups.groupsTableJQ.fnDeleteRow(value-index, function(lg){
+				// 	console.log(lg)
 				// });
 			})
 			// updateSerialNo();
-			devices.devicesTableAPI.page( 'first' ).draw( 'page' );
-			devices.devicesTableAPI.ajax.reload();
+			groups.groupsTableAPI.page( 'first' ).draw( 'page' );
+			groups.groupsTableAPI.ajax.reload()
 		}
 	});
 
-	$("#devicesTable").off('keyup').on('keyup', function(event){
+	$("#groupsTable").off('keyup').on('keyup', function(event){
 		if(event.keyCode == 32){
-			trgt = $("#devicesTable tbody td.focus").closest('tr').find('.tableCheckbox input')
+			trgt = $("#groupsTable tbody td.focus").closest('tr').find('.tableCheckbox input')
 			trgt.click();
 		}
 		// else if(event.keyCode == 46){
-		// 	$("#deleteSelectedDeviceButton").click();
-		// 	$("#devicesTable tbody td.focus").removeClass('focus')
+		// 	$("#deleteSelectedGroupButton").click();
+		// 	$("#groupsTable tbody td.focus").removeClass('focus')
 		// }
 	});
 
-	function initializeDeviceDialog(deviceName,deviceLocation,rowNo){
-		openDeviceDialog(deviceName,deviceLocation,rowNo);
+	function initializeGroupDialog(groupName,clientName,rowNo){
+		openGroupDialog(groupName,clientName,rowNo);
 
-		val = $("#deviceName").val();
-		$("#deviceName").val('')
-    	$("#deviceName").focus();
-    	$("#deviceName").val(val)
+		val = $("#groupName").val();
+		$("#groupName").val('')
+    	$("#groupName").focus();
+    	$("#groupName").val(val)
 
-		$("#deviceLocation").val(deviceLocation)
+    	// $("#clientName").val(clientName)
+    	$("select#clientSelectFilter").multipleSelect("setSelects", [clientName]);
 
-		$("#deviceName, #deviceLocation").off('keypress').on('keypress', function(evt){
+		$("#groupName, #clientName").off('keypress').on('keypress', function(evt){
 			if(evt.keyCode == 13){
-				$("#addNewDeviceOkButton").click();
+				$("#addNewGroupOkButton").click();
 			}
 		})
 	
-	    $("#addNewDeviceOkButton").off('click').on('click',function(evt){
+	    $("#addNewGroupOkButton").off('click').on('click',function(evt){
 	    	updateTableWithNewRecord();
 	    });
 	}
 
-	function openDeviceDialog(deviceName,deviceLocation,rowNo){
-		devices.devicesTableAPI.keys.disable();
-		devices.rowNo = rowNo;
-		devices.deviceName = deviceName;
+	function openGroupDialog(groupName,clientName,rowNo){
+		groups.groupsTableAPI.keys.disable();
+		groups.rowNo = rowNo;
+		groups.groupName = groupName;
 		if(rowNo == 123456789){
-			title = 'Add Device';
+			title = 'Add Group';
 			buttonText = "Add"
-			disabled = ""
+			disabled = "";
 		}else{
-			title = 'Edit Device'
+			title = 'Edit Group'
 			buttonText = "Save"
-			disabled = "disabled"
+			disabled = "disabled";
 		}
-		$('#addNewDeviceDialog').dialog({
+		$('#addNewGroupDialog').dialog({
 		    title: title,
 		    // width: 400,
 		    // height: 200,
@@ -186,68 +215,127 @@ window.onload = function(){
 		    cache: false,
 		    constrain: true,
 		    content : 	`<div class="input-group" style="padding:5px">
-							    <span class="input-group-addon">Device Name</span>
-							    <input id="deviceName" type="text" class="form-control" value="` + deviceName + `" `+ disabled +`>
+							    <span class="input-group-addon">Group Name</span>
+							    <input id="groupName" type="text" class="form-control" value="` + groupName + `" `+ disabled +`>
 					  	</div>
-					  	<div class="input-group" style="padding:5px">
-							    <span class="input-group-addon">Device Location</span>
-							    <input id="deviceLocation" type="text" class="form-control" value="` + deviceLocation + `">
-					  	</div>
-		    			<button class="btn btn-success" id="addNewDeviceOkButton" style="position:absolute;right:15px;bottom:15px">`+ buttonText +`</button>`,
+					  	<div id="displayFilterDropdown" style="height: 70px;padding:5px">
+                            <div class="row" >
+                                <div class="col-md-12" style="padding-left: 0;height: inherit;">
+                                    <div id="clientSelectFilterDiv" style="width: 100%;">
+                                        <select id="clientSelectFilter" style="width: 100%;height: inherit;">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+					  	
+		    			<button class="btn btn-success" id="addNewGroupOkButton" style="position:absolute;right:15px;bottom:15px">`+ buttonText +`</button>`,
 		    modal: true,
 		    onClose : function(){
-		    	devices.devicesTableAPI.keys.enable();
+		    	groups.groupsTableAPI.keys.enable();
 		    }
 		});
+getAllClients();
+		function getAllClients(){
+		$.ajax({
+			url : commonData.apiurl + "clients",
+			async : false,
+			datatype : 'json',
+			complete : function(jqXHR, textstatus){
+				if(textstatus == "success"){
+					clients = _.unique(jqXHR.responseJSON,'clientName')
+					clients = _.pluck(clients,'clientName')
+					var options = ""
+					$.each(clients, function(index,value){
+						options += `<option value="`+value+`">`+value+`</option>`
+					});
+					$("#clientSelectFilter").empty();
+					$("#clientSelectFilter").append(options);
+					
+					$("#clientSelectFilter").multipleSelect({
+						placeholder: "Select Client",
+						single : true,
+						filter: true,
+						allSelected : false,
+						onClick : function(view){
+							// tabIndex = $("#firstChannelTabs").tabs('getTabIndex',$("#firstChannelTabs").tabs('getSelected'))
+							// groupName = view.value;
+							// if(tabIndex == 0){
+							// 	loadGroupsFirstChannelGeneralTable(groupName)
+							// 	firstChannel.visibleTableAPI = firstChannel.groupsFirstChannelGeneralTableAPI;
+						 //    	firstChannel.visibleTableJQ = firstChannel.groupsFirstChannelGeneralTableJQ;
+						 //    }else{
+						 //    	loadGroupsFirstChannelPlannedTable(groupName)
+							// 	firstChannel.visibleTableAPI = firstChannel.groupsFirstChannelPlannedTableAPI;
+						 //    	firstChannel.visibleTableJQ = firstChannel.groupsFirstChannelPlannedTableJQ;
+						 //    }
+						}
+					});
+
+				}else if(textstatus == "error"){
+					if(jqXHR.responseText)
+						$.notify(jqXHR.responseText,'error')
+				}
+				console.log(jqXHR);
+			}
+		})
+	}
 	}
 
 	// tabel buttons : only edit is working
-	function deleteOrEditDevice(evt){
-		buttonPressed = $(evt.target).closest('button').hasClass('deleteDevice') ? "deleteDevice" : "editDevice";
+	function deleteOrEditGroup(evt){
+		buttonPressed = $(evt.target).closest('button').hasClass('deleteGroup') ? "deleteGroup" : "editGroup";
 		trgtTd = $(evt.target).closest('td');
 		trgtTr = trgtTd.closest('tr');
 		if(evt.target.nodeName != "TD" && trgtTd.index() == 6){
-			if(buttonPressed == 'deleteDevice'){
+			if(buttonPressed == 'deleteGroup'){
 				rowNo = parseInt(trgtTr.find('td').first().text()) -1;
-				page = devices.devicesTableAPI.page.info().page;
-				devices.devicesTableJQ.fnDeleteRow(rowNo,function(evt){
+				page = groups.groupsTableAPI.page.info().page;
+				groups.groupsTableJQ.fnDeleteRow(rowNo,function(evt){
 				});
 				updateSerialNo();
-				devices.devicesTableAPI.page( page ).draw( 'page' );
+				groups.groupsTableAPI.page( page ).draw( 'page' );
 
-			}else if(buttonPressed == "editDevice"){
+			}else if(buttonPressed == "editGroup"){
 				rowNo = parseInt(trgtTr.find('td').first().text()) -1;
-				deviceName = devices.devicesTableAPI.cell(rowNo,2).data()
-				deviceLocation = devices.devicesTableAPI.cell(rowNo,3).data()
-				initializeDeviceDialog(deviceName,deviceLocation,rowNo)
+				groupName = groups.groupsTableAPI.cell(rowNo,2).data()
+				clientName = groups.groupsTableAPI.cell(rowNo,3).data()
+				initializeGroupDialog(groupName,clientName,rowNo)
 			}
 		}
 	}
 
     function updateTableWithNewRecord(){
     	$("#loadingDiv").show();
-    	deviceName = $("#deviceName").val();
-    	deviceLocation = $("#deviceLocation").val();;
-    	deviceDataObj = {}
-    	deviceDataObj.deviceName = deviceName;
-    	deviceDataObj.deviceLocation = deviceLocation;
+    	groupName = $("#groupName").val();
 
-    	//this is inserting new client
-    	if(devices.rowNo == 123456789){
-    		deviceDataObj.clientName = clientName;
+    	clientNameOld = clientName;
+    	clientName = $("#clientSelectFilter").multipleSelect('getSelects')[0]
+    	// groupData = [];
+    	groupDataObj = {}
+    	groupDataObj.groupName = groupName;
+    	groupDataObj.clientName = clientName;
+    	// groupDataObj.masterAccount = "";
+    	// groupDataObj.slaveAccount = "";
+    	
+
+
+    	//this is inserting new group
+    	if(groups.rowNo == 123456789){
 	    	$.ajax({
 			  type: "POST",
 			  async : false,
-			  url: commonData.apiurl + 'devices',
-			  data: JSON.stringify([deviceDataObj]),
+			  url: commonData.apiurl + 'groups',
+			  data: JSON.stringify([groupDataObj]),
 			  success: function(data){
+			  	// console.log(data);
 			  	$.notify('Success','success')
-			  	devices.devicesTableAPI.ajax.reload(function(){
-					$('#addNewDeviceDialog').dialog('close');
-				  	recordsTotal = devices.devicesTableAPI.page.info().recordsTotal;
-				  	devices.devicesTableAPI.page( 'first' ).draw( 'page' );
-				  	// $(devices.devicesTableAPI.rows().nodes().toJQuery()[recordsTotal]).fadeOut();
-					// $(devices.devicesTableAPI.rows().nodes().toJQuery()[recordsTotal]).fadeIn();
+			  	groups.groupsTableAPI.ajax.reload(function(){
+					$('#addNewGroupDialog').dialog('close');
+				  	recordsTotal = groups.groupsTableAPI.page.info().recordsTotal;
+				  	groups.groupsTableAPI.page( 'first' ).draw( 'page' );
+				  	// $(groups.groupsTableAPI.rows().nodes().toJQuery()[recordsTotal]).fadeOut();
+					// $(groups.groupsTableAPI.rows().nodes().toJQuery()[recordsTotal]).fadeIn();
 			  	});
 			  },
 			  error : function(jqXHR, textStatus){
@@ -258,22 +346,22 @@ window.onload = function(){
 			  dataType: 'json',
 			  contentType: "application/json",
 			});
-		//this is updating exisiting client
+		//this is updating exisiting group
 	    }else{
 	    	$.ajax({
 			  type: "PUT",
 			  async : false,
-			  url: commonData.apiurl + 'devices/' + clientName + "/" + devices.deviceName,
-			  data: JSON.stringify(deviceDataObj),
+			  url: commonData.apiurl + "groups/" + clientNameOld +"/" + groups.groupName,
+			  data: JSON.stringify(groupDataObj),
 			  success: function(){
 			  	$.notify('Success','success')
-			  	// page = devices.devicesTableAPI.page.info().page;
-			  	devices.devicesTableAPI.ajax.reload(function(){
-					$('#addNewClientDialog').dialog('close');
-				  	// recordsTotal = devices.devicesTableAPI.page.info().recordsTotal;
-				  	devices.devicesTableAPI.page( 'first' ).draw( 'page' );
-			    	// $(devices.devicesTableAPI.rows().nodes().toJQuery()[devices.rowNo]).fadeOut();
-					// $(devices.devicesTableAPI.rows().nodes().toJQuery()[devices.rowNo]).fadeIn();
+			  	// page = groups.groupsTableAPI.page.info().page;
+			  	groups.groupsTableAPI.ajax.reload(function(){
+					$('#addNewGroupDialog').dialog('close');
+				  	// recordsTotal = groups.groupsTableAPI.page.info().recordsTotal;
+				  	groups.groupsTableAPI.page( 'first' ).draw( 'page' );
+			    	// $(groups.groupsTableAPI.rows().nodes().toJQuery()[groups.rowNo]).fadeOut();
+					// $(groups.groupsTableAPI.rows().nodes().toJQuery()[groups.rowNo]).fadeIn();
 			  	});
 			  },
 		  	  error : function(jqXHR, textStatus){
@@ -288,73 +376,34 @@ window.onload = function(){
 
 
 
-
-
-
-
-   //  	recordsTotal = devices.devicesTableAPI.page.info().recordsTotal;
-   //  	deviceName = $("#deviceName").val();
-   //  	deviceLocation = $("#deviceLocation").val();
-   //  	if(devices.rowNo == 123456789){
-   //  		devices.devicesTableJQ.fnAddData({sno :  recordsTotal + 1,deviceName : deviceName,deviceLocation : deviceLocation});
-   //  		devices.devicesTableAPI.page( 'last' ).draw( 'page' );
-			// $(devices.devicesTableAPI.rows().nodes().toJQuery()[recordsTotal]).fadeOut();
-			// $(devices.devicesTableAPI.rows().nodes().toJQuery()[recordsTotal]).fadeIn();
+   //  	recordsTotal = groups.groupsTableAPI.page.info().recordsTotal;
+   //  	groupName = $("#groupName").val();
+   //  	if(groups.rowNo == 123456789){
+   //  		groups.groupsTableJQ.fnAddData({sno :  recordsTotal + 1,groupName : groupName});
+   //  		groups.groupsTableAPI.page( 'last' ).draw( 'page' );
+			// $(groups.groupsTableAPI.rows().nodes().toJQuery()[recordsTotal]).fadeOut();
+			// $(groups.groupsTableAPI.rows().nodes().toJQuery()[recordsTotal]).fadeIn();
    //  	}
    //  	else{
-   //  		page = devices.devicesTableAPI.page.info().page;
-   //  		devices.devicesTableAPI.cell(devices.rowNo,2).data(deviceName);
-   //  		devices.devicesTableAPI.cell(devices.rowNo,3).data(deviceLocation);
-   //  		devices.devicesTableAPI.page( page ).draw( 'page' );
-	  //   	$(devices.devicesTableAPI.rows().nodes().toJQuery()[devices.rowNo]).fadeOut();
-			// $(devices.devicesTableAPI.rows().nodes().toJQuery()[devices.rowNo]).fadeIn();
+   //  		page = groups.groupsTableAPI.page.info().page;
+   //  		groups.groupsTableAPI.cell(groups.rowNo,2).data(groupName);
+   //  		groups.groupsTableAPI.page( page ).draw( 'page' );
+	  //   	$(groups.groupsTableAPI.rows().nodes().toJQuery()[groups.rowNo]).fadeOut();
+			// $(groups.groupsTableAPI.rows().nodes().toJQuery()[groups.rowNo]).fadeIn();
    //  	}
 
 
-    	$('#addNewDeviceDialog').dialog('close');
+    	// $('#addNewGroupDialog').dialog('close');
 
-    	// devices.devicesTableAPI.keys.enable();
+    	// groups.groupsTableAPI.keys.enable();
 	}
 
-
-	// $("#saveDeviceButton").off('click').on('click', function(evt){
-	// 	devicesDataArray = devices.devicesTableJQ.fnGetData();
-	// 	devicesDataArray = _.map(devicesDataArray, function(val){
- //    		return _.omit(val,'sno')
- //    	})
-
-	// 	$.ajax({
-	// 		  type: "POST",
-	// 		  async : false,
-	// 		  url: commonData.apiurl + 'devices',
-	// 		  data: JSON.stringify(devicesDataArray),
-	// 		  success: function(data){
-	// 		  	console.log(data);
-	// 		  	devices.devicesTableAPI.ajax.reload();
-	// 		  	// campaigns.groupsCampaignsTableAPI.ajax.reload(function(){
-	// 				// $('#addNewResourceDialog').dialog('close');
-	// 			  	// recordsTotal = resources.resourcesTableAPI.page.info().recordsTotal;
-	// 			  	// resources.resourcesTableAPI.page( 'first' ).draw( 'page' );
-	// 			  	// $(clients.clientsTableAPI.rows().nodes().toJQuery()[recordsTotal]).fadeOut();
-	// 				// $(clients.clientsTableAPI.rows().nodes().toJQuery()[recordsTotal]).fadeIn();
-	// 		  	// });
-	// 		  },
-	// 		  error : function(jqXHR, textStatus){
-	// 	 		if(jqXHR.responseText){
-	// 	 			$.notify(jqXHR.responseText,'error')
-	// 	 		}
-	// 		  },
-	// 		  dataType: 'json',
-	// 		  contentType: "application/json",
-	// 		});
-	// })
-
-	function updateSerialNo(apiInstance){
-		data = apiInstance.data();
+	function updateSerialNo(){
+		data = groups.groupsTableAPI.data();
 		$.each(data, function(index, value){
-			apiInstance.cell(index,0).data(index+1);
+			groups.groupsTableAPI.cell(index,0).data(index+1);
 		})
-		apiInstance.draw();
+		groups.groupsTableAPI.draw();
 	}
 
     
