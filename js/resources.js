@@ -28,13 +28,15 @@ function getAllGroups(){
 							tabIndex = $("#resourcesTabs").tabs('getTabIndex',$("#resourcesTabs").tabs('getSelected'))
 							groupName = view.value;
 							if(tabIndex == 0){
-								loadSocietyContent(groupName);
+								// loadSocietyContent(groupName);
+								loadAdvtContent(groupName);
 						    }
 						}
 					});
 
 
 					// loadSocietyContent($("#groupSelectFilter").multipleSelect('getSelects')[0]);
+					loadAdvtContent($("#groupSelectFilter").multipleSelect('getSelects')[0]);
 
 				}else if(textstatus == "error"){
 					if(jqXHR.responseText)

@@ -10,15 +10,15 @@
  */
 
 /* global $, window */
-
-$(function () {
+function loadAdvtContent(groupName){
+// $(function () {
     'use strict';
 
     // Initialize the jQuery File Upload widget:
     $('#fileuploadAdvt').fileupload({
         // Uncomment the following to send cross-domain cookies:
         //xhrFields: {withCredentials: true},
-        url: "http://" + sessionStorage.apiurl.split(":")[1] + ":6052/advt"
+        url: "http://" + sessionStorage.apiurl.split(":")[1] + ":6052/society/" + groupName
         // url: "http://" + 'localhost' + ":6052/advt"
     });
 
@@ -77,4 +77,6 @@ $(function () {
         });
     }
 
-});
+// });
+
+}
