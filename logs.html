@@ -120,7 +120,7 @@
                             </div>
                         </div>
                         <div class="row" style="position: relative;height: calc(100% - 90px)">
-                            <div class="col-md-12" style="height: 100%">
+                            <div class="col-md-12" style="height: 100%" id="logsTableCol">
                                 <table id="logsTable" class="table table-striped">
                                     <thead>
                                     </thead>
@@ -128,6 +128,11 @@
                                         
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class="col-md-12" style="display: none;" id="noDataAvailableCol">
+                                <div id="noDataAvailable">
+                                    Oops!!! No log data available for selected time period
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -12,6 +12,10 @@ body{
     letter-spacing: normal !important;
 }
 
+.loadingResourceImage {
+  background: transparent url('http://thinkfuture.com/wp-content/uploads/2013/10/loading_spinner.gif') center no-repeat;
+}
+
 #blockedDiv{
     background: #ccc;
     opacity: .5;
@@ -79,6 +83,10 @@ body{
 .ms-choice{
   background: #e59c33;
   color: white;
+}
+
+.ms-choice.disabled {
+    color: black !important;
 }
 
 .table > tbody > tr > td{

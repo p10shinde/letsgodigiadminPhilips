@@ -1,6 +1,6 @@
-// if(!sessionStorage.apiurl || !sessionStorage.userName || !sessionStorage.clientLocation || !sessionStorage.userName || !sessionStorage.id_token || !sessionStorage.clientName){
-// 	window.location.href = 'login.html'
-// }else{
+if(!sessionStorage.apiurl || !sessionStorage.userName || !sessionStorage.clientLocation || !sessionStorage.userName || !sessionStorage.id_token || !sessionStorage.clientName){
+	window.location.href = 'login.html'
+}else{
 	window.onload = function(){
 		configureView(sessionStorage.userType);
 		$("#userImage")[0].src = sessionStorage.image
@@ -48,4 +48,4 @@
 		})
 		$("#channelMenu li:contains('First Channel')").click()
 	}
-// }
+}

@@ -1,4 +1,12 @@
 groups = {};
+function takeScreenShot(evt){
+	evt.preventDefault();
+	imageToRefresh = $(evt.target).closest('tr').find('img')[0]
+	imageToRefresh.src = "";
+	imageToRefresh.src = "http://63.142.250.105:6053/resources/screenshot/demo_grp.png?t="+new Date().getTime()
+
+}
+
 window.onload = function(){
 	// XMLHttpRequest.prototype.realSend = XMLHttpRequest.prototype.send;
 	// XMLHttpRequest.prototype.send = function(value) {
@@ -69,14 +77,14 @@ window.onload = function(){
             { "data": "groupName" },
             { render: function(data, type, row){
             	return `<div class="takess-lgd">
-        	  				<a href="#">Take Screenshot<a/>
+        	  				<a href="#" onClick="takeScreenShot(event);">Take Screenshot</a>
         	  			</div>`;
     	  		},
     	  		sortable : false
             },
             { render: function(data, type, row){
             	return `<div class="preview-lgd">
-        	  				<img src="" width="100px" height="100px" />
+        	  				<img class="loadingResourceImage" title="`+row.groupName+`.png" src="http://63.142.250.105:6053/resources/screenshot/`+row.groupName+`.png?t="`+ new Date().getTime() +`" width="100px" height="100px" onerror="this.onerror=null;this.src='http://63.142.250.105:6053/resources/errorSS.jpg'"/>
         	  			</div>`;
     	  		},
     	  		sortable : false
@@ -96,6 +104,33 @@ window.onload = function(){
     });
 
     groups.groupsTableJQ = $('#groupsTable').dataTable();
+
+
+    $("#groupsTable tbody").off('click').on('click','img',function(evt){
+		dataArray = [];
+		$.each($("#groupsTable tbody img"), function(index, key){
+			if(/\.(mp4)$/i.test(key.title)){
+				type = 'video/mp4'
+			}else{
+				type = 'image'
+			}
+			dataArray.push({title : key.title, href : key.src, type : type, thumbnail : key.src})
+		})
+
+		tbody = $(evt.target).closest('tbody');
+		tr = $(evt.target).closest('tr');
+		rowIndex = tbody.children().index(tr[0])
+		dataArray = _.union(_.rest(dataArray,rowIndex),_.difference(dataArray,_.rest(dataArray,rowIndex)))
+
+		blueimp.Gallery(dataArray,{
+	    container : '#blueimp-gallery-common'});
+
+		return false;
+	})
+
+    
+
+	
 
     
 
@@ -129,7 +164,8 @@ window.onload = function(){
 				if(isChecked){
 					rowNo = parseInt($(value).find('td:nth-child(1)').text()) - 1;
 					groupName = $(value).find('td:nth-child(3)').text();
-					clName = $(value).find('td:nth-child(4)').text();
+					// clName = $(value).find('td:nth-child(3)').text();
+					clName = clientName;
 					deleteRowClientNames.push(clName)
 					deleteRowsIndexes.push(groupName);
 				}
@@ -181,7 +217,7 @@ window.onload = function(){
     	$("#groupName").val(val)
 
     	// $("#clientName").val(clientName)
-    	$("select#clientSelectFilter").multipleSelect("setSelects", [clientName]);
+    	// $("select#clientSelectFilter").multipleSelect("setSelects", [clientName]);
 
 		$("#groupName, #clientName").off('keypress').on('keypress', function(evt){
 			if(evt.keyCode == 13){
@@ -217,69 +253,69 @@ window.onload = function(){
 		    content : 	`<div class="input-group" style="padding:5px">
 							    <span class="input-group-addon">Group Name</span>
 							    <input id="groupName" type="text" class="form-control" value="` + groupName + `" `+ disabled +`>
-					  	</div>
-					  	<div id="displayFilterDropdown" style="height: 70px;padding:5px">
-                            <div class="row" >
-                                <div class="col-md-12" style="padding-left: 0;height: inherit;">
-                                    <div id="clientSelectFilterDiv" style="width: 100%;">
-                                        <select id="clientSelectFilter" style="width: 100%;height: inherit;">
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+					  	</div>`+
+					  	// <div id="displayFilterDropdown" style="height: 70px;padding:5px">
+        //                     <div class="row" >
+        //                         <div class="col-md-12" style="padding-left: 0;height: inherit;">
+        //                             <div id="clientSelectFilterDiv" style="width: 100%;">
+        //                                 <select id="clientSelectFilter" style="width: 100%;height: inherit;">
+        //                                 </select>
+        //                             </div>
+        //                         </div>
+        //                     </div>
+        //                 </div>
 					  	
-		    			<button class="btn btn-success" id="addNewGroupOkButton" style="position:absolute;right:15px;bottom:15px">`+ buttonText +`</button>`,
+		    			`<button class="btn btn-success" id="addNewGroupOkButton" style="position:absolute;right:15px;bottom:15px">`+ buttonText +`</button>`,
 		    modal: true,
 		    onClose : function(){
 		    	groups.groupsTableAPI.keys.enable();
 		    }
 		});
-getAllClients();
-		function getAllClients(){
-		$.ajax({
-			url : commonData.apiurl + "clients",
-			async : false,
-			datatype : 'json',
-			complete : function(jqXHR, textstatus){
-				if(textstatus == "success"){
-					clients = _.unique(jqXHR.responseJSON,'clientName')
-					clients = _.pluck(clients,'clientName')
-					var options = ""
-					$.each(clients, function(index,value){
-						options += `<option value="`+value+`">`+value+`</option>`
-					});
-					$("#clientSelectFilter").empty();
-					$("#clientSelectFilter").append(options);
-					
-					$("#clientSelectFilter").multipleSelect({
-						placeholder: "Select Client",
-						single : true,
-						filter: true,
-						allSelected : false,
-						onClick : function(view){
-							// tabIndex = $("#firstChannelTabs").tabs('getTabIndex',$("#firstChannelTabs").tabs('getSelected'))
-							// groupName = view.value;
-							// if(tabIndex == 0){
-							// 	loadGroupsFirstChannelGeneralTable(groupName)
-							// 	firstChannel.visibleTableAPI = firstChannel.groupsFirstChannelGeneralTableAPI;
-						 //    	firstChannel.visibleTableJQ = firstChannel.groupsFirstChannelGeneralTableJQ;
-						 //    }else{
-						 //    	loadGroupsFirstChannelPlannedTable(groupName)
-							// 	firstChannel.visibleTableAPI = firstChannel.groupsFirstChannelPlannedTableAPI;
-						 //    	firstChannel.visibleTableJQ = firstChannel.groupsFirstChannelPlannedTableJQ;
-						 //    }
-						}
-					});
+// getAllClients();
+		// function getAllClients(){
+		// 	$.ajax({
+		// 		url : commonData.apiurl + "clients",
+		// 		async : false,
+		// 		datatype : 'json',
+		// 		complete : function(jqXHR, textstatus){
+		// 			if(textstatus == "success"){
+		// 				clients = _.unique(jqXHR.responseJSON,'clientName')
+		// 				clients = _.pluck(clients,'clientName')
+		// 				var options = ""
+		// 				$.each(clients, function(index,value){
+		// 					options += `<option value="`+value+`">`+value+`</option>`
+		// 				});
+		// 				$("#clientSelectFilter").empty();
+		// 				$("#clientSelectFilter").append(options);
+						
+		// 				$("#clientSelectFilter").multipleSelect({
+		// 					placeholder: "Select Client",
+		// 					single : true,
+		// 					filter: true,
+		// 					allSelected : false,
+		// 					onClick : function(view){
+		// 						// tabIndex = $("#firstChannelTabs").tabs('getTabIndex',$("#firstChannelTabs").tabs('getSelected'))
+		// 						// groupName = view.value;
+		// 						// if(tabIndex == 0){
+		// 						// 	loadGroupsFirstChannelGeneralTable(groupName)
+		// 						// 	firstChannel.visibleTableAPI = firstChannel.groupsFirstChannelGeneralTableAPI;
+		// 					 //    	firstChannel.visibleTableJQ = firstChannel.groupsFirstChannelGeneralTableJQ;
+		// 					 //    }else{
+		// 					 //    	loadGroupsFirstChannelPlannedTable(groupName)
+		// 						// 	firstChannel.visibleTableAPI = firstChannel.groupsFirstChannelPlannedTableAPI;
+		// 					 //    	firstChannel.visibleTableJQ = firstChannel.groupsFirstChannelPlannedTableJQ;
+		// 					 //    }
+		// 					}
+		// 				});
 
-				}else if(textstatus == "error"){
-					if(jqXHR.responseText)
-						$.notify(jqXHR.responseText,'error')
-				}
-				console.log(jqXHR);
-			}
-		})
-	}
+		// 			}else if(textstatus == "error"){
+		// 				if(jqXHR.responseText)
+		// 					$.notify(jqXHR.responseText,'error')
+		// 			}
+		// 			console.log(jqXHR);
+		// 		}
+		// 	})
+		// }
 	}
 
 	// tabel buttons : only edit is working
@@ -299,7 +335,8 @@ getAllClients();
 			}else if(buttonPressed == "editGroup"){
 				rowNo = parseInt(trgtTr.find('td').first().text()) -1;
 				groupName = groups.groupsTableAPI.cell(rowNo,2).data()
-				clientName = groups.groupsTableAPI.cell(rowNo,3).data()
+				// clientName = groups.groupsTableAPI.cell(rowNo,3).data()
+				clientName = clientName;
 				initializeGroupDialog(groupName,clientName,rowNo)
 			}
 		}
@@ -310,7 +347,8 @@ getAllClients();
     	groupName = $("#groupName").val();
 
     	clientNameOld = clientName;
-    	clientName = $("#clientSelectFilter").multipleSelect('getSelects')[0]
+    	// clientName = $("#clientSelectFilter").multipleSelect('getSelects')[0]
+    	clientName = clientName;
     	// groupData = [];
     	groupDataObj = {}
     	groupDataObj.groupName = groupName;
@@ -406,6 +444,5 @@ getAllClients();
 		groups.groupsTableAPI.draw();
 	}
 
-    
 }
 

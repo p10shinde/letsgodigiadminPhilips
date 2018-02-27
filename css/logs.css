@@ -15,8 +15,26 @@ table tbody td{
   font-weight: normal !important;
 }
 
-.table > tbody > tr> td:nth-child(1) {
+/*.table > tbody > tr> td:nth-child(1) {
   text-align: left !important;
+}
+*/
+
+#noDataAvailableCol{
+  height: 200px;
+  position: absolute;
+  margin: auto;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  text-align: center;
+}
+
+#noDataAvailable{
+  position: relative;
+  height: 200px;
+  font-size: 20px !important;
+  font-weight: 100 !important;
 }
 
 .main_container

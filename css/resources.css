@@ -72,12 +72,12 @@ table td:nth-child(5){
 
 table td:nth-child(5) button{
   /*position: absolute;*/
-  margin-left: -20px;
+  /*margin-left: -20px;*/
 }
 
 table td:nth-child(6) button{
   /*position: absolute;*/
-  margin-left: -20px;
+  /*margin-left: -20px;*/
 }
 
 table td:nth-child(6) input[type='checkbox']{

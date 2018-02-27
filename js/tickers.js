@@ -75,7 +75,7 @@ window.onload = function(){
 
 
 	function getAllGroups(){
-		if(commonData.userType != 'Society'){
+		// if(commonData.userType != 'Society'){
 			$.ajax({
 				url : commonData.apiurl + "groups",
 				async : false,
@@ -91,6 +91,7 @@ window.onload = function(){
 						});
 						$("#groupSelectFilter").empty();
 						$("#groupSelectFilter").append(options);
+						$("#groupSelectFilter").attr("disabled",true);
 						
 						$("#groupSelectFilter").multipleSelect({
 							placeholder: "Select Group",
@@ -115,29 +116,29 @@ window.onload = function(){
 					console.log(jqXHR);
 				}
 			})
-		}else{
-			var options = ""
-			options += `<option value="`+clientName+`">`+clientName+`</option>`
-			$("#groupSelectFilter").empty();
-			$("#groupSelectFilter").append(options);
-			$("#groupSelectFilter").attr('disabled',true);
+		// }else{
+		// 	var options = ""
+		// 	options += `<option value="`+clientName+`">`+clientName+`</option>`
+		// 	$("#groupSelectFilter").empty();
+		// 	$("#groupSelectFilter").append(options);
+		// 	$("#groupSelectFilter").attr('disabled',true);
 			
-			$("#groupSelectFilter").multipleSelect({
-				placeholder: "Select Group",
-				filter: true,
-				single : true,
-				allSelected : false,
-				onClick : function(view){
-					if($("input[name='displayTypeRadio']")[0].checked){
-						groupName = view.value;
-						getTickerForGroup(groupName)
-					}else{
-						clusterName = view.value;
-						getTickerForCluster(clusterName);
-					}
-				}
-			});
-		}
+		// 	$("#groupSelectFilter").multipleSelect({
+		// 		placeholder: "Select Group",
+		// 		filter: true,
+		// 		single : true,
+		// 		allSelected : false,
+		// 		onClick : function(view){
+		// 			if($("input[name='displayTypeRadio']")[0].checked){
+		// 				groupName = view.value;
+		// 				getTickerForGroup(groupName)
+		// 			}else{
+		// 				clusterName = view.value;
+		// 				getTickerForCluster(clusterName);
+		// 			}
+		// 		}
+		// 	});
+		// }
 	}
 
 	// function getAllClusters(){

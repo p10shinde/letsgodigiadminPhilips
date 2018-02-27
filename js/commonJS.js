@@ -14,9 +14,9 @@ $.ajaxSetup({
     }
 });
 
-// if(!sessionStorage.apiurl || !sessionStorage.userName || !sessionStorage.clientLocation || !sessionStorage.userName || !sessionStorage.id_token || !sessionStorage.clientName){
-// 	window.location.href = 'login.html'
-// }else{
+if(!sessionStorage.apiurl || !sessionStorage.userName || !sessionStorage.clientLocation || !sessionStorage.userName || !sessionStorage.id_token || !sessionStorage.clientName){
+	window.location.href = 'login.html'
+}else{
 commonData = {};
 commonData.username = sessionStorage.username;
 commonData.usernamefull = sessionStorage.usernamefull;
@@ -168,4 +168,4 @@ XMLHttpRequest.prototype.realSend = XMLHttpRequest.prototype.send;
 	    }, false);
 	    this.realSend(value);
 	};
-// }
+}

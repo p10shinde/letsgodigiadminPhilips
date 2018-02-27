@@ -67,6 +67,7 @@ window.onload = function(){
 						});
 						$("#groupSelectFilter").empty();
 						$("#groupSelectFilter").append(options);
+						$("#groupSelectFilter").attr("disabled",true);
 						
 						$("#groupSelectFilter").multipleSelect({
 							placeholder: "Select Group",

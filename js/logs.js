@@ -1,4 +1,4 @@
-var dateFormat = 'MM-DD-YYYY'
+var dateFormat = 'DD-MM-YYYY'
 window.onload = function(){
 	$('#startDate').datetimepicker({format : dateFormat});
 	    $('#endDate').datetimepicker({
@@ -21,9 +21,10 @@ window.onload = function(){
 }
 
 function getData(callback){
+	startDate = $("#startDate").data("DateTimePicker").date().format('YYYY-MM-DD');
+	endDate = $("#endDate").data("DateTimePicker").date().format('YYYY-MM-DD');
 	$.ajax({
-		// url : "../data.json",
-		url : "http://63.142.250.105:6050/api/deviceLogs/2018-02-06/2018-02-26",
+		url : sessionStorage.apiurl + "deviceLogs/" + startDate + "/" + endDate, //2018-02-06/2018-02-26",
 		success : function(data, textStatus){			
 			callback(data);
 		},
@@ -34,32 +35,44 @@ function getData(callback){
 }
 
 function renderTable(){
+    if ( $.fn.DataTable.isDataTable( '#logsTable' ) ) {
+	  
+	  $('#logsTable').DataTable().clear().draw();
+	  $('#logsTable').DataTable().destroy();
+	}
+
+
+	
 	getData(function(tableDataArray){
-		var columnsArr = []
-		function mapNew(key, value){
-			var obj = {}
-			obj.data = key;
-			obj.title = key;
-			columnsArr.push(obj)
+		if(tableDataArray.length != 0){
+
+			$("#noDataAvailableCol").hide();
+			$("#logsTableCol").show();
+
+
+			var columnsArr = []
+			function mapNew(key, value){
+				var obj = {}
+				obj.data = key;
+				obj.title = key;
+				columnsArr.push(obj)
+			}
+
+		    function mapMy(element, index, list){
+		        _.map(_.keys(element),mapNew)
+		    }
+
+		    tableDataArrayTemp = tableDataArray;
+		    _.each([_.first(tableDataArray)], mapMy);
+
+		    $("#logsTable").DataTable({
+		        columns : columnsArr,
+		        data : tableDataArray,
+		        keys : true, 
+		    })
+		}else{
+			$("#noDataAvailableCol").show();
+			$("#logsTableCol").hide();
 		}
-
-	    function mapMy(element, index, list){
-	        _.map(_.keys(element),mapNew)
-	    }
-
-	    tableDataArrayTemp = tableDataArray;
-	    _.each([_.first(tableDataArray)], mapMy);
-
-
-	    if ( $.fn.DataTable.isDataTable( '#logsTable' ) ) {
-		  
-		  $('#logsTable').DataTable().destroy();
-		}
-
-	    $("#logsTable").DataTable({
-	        columns : columnsArr,
-	        data : tableDataArray,
-	        keys : true, 
-	    })
 	})
 }
