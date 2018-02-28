@@ -1,10 +1,39 @@
 groups = {};
 function takeScreenShot(evt){
 	evt.preventDefault();
+	groupName = $(evt.target).closest('tr').find('td:nth-child(3)').text();
+	$.ajax({
+		url : commonData.apiurl + "deviceScreenshot/" + groupName,
+		success : function(jqXHR,textStatus){
+			$.notify('In preogress. Please wait for atleast 15 seconds.','success');
+			setTimeout(function(){
+				reloadImage(evt);
+			},15000)
+		},	
+		error : function(jqXHR,textStatus){
+			$.notify('Error while taking screenshot.','error');
+		}
+	})
+
+
+
+
+}
+
+function showReloadButton(event){
+	// td = $(event.target).closest('tr').find('img').parent('td');
+	$(".preview-lgd i").show();
+	// td.append('<i class="fa fa-reload"></i>')
+
+}
+
+
+
+function reloadImage(evt){
+	groupName = $(evt.target).closest('tr').find('td:nth-child(3)').text();
 	imageToRefresh = $(evt.target).closest('tr').find('img')[0]
 	imageToRefresh.src = "";
-	imageToRefresh.src = "http://63.142.250.105:6053/resources/screenshot/demo_grp.png?t="+new Date().getTime()
-
+	imageToRefresh.src = "http://63.142.250.105:6053/resources/screenshot/" + groupName + ".jpg?t="+ new Date().getTime()
 }
 
 window.onload = function(){
@@ -84,7 +113,8 @@ window.onload = function(){
             },
             { render: function(data, type, row){
             	return `<div class="preview-lgd">
-        	  				<img class="loadingResourceImage" title="`+row.groupName+`.png" src="http://63.142.250.105:6053/resources/screenshot/`+row.groupName+`.png?t="`+ new Date().getTime() +`" width="100px" height="100px" onerror="this.onerror=null;this.src='http://63.142.250.105:6053/resources/errorSS.jpg'"/>
+        	  				<img class="loadingResourceImage" title="`+row.groupName+`.jpg" src="http://63.142.250.105:6053/resources/screenshot/`+row.groupName+`.jpg?t=`+ new Date().getTime() +`" width="100px" height="100px" onerror="this.onerror=null;this.src='http://63.142.250.105:6053/resources/errorSS.jpg';showReloadButton(event);"/>
+    	  					<i style="display:none" class="fa fa-refresh" onClick="reloadImage(event)"></i>
         	  			</div>`;
     	  		},
     	  		sortable : false

@@ -83,9 +83,20 @@ table td{
   background: #2a3b4c;
   color: white;
 }
+.preview-lgd{
+  position: relative;
+}
 
 .preview-lgd img{
   min-height: 100px;
+  position: relative;
+}
+
+.preview-lgd i{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 17px !important;
 }
 
 

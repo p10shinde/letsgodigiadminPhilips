@@ -1,4 +1,5 @@
 users = {};
+clientNames = [];
 window.onload = function(){
 	// XMLHttpRequest.prototype.realSend = XMLHttpRequest.prototype.send;
 	// XMLHttpRequest.prototype.send = function(value) {
@@ -24,10 +25,30 @@ window.onload = function(){
 	// initialize tooltips
 	$('[data-toggle="tooltip"]').tooltip();
 
+	function getAllClients(){
+		$.ajax({
+			url : commonData.apiurl + "clients",
+			async : false,
+			datatype : 'json',
+			complete : function(jqXHR, textstatus){
+				if(textstatus == "success"){
+					// groups = _.unique(jqXHR.responseJSON,'groupName')
+					// groups = _.pluck(groups,'groupName')
+					clientNames = _.pluck(jqXHR.responseJSON,'clientName');
+
+				}else if(textstatus == "error"){
+					if(jqXHR.responseText)
+						$.notify(jqXHR.responseText,'error')
+				}
+				console.log(jqXHR);
+			}
+		})
+	}
+	getAllClients();
+
 	users.usersTableAPI = $('#usersTable').DataTable({
         "ajax" : {
-			url : commonData.apiurl + "users/" + clientName,
-			headers: {"Authorization": "Basic " + btoa(commonData.username + ":" + commonData.password)},
+			url : commonData.apiurl + "users",
 			'async': 'false',
 			dataSrc : function(data){
 				// sno = 1;
@@ -62,14 +83,15 @@ window.onload = function(){
             { "data": "userID" },
             { "data": "userName" },
             { "data": "userEmail" },
-            { "data": "password", 
-            	render : function(data, type, row){
-            		return data.replace(/./g,"•");
-            	} 
-            },
+            { "data": "clientName" },
+            // { "data": "password", 
+            // 	render : function(data, type, row){
+            // 		return data.replace(/./g,"•");
+            // 	} 
+            // },
             { "data": "userType" },
             { "data": "updatedBy" },
-            { "data": "updatedBy" },
+            { "data": "updatedAt" },
         	{ render : function(data, type, row){
         	  	return `<div class="tableButtons">
         	  				<button class="btn btn-info btn-xs editUser"><i class="fa fa-pencil" style="font-size: 8px;"></i></button>
@@ -103,40 +125,45 @@ window.onload = function(){
 	});
 
 	$("#deleteSelectedUserButton").off('click').on('click',function(evt){
-
-		page = users.usersTableAPI.page.info().page;
-		checkboxTD = users.usersTableAPI.rows().nodes().toJQuery();
-		deleteRowsIndexes = []
-		$.each(checkboxTD, function(index, value){
-			isChecked = $(value).find('td:nth-child(2) input').is(':checked')
-			if(isChecked){
-				rowNo = parseInt($(value).find('td:nth-child(1)').text()) - 1;
-				userID = $(value).find('td:nth-child(3)').text();
-				deleteRowsIndexes.push(userID)
-			}
-
-		})
-
-		$.each(deleteRowsIndexes, function(index,userID){
-			$.ajax({
-			    url: commonData.apiurl + "users/" + clientName + "/" + userID,
-			    type: 'DELETE',
-			    "async" : false,
-			    headers : {"Authorization": "Basic " + btoa(commonData.username + ":" + commonData.password)},
-			    success: function(result) {
-			        
-			    },
-			    error : function(jqXHR, textStatus){
-					if(jqXHR.responseText){
-			 			$.notify(jqXHR.responseText,'error')
-			 		}
+		if(confirm("Are you you want to delete selected entries?")){
+			$("#loadingDiv").show();
+			page = users.usersTableAPI.page.info().page;
+			checkboxTD = users.usersTableAPI.rows().nodes().toJQuery();
+			deleteRowsIndexes = [];
+			deleteRowClientNames = [];
+			$.each(checkboxTD, function(index, value){
+				isChecked = $(value).find('td:nth-child(2) input').is(':checked')
+				if(isChecked){
+					rowNo = parseInt($(value).find('td:nth-child(1)').text()) - 1;
+					userID = $(value).find('td:nth-child(3)').text();
+					clName = $(value).find('td:nth-child(6)').text();
+					deleteRowClientNames.push(clName)
+					deleteRowsIndexes.push(userID)
 				}
-			});
-			users.usersTableAPI.ajax.reload();
-			
-		})
-			users.usersTableAPI.page( 'first' ).draw( 'page' );
-		});
+
+			})
+
+
+			$.each(deleteRowsIndexes, function(index,userID){
+				$.ajax({
+				    url: commonData.apiurl + "users/" + deleteRowClientNames[index] + "/" + userID,
+				    type: 'DELETE',
+				    "async" : false,
+				    success: function(result) {
+				        
+				    },
+				    error : function(jqXHR, textStatus){
+						if(jqXHR.responseText){
+				 			$.notify(jqXHR.responseText,'error')
+				 		}
+					}
+				});
+				users.usersTableAPI.ajax.reload();
+				
+			})
+				users.usersTableAPI.page( 'first' ).draw( 'page' );
+		}
+	});
 
 	$("#usersTable").off('keyup').on('keyup', function(event){
 		if(event.keyCode == 32){
@@ -149,8 +176,8 @@ window.onload = function(){
 		// }
 	});
 
-	function initializeUserDialog(userID,userName,userEmail,password,userType,rowNo){
-		openUserDialog(userID,userName,userEmail,password,userType,rowNo);
+	function initializeUserDialog(userID,userName,userEmail,clientName,userType,rowNo){
+		openUserDialog(userID,userName,userEmail,clientName,userType,rowNo);
 
 		val = $("#userName").val();
 		$("#userName").val('')
@@ -159,11 +186,12 @@ window.onload = function(){
 
 		$("#userID").val(userID)
 		$("#userEmail").val(userEmail)
-		$("#password").val(password)
+		// $("#password").val(password)
 		// $("#userType").val(userType)
 		$("select.userType").multipleSelect("setSelects", [userType]);
+		$("select.clientName").multipleSelect("setSelects", [clientName]);
 
-		$("#userID, #userName, #userEmail, #password, #userType").off('keypress').on('keypress', function(evt){
+		$("#userID, #userName, #userEmail, #userType, #clientName").off('keypress').on('keypress', function(evt){
 			if(evt.keyCode == 13){
 				$("#addNewUserOkButton").click();
 			}
@@ -174,17 +202,25 @@ window.onload = function(){
 	    });
 	}
 
-	function openUserDialog(userID,userName,userEmail,password,userType,rowNo){
+
+	function openUserDialog(userID,userName,userEmail,clientName,userType,rowNo){
 		users.usersTableAPI.keys.disable();
 		users.rowNo = rowNo;
 		users.userID = userID;
 		users.userName = userName;
-		userTypes = ['SuperAdmin','Admin','User'];
+		userTypes = ['SuperAdmin','Society'];
 		userTypesOpts = ''
+		clientNameOpts = ''
+
 
 		$.each(userTypes,function(index,value){
 			userTypesOpts += '<option value="' + value + '">' + value +'</option>'
 		})
+		$.each(clientNames,function(index,value){
+			clientNameOpts += '<option value="' + value + '">' + value +'</option>'
+		});
+		
+
 
 		if(rowNo == 123456789){
 			title = 'Add User';
@@ -194,11 +230,12 @@ window.onload = function(){
 			title = 'Edit User'
 			buttonText = "Save"
 			disabled = "disabled";
+			users.clientNameOld = clientName;
 		}
 		$('#addNewUserDialog').dialog({
 		    title: title,
-		    width: 400,
-		    height: 320,
+		    // width: 400,
+		    // height: 320,
 		    closed: false,
 		    cache: false,
 		    constrain: true,
@@ -213,13 +250,16 @@ window.onload = function(){
 					  	<div class="input-group" style="padding:5px">
 							    <span class="input-group-addon">User Email</span>
 							    <input id="userEmail" type="text" class="form-control" value="` + userEmail + `">
-					  	</div>
-					  	<div class="input-group" style="padding:5px">
-							    <span class="input-group-addon">Password</span>
-							    <input id="password" type="password" class="form-control" value="` + password + `">
-					  	</div>
-					  	<div class="input-group" style="padding:5px;position:absolute">
-						  	<select class='userType' style="height:34px;position:absolute;padding:5px">`+	userTypesOpts + `</select>
+					  	</div>`+
+					  	// <div class="input-group" style="padding:5px">
+							 //    <span class="input-group-addon">Password</span>
+							 //    <input id="password" type="password" class="form-control" value="` + password + `">
+					  	// </div>
+					  	`<div class="input-group" style="padding:5px;position:absolute">
+						  	<label>User Type : &nbsp</label><select class='userType' style="height:34px;position:absolute;padding:5px;margin-right:0">`+	userTypesOpts + `</select>
+					  	</div>`+
+					  	`<div class="input-group" style="padding:5px;position:absolute;margin-top:50px">
+						  	<label>Client Name : &nbsp</label><select class='clientName' style="height:34px;position:absolute;padding:5px;margin-right:0">`+	clientNameOpts + `</select>
 					  	</div>`+
 					  	// <div class="input-group" style="padding:5px">
 							 //    <span class="input-group-addon">User Type</span>
@@ -234,7 +274,13 @@ window.onload = function(){
 
 		$("select.userType").multipleSelect({
 			single: true,
-			filter: true
+			filter: true,
+			allSelected : false
+		})
+		$("select.clientName").multipleSelect({
+			single: true,
+			filter: true,
+			allSelected : false,
 		})
 
 		
@@ -260,28 +306,28 @@ window.onload = function(){
 				userID = users.usersTableAPI.cell(rowNo,2).data()
 				userName = users.usersTableAPI.cell(rowNo,3).data()
 				userEmail = users.usersTableAPI.cell(rowNo,4).data()
-				password = users.usersTableAPI.cell(rowNo,5).data()
+				clientName = users.usersTableAPI.cell(rowNo,5).data()
 				userType = users.usersTableAPI.cell(rowNo,6).data()
-				initializeUserDialog(userID,userName,userEmail,password,userType)
+				initializeUserDialog(userID,userName,userEmail,clientName,userType)
 			}
 		}
 	}
 
     function updateTableWithNewRecord(){
+    	$("#loadingDiv").show();
     	userDataObj = {}
     	userDataObj.userID = $("#userID").val()
     	userDataObj.userName = $("#userName").val()
     	userDataObj.userEmail = $("#userEmail").val()
-    	userDataObj.password = $("#password").val()
+    	// userDataObj.password = $("#password").val()
     	// userDataObj.userType = $("#userType").val()
     	userDataObj.userType  = $("select.userType").multipleSelect('getSelects')[0];
-    	userDataObj.clientName = clientName;
+    	userDataObj.clientName = $("select.clientName").multipleSelect('getSelects')[0];;
     	if(users.rowNo == 123456789){
     		$.ajax({
 			  type: "POST",
 			  async : false,
 			  url: commonData.apiurl + 'users',
-			  headers : {"Authorization": "Basic " + btoa(commonData.username + ":" + commonData.password)},
 			  data: JSON.stringify([userDataObj]),
 			  success: function(data){
 			  	$.notify('Success','success')
@@ -304,8 +350,7 @@ window.onload = function(){
 	    	$.ajax({
 			  type: "PUT",
 			  async : false,
-			  url: commonData.apiurl + "users/" + clientName + "/" + users.userID,
-			  headers : {"Authorization": "Basic " + btoa(commonData.username+ ":" + commonData.password)},
+			  url: commonData.apiurl + "users/" + users.clientNameOld + "/" + users.userID,
 			  data: JSON.stringify(userDataObj),
 			  success: function(data){
 			  	$.notify('Success','success')

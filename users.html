@@ -16,8 +16,8 @@
     <script src="js/jquery/jquery-1.12.4.js" type="text/javascript"></script>
 
     <!-- LAODING BAR -->
-    <script type="text/javascript" src="js/loadingbar/loading-bar.js"></script>
-    <link rel="stylesheet" type="text/css" href="js/loadingbar/loading-bar.css">
+    <!-- <script type="text/javascript" src="js/loadingbar/loading-bar.js"></script>
+    <link rel="stylesheet" type="text/css" href="js/loadingbar/loading-bar.css"> -->
 
     <!-- UNDERSCORE -->
     <script src="js/underscore/underscore.js" type="text/javascript"></script>
@@ -76,7 +76,8 @@
     <div id="loadingDiv" style="display: block;">
         <div id="loadingWashout"></div>
         <div id="loadingIcon">
-            <div class="ldBar label-center" data-value="0" data-preset="bubble" data-fill="data:ldbar/res,bubble(#f16c21,#fff,50,1)" style="width: 40%;height: 40%;z-index: 9999"></div>
+            <!-- <div class="ldBar label-center" data-value="0" data-preset="bubble" data-fill="data:ldbar/res,bubble(#f16c21,#fff,50,1)" style="width: 40%;height: 40%;z-index: 9999"></div> -->
+            <i class="fa fa-refresh fa-spin"></i>
         </div>
     </div>
     <div id="modifyFieldDialog" style="display: none;background: transparent;">
@@ -84,7 +85,7 @@
             <div class="elementHolder" style="position: fixed;"></div>
         </div>
     </div>
-    <div id="addNewUserDialog" style="display: none;padding: 10px;overflow-x: hidden;"></div>
+    <div id="addNewUserDialog" style="display: none;padding: 10px;overflow-x: hidden;width: 70%;height: 300px"></div>
         <div class="main_container">
             <div class="frame_elts">
                 <div class="easyui-layout" style="width:100%;height:100%;" id="mainlayout">
@@ -118,7 +119,7 @@
                                         <th>User ID</th>
                                         <th>User Name</th>
                                         <th>User Email</th>
-                                        <th>Password</th>
+                                        <th>Client Name</th>
                                         <th>User Type</th>
                                         <th>Updated By</th>
                                         <th>Updated At</th>
@@ -133,7 +134,7 @@
                 </div>
             </div>
         </div>
-        <script src="js/authorizer.js" type="text/javascript"></script>
+        <!-- <script src="js/authorizer.js" type="text/javascript"></script> -->
         <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=init"></script>
     </body>
 </html>
