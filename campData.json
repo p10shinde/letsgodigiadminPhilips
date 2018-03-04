@@ -1,0 +1,22 @@
+[
+    {
+        "time" : "03-03-2018_09:00_AM",
+        "campName": "campaign1",
+        "duration": 1
+    },
+    {
+        "time" : "03-03-2018_08:00_AM",
+        "campName": "campaign2",
+        "duration": 1
+    },
+    {
+        "time" : "03-03-2018_10:00_AM",
+        "campName": "campaign3",
+        "duration": 1
+    },
+    {
+        "time" : "03-03-2018_11:00_AM",
+        "campName": "campaign1",
+        "duration": 1
+    }
+]

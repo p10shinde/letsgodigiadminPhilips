@@ -19,6 +19,8 @@ if(!sessionStorage.apiurl || !sessionStorage.userName || !sessionStorage.clientL
 
 			layoutName = this.innerText.toLowerCase();
 			if(this.innerText.toLowerCase() == "first channel") layoutName = "firstChannel"
+			if(this.innerText.toLowerCase() == "second channel") layoutName = "secondChannel"
+			if(this.innerText.toLowerCase() == "third channel") layoutName = "thirdChannel"
 			$("#layoutContainerIframe").attr('src',layoutName + '.html');
 
 		})
