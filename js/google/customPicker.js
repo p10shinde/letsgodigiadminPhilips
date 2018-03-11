@@ -183,12 +183,12 @@ var clientId = GoogleData.client_id;
                                         if(resJsonSoc.status == "success"){
                                             if($(window.parent.document.body).find("ul#channelMenu li.active").text() == "First Channel" && metaData.parents[0].id == resJsonSoc.folderID)
                                                 commonData.updateTableWithResource(firstChannel.visibleTableAPI,firstChannel.visibleTableJQ,'',data.docs[0].name,0)
-                                            else if($(window.parent.document.body).find("ul#channelMenu li.active").text() == "Second Channel" && metaData.parents[0].id == resJsonAdvt.folderID)
-                                                commonData.updateTableWithResource(secondChannel.visibleTableAPI,secondChannel.visibleTableJQ,data.docs[0].name)
-                                            // if($(window.parent.document.body).find("ul#channelMenu li.active").text() == "Third Channel")
-                                            //     commonData.updateTableWithResource(thirdChannel.visibleTableAPI,thirdChannel.visibleTableJQ,data.docs[0].name)
+                                            else if($(window.parent.document.body).find("ul#channelMenu li.active").text() == "Second Channel" && metaData.parents[0].id == resJsonSoc.folderID)
+                                                commonData.updateTableWithResource(secondChannel.visibleTableAPI,secondChannel.visibleTableJQ,'',data.docs[0].name,0)
+                                            else if($(window.parent.document.body).find("ul#channelMenu li.active").text() == "Third Channel" && metaData.parents[0].id == resJsonSoc.folderID)
+                                                commonData.updateTableWithResource(thirdChannel.visibleTableAPI,thirdChannel.visibleTableJQ,'',data.docs[0].name,0)
                                             else if($(window.parent.document.body).find("ul#channelMenu li.active").text() == "Full Screen" && metaData.parents[0].id == resJsonAdvt.folderID)
-                                                commonData.updateTableWithResource(fullScreenn.visibleTableAPI,fullScreenn.visibleTableJQ,'',data.docs[0].name)
+                                                commonData.updateTableWithResource(fullScreenn.visibleTableAPI,fullScreenn.visibleTableJQ,'',data.docs[0].name,0)
                                             else{
                                                 $.notify("Please select LGD related content only.",'error');
                                                 picker.setVisible(true);
