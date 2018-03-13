@@ -1074,137 +1074,137 @@ window.onload = function(){
 		}
 	}
 
-	function openCreateCampaignDialog(visibleTableAPI, visibleTableJQ, evt){
+	// function openCreateCampaignDialog(visibleTableAPI, visibleTableJQ, evt){
 
-		$('#createCampaignDialog').dialog({
-		    title: 'Create New Campaign',
-		    // width: 400,
-		    // height: 300,
-		    closed: false,
-		    cache: false,
-		    constrain: true,
-		    content : 	`<div class="gridsterr" style="">
-		    				<div class="gridsterItems">
-					            <ul style="padding : 0;">
-					                <li class="object-element" draggable="true" ondragstart="drag(event)">
-					                    <div class="row">
-					                        <div class="col-xs-3 object-element-icon"> 
+	// 	$('#createCampaignDialog').dialog({
+	// 	    title: 'Create New Campaign',
+	// 	    // width: 400,
+	// 	    // height: 300,
+	// 	    closed: false,
+	// 	    cache: false,
+	// 	    constrain: true,
+	// 	    content : 	`<div class="gridsterr" style="">
+	// 	    				<div class="gridsterItems">
+	// 				            <ul style="padding : 0;">
+	// 				                <li class="object-element" draggable="true" ondragstart="drag(event)">
+	// 				                    <div class="row">
+	// 				                        <div class="col-xs-3 object-element-icon"> 
 
-					                        </div>
-					                        <div class="col-xs-9 object-element-text"> 
-					                                Title
-					                        </div>
-					                    </div>
-					                </li>
-					                <li  class="object-element" draggable="true" ondragstart="drag(event)">
-					                    <div class="row">
-					                        <div class="col-xs-3 object-element-icon"> 
+	// 				                        </div>
+	// 				                        <div class="col-xs-9 object-element-text"> 
+	// 				                                Title
+	// 				                        </div>
+	// 				                    </div>
+	// 				                </li>
+	// 				                <li  class="object-element" draggable="true" ondragstart="drag(event)">
+	// 				                    <div class="row">
+	// 				                        <div class="col-xs-3 object-element-icon"> 
 
-					                        </div>
-					                        <div class="col-xs-9 object-element-text" > 
-					                                Image Viewer
-					                        </div>
-					                    </div>
-					                </li>
-					                <li  class="object-element" draggable="true" ondragstart="drag(event)">
-					                    <div class="row">
-					                        <div class="col-xs-3 object-element-icon"> 
+	// 				                        </div>
+	// 				                        <div class="col-xs-9 object-element-text" > 
+	// 				                                Image Viewer
+	// 				                        </div>
+	// 				                    </div>
+	// 				                </li>
+	// 				                <li  class="object-element" draggable="true" ondragstart="drag(event)">
+	// 				                    <div class="row">
+	// 				                        <div class="col-xs-3 object-element-icon"> 
 
-					                        </div>
-					                        <div class="col-xs-9 object-element-text"> 
-					                                Video Viewer
-					                        </div>
-					                    </div>
-					                </li>
-					                <li  class="object-element" draggable="true" ondragstart="drag(event)">
-					                    <div class="row">
-					                        <div class="col-xs-3 object-element-icon"> 
+	// 				                        </div>
+	// 				                        <div class="col-xs-9 object-element-text"> 
+	// 				                                Video Viewer
+	// 				                        </div>
+	// 				                    </div>
+	// 				                </li>
+	// 				                <li  class="object-element" draggable="true" ondragstart="drag(event)">
+	// 				                    <div class="row">
+	// 				                        <div class="col-xs-3 object-element-icon"> 
 
-					                        </div>
-					                        <div class="col-xs-9 object-element-text"> 
-					                                Ticker Viewer
-					                        </div>
-					                    </div>
-					                </li>
-					            </ul>
-					        </div>
-					        <div class="gridsterHolder">
-					            <div class="gridster" style="border : 1px solid black" ondrop="drop(event)" ondragover="allowDrop(event)">
-					                <ul>
+	// 				                        </div>
+	// 				                        <div class="col-xs-9 object-element-text"> 
+	// 				                                Ticker Viewer
+	// 				                        </div>
+	// 				                    </div>
+	// 				                </li>
+	// 				            </ul>
+	// 				        </div>
+	// 				        <div class="gridsterHolder">
+	// 				            <div class="gridster" style="border : 1px solid black" ondrop="drop(event)" ondragover="allowDrop(event)">
+	// 				                <ul>
 					                   
-					                </ul>
-					            </div>
-				            </div>
-				        </div>`,
-		    modal: true,
-		    onClose : function(){
-		    	users.usersTableAPI.keys.enable();
-		    }
-		});
+	// 				                </ul>
+	// 				            </div>
+	// 			            </div>
+	// 			        </div>`,
+	// 	    modal: true,
+	// 	    onClose : function(){
+	// 	    	users.usersTableAPI.keys.enable();
+	// 	    }
+	// 	});
 
-	      gridster = $(".gridster ul").gridster({
-	          widget_margins: [4, 4],
-	          avoid_overlapped_widgets : true,
-	          // set_num_columns : "600px",
-	          widget_base_dimensions: [100, 100],
-	          resize : {
-	            enabled : true,
-	            axes : ['both'],
-	            handle_class: 'gs-resize-handle',
-	            max_size : [10, 6],
-	            max_cols : 10,
-	            max_rows : 6,
-	            max_size_x : 10,
-	            max_size_y : 6,
-	            // extra_cols : 2,
-	            start : function(e, ui, $widget){
-	              // console.log(e)
-	              // console.log(ui)
-	              // console.log($widget)
-	                // console.log('start')
-	            },
-	            stop : function(e, ui, $widget){
-	            	console.log(e)
-	            	console.log(ui)
-	            	console.log($widget)
-	            	size_x = Number($widget.attr('data-sizex'));
-	            	size_y = Number($widget.attr('data-sizey'));
-	            	col = Number($widget.attr('data-col'));
-	            	row = Number($widget.attr('data-row'));
+	//       gridster = $(".gridster ul").gridster({
+	//           widget_margins: [4, 4],
+	//           avoid_overlapped_widgets : true,
+	//           // set_num_columns : "600px",
+	//           widget_base_dimensions: [100, 100],
+	//           resize : {
+	//             enabled : true,
+	//             axes : ['both'],
+	//             handle_class: 'gs-resize-handle',
+	//             max_size : [10, 6],
+	//             max_cols : 10,
+	//             max_rows : 6,
+	//             max_size_x : 10,
+	//             max_size_y : 6,
+	//             // extra_cols : 2,
+	//             start : function(e, ui, $widget){
+	//               // console.log(e)
+	//               // console.log(ui)
+	//               // console.log($widget)
+	//                 // console.log('start')
+	//             },
+	//             stop : function(e, ui, $widget){
+	//             	console.log(e)
+	//             	console.log(ui)
+	//             	console.log($widget)
+	//             	size_x = Number($widget.attr('data-sizex'));
+	//             	size_y = Number($widget.attr('data-sizey'));
+	//             	col = Number($widget.attr('data-col'));
+	//             	row = Number($widget.attr('data-row'));
 
-	            	if((col + size_x) > 11){
-	            		// $widget.attr('data-sizex', (size_x - (size_x - (size_x - (size_x - 1 )))) + "")
-	            		// $widget.attr('data-sizex', (size_x - (size_x - (size_x - (size_x - 1 )))) + "")
-	            		x_pos = (size_x - (size_x - (size_x - (size_x - 1 )))) + "";
-	            		gridster.resize_widget($widget, x_pos, size_y, false, function(){})
-	            	}
+	//             	if((col + size_x) > 11){
+	//             		// $widget.attr('data-sizex', (size_x - (size_x - (size_x - (size_x - 1 )))) + "")
+	//             		// $widget.attr('data-sizex', (size_x - (size_x - (size_x - (size_x - 1 )))) + "")
+	//             		x_pos = (size_x - (size_x - (size_x - (size_x - 1 )))) + "";
+	//             		gridster.resize_widget($widget, x_pos, size_y, false, function(){})
+	//             	}
 
-	            	if(Number($(".gridster ul").css('width').split("px")[0]) > 1044)
-	            		$(".gridster ul").css('width','1044px')
+	//             	if(Number($(".gridster ul").css('width').split("px")[0]) > 1044)
+	//             		$(".gridster ul").css('width','1044px')
 
-	            },
-	            resize : function(e, ui, $widget){
-	                // console.log('during')
+	//             },
+	//             resize : function(e, ui, $widget){
+	//                 // console.log('during')
 
-	            }
-	          },
-	          draggable : {
-	          	stop : function(event, ui){
-	          		console.log(event)
-	          		console.log(ui)
-	          	}
-	          },
-	          limit : {
-	            width : 2,
-	            height : 2
-	          }
+	//             }
+	//           },
+	//           draggable : {
+	//           	stop : function(event, ui){
+	//           		console.log(event)
+	//           		console.log(ui)
+	//           	}
+	//           },
+	//           limit : {
+	//             width : 2,
+	//             height : 2
+	//           }
 
-	      }).data('gridster');
-	      // gridster.container_width = 100;
-	      // gridster.set_num_columns("800px")
+	//       }).data('gridster');
+	//       // gridster.container_width = 100;
+	//       // gridster.set_num_columns("800px")
 
-	    // var gridster = $(".gridster ul").gridster().data('gridster');
-	}
+	//     // var gridster = $(".gridster ul").gridster().data('gridster');
+	// }
 
 	$("input").on('input propertychange','#duration', function (xx,yy,zz) {
         $("#duration").val($(this).val().replace(/[A-Z a-z.~!@#$%^&*()\-_+=-?></.,":';/\|\{\}\[\]\\]/g, ''))
@@ -1430,6 +1430,168 @@ window.onload = function(){
 
 	
 }
+
+
+function openCreateCampaignDialog(visibleTableAPI, visibleTableJQ, evt){
+
+		$('#createCampaignDialog').dialog({
+		    title: 'Create New Campaign',
+		    // width: 400,
+		    // height: 300,
+		    closed: false,
+		    cache: false,
+		    constrain: true,
+		    content : 	`<div class="gridsterr" style="">
+		    				<div class="gridsterItems">
+					            <ul style="padding : 0;">
+					                <li class="object-element" draggable="true" ondragstart="drag(event)">
+					                    <div class="row">
+					                        <div class="col-xs-3 object-element-icon"> 
+
+					                        </div>
+					                        <div class="col-xs-9 object-element-text"> 
+					                                Title
+					                        </div>
+					                    </div>
+					                </li>
+					                <li  class="object-element" draggable="true" ondragstart="drag(event)">
+					                    <div class="row">
+					                        <div class="col-xs-3 object-element-icon"> 
+
+					                        </div>
+					                        <div class="col-xs-9 object-element-text" > 
+					                                Image Viewer
+					                        </div>
+					                    </div>
+					                </li>
+					                <li  class="object-element" draggable="true" ondragstart="drag(event)">
+					                    <div class="row">
+					                        <div class="col-xs-3 object-element-icon"> 
+
+					                        </div>
+					                        <div class="col-xs-9 object-element-text"> 
+					                                Video Viewer
+					                        </div>
+					                    </div>
+					                </li>
+					                <li  class="object-element" draggable="true" ondragstart="drag(event)">
+					                    <div class="row">
+					                        <div class="col-xs-3 object-element-icon"> 
+
+					                        </div>
+					                        <div class="col-xs-9 object-element-text"> 
+					                                Ticker Viewer
+					                        </div>
+					                    </div>
+					                </li>
+					            </ul>
+					        </div>
+					        <div class="gridsterHolder" style="width:640px;height:360px">
+					            <div class="gridster" style="border : 1px solid black;height: 100%;" ondrop="drop(event)" ondragover="allowDrop(event)">
+					                
+					            </div>
+				            </div>
+				            <div style="width:38%;padding-left:5%;">
+								<label>Positioning</label>
+								<table class="position_table">
+							        <tbody>
+							            <tr>
+								            <td>X-Pos</td>
+								            <td><input type="number"></td>
+							            </tr>
+							            <tr>
+								            <td>Y-Pos</td>
+								            <td><input type="number"></td>
+							            </tr>
+							            <tr>
+								            <td>Width</td>
+								            <td><input type="number"></td>
+							            </tr>
+							            <tr>
+								            <td>Height</td>
+								            <td><input type="number"></td>
+							            </tr>
+							            <tr>
+								            <td>Top</td>
+								            <td><input type="number"></td>
+							            </tr>
+							            <tr>
+								            <td>Left</td>
+								            <td><input type="number"></td>
+							            </tr>
+							        </tbody>
+							    </table>
+				            </div>
+				        </div>`,
+		    modal: true,
+		    onClose : function(){
+		    	users.usersTableAPI.keys.enable();
+		    }
+		});
+
+	      gridster = $(".gridster ul").gridster({
+	          widget_margins: [4, 4],
+	          avoid_overlapped_widgets : true,
+	          // set_num_columns : "600px",
+	          widget_base_dimensions: [100, 100],
+	          resize : {
+	            enabled : true,
+	            axes : ['both'],
+	            handle_class: 'gs-resize-handle',
+	            max_size : [10, 6],
+	            max_cols : 10,
+	            max_rows : 6,
+	            max_size_x : 10,
+	            max_size_y : 6,
+	            // extra_cols : 2,
+	            start : function(e, ui, $widget){
+	              // console.log(e)
+	              // console.log(ui)
+	              // console.log($widget)
+	                // console.log('start')
+	            },
+	            stop : function(e, ui, $widget){
+	            	console.log(e)
+	            	console.log(ui)
+	            	console.log($widget)
+	            	size_x = Number($widget.attr('data-sizex'));
+	            	size_y = Number($widget.attr('data-sizey'));
+	            	col = Number($widget.attr('data-col'));
+	            	row = Number($widget.attr('data-row'));
+
+	            	if((col + size_x) > 11){
+	            		// $widget.attr('data-sizex', (size_x - (size_x - (size_x - (size_x - 1 )))) + "")
+	            		// $widget.attr('data-sizex', (size_x - (size_x - (size_x - (size_x - 1 )))) + "")
+	            		x_pos = (size_x - (size_x - (size_x - (size_x - 1 )))) + "";
+	            		gridster.resize_widget($widget, x_pos, size_y, false, function(){})
+	            	}
+
+	            	if(Number($(".gridster ul").css('width').split("px")[0]) > 1044)
+	            		$(".gridster ul").css('width','1044px')
+
+	            },
+	            resize : function(e, ui, $widget){
+	                // console.log('during')
+
+	            }
+	          },
+	          draggable : {
+	          	stop : function(event, ui){
+	          		console.log(event)
+	          		console.log(ui)
+	          	}
+	          },
+	          limit : {
+	            width : 2,
+	            height : 2
+	          }
+
+	      }).data('gridster');
+	      // gridster.container_width = 100;
+	      // gridster.set_num_columns("800px")
+
+	    // var gridster = $(".gridster ul").gridster().data('gridster');
+	}
 
 
 
