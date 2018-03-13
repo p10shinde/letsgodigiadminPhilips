@@ -1447,7 +1447,7 @@ function openCreateCampaignDialog(visibleTableAPI, visibleTableJQ, evt){
 					                <li class="object-element" draggable="true" ondragstart="drag(event)">
 					                    <div class="row">
 					                        <div class="col-xs-3 object-element-icon"> 
-
+					                        +
 					                        </div>
 					                        <div class="col-xs-9 object-element-text"> 
 					                                Title
@@ -1496,28 +1496,20 @@ function openCreateCampaignDialog(visibleTableAPI, visibleTableJQ, evt){
 								<table class="position_table">
 							        <tbody>
 							            <tr>
-								            <td>X-Pos</td>
-								            <td><input type="number"></td>
-							            </tr>
-							            <tr>
-								            <td>Y-Pos</td>
-								            <td><input type="number"></td>
-							            </tr>
-							            <tr>
 								            <td>Width</td>
-								            <td><input type="number"></td>
+								            <td><input type="number" id="elem_width"></td>
 							            </tr>
 							            <tr>
 								            <td>Height</td>
-								            <td><input type="number"></td>
+								            <td><input type="number" id="elem_height"></td>
 							            </tr>
 							            <tr>
 								            <td>Top</td>
-								            <td><input type="number"></td>
+								            <td><input type="number" id="elem_top_pos"></td>
 							            </tr>
 							            <tr>
 								            <td>Left</td>
-								            <td><input type="number"></td>
+								            <td><input type="number" id="elem_left_pos"></td>
 							            </tr>
 							        </tbody>
 							    </table>
@@ -1529,68 +1521,40 @@ function openCreateCampaignDialog(visibleTableAPI, visibleTableJQ, evt){
 		    }
 		});
 
-	      gridster = $(".gridster ul").gridster({
-	          widget_margins: [4, 4],
-	          avoid_overlapped_widgets : true,
-	          // set_num_columns : "600px",
-	          widget_base_dimensions: [100, 100],
-	          resize : {
-	            enabled : true,
-	            axes : ['both'],
-	            handle_class: 'gs-resize-handle',
-	            max_size : [10, 6],
-	            max_cols : 10,
-	            max_rows : 6,
-	            max_size_x : 10,
-	            max_size_y : 6,
-	            // extra_cols : 2,
-	            start : function(e, ui, $widget){
-	              // console.log(e)
-	              // console.log(ui)
-	              // console.log($widget)
-	                // console.log('start')
-	            },
-	            stop : function(e, ui, $widget){
-	            	console.log(e)
-	            	console.log(ui)
-	            	console.log($widget)
-	            	size_x = Number($widget.attr('data-sizex'));
-	            	size_y = Number($widget.attr('data-sizey'));
-	            	col = Number($widget.attr('data-col'));
-	            	row = Number($widget.attr('data-row'));
+	      
+	      $(".gridsterItems ul li").off('click').on('click', function(evt){
+	      	$(".gridster").append(`<div class="campaignItem">
+	      		</div>`);
+	      })
 
-	            	if((col + size_x) > 11){
-	            		// $widget.attr('data-sizex', (size_x - (size_x - (size_x - (size_x - 1 )))) + "")
-	            		// $widget.attr('data-sizex', (size_x - (size_x - (size_x - (size_x - 1 )))) + "")
-	            		x_pos = (size_x - (size_x - (size_x - (size_x - 1 )))) + "";
-	            		gridster.resize_widget($widget, x_pos, size_y, false, function(){})
-	            	}
+	      $(".gridster").off('click').on('click', 'div', function(evt){
+	      	$(".gridster div").removeClass('selected');
+	      	$(evt.target).addClass('selected')
+	      	var elem_width = $(evt.target).width() + 2*(parseInt(($(evt.target).css('border-width'))));
+	      	var elem_height = $(evt.target).height() + 2*(parseInt(($(evt.target).css('border-width'))));
+	      	var elem_left_pos = $(evt.target).position().left
+	      	var elem_top_pos = $(evt.target).position().top
 
-	            	if(Number($(".gridster ul").css('width').split("px")[0]) > 1044)
-	            		$(".gridster ul").css('width','1044px')
+	      	console.log(elem_width)
+	      	console.log(elem_height)
+	      	console.log(elem_left_pos)
+	      	console.log(elem_top_pos)
 
-	            },
-	            resize : function(e, ui, $widget){
-	                // console.log('during')
+	      	$("#elem_width").val(elem_width)
+	      	$("#elem_height").val(elem_height)
+	      	$("#elem_left_pos").val(elem_left_pos)
+	      	$("#elem_top_pos").val(elem_top_pos)
 
-	            }
-	          },
-	          draggable : {
-	          	stop : function(event, ui){
-	          		console.log(event)
-	          		console.log(ui)
-	          	}
-	          },
-	          limit : {
-	            width : 2,
-	            height : 2
-	          }
 
-	      }).data('gridster');
-	      // gridster.container_width = 100;
-	      // gridster.set_num_columns("800px")
+	      });
 
-	    // var gridster = $(".gridster ul").gridster().data('gridster');
+	      	$("#elem_width").bind('input propertychange', function(evt){
+			  	$('.selected').width($(evt.target).val())
+			});
+
+			$("#elem_height").bind('input propertychange', function(evt){
+			  	$('.selected').height($(evt.target).val())
+			});
 	}
 
 

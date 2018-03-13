@@ -287,6 +287,12 @@ table th:nth-child(8){
     padding: 10px;
 }
 
+.object-element-icon{
+  font-size: 22px !important;
+  padding: 8px 0px 0px 11px;
+  color: white;
+}
+
 .object-element-text{
   font-size: 12px;
   border-left: 1px solid white;
@@ -324,6 +330,16 @@ svg {
 .position_table tbody td{
   padding:10px;
   padding-left:0;
+}
+
+.campaignItem{
+  width: 10px;
+  height: 10px;
+  border: 1px solid red;
+}
+
+.selected{
+  background: #dedede;
 }
 
 /*(n*10)+4n
