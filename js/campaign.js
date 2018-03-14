@@ -1486,7 +1486,7 @@ function openCreateCampaignDialog(visibleTableAPI, visibleTableJQ, evt){
 					                </li>
 					            </ul>
 					        </div>
-					        <div class="gridsterHolder" style="width:640px;height:360px">
+					        <div class="gridsterHolder" style="width:644px;height:364px">
 					            <div class="gridster" style="border : 1px solid black;height: 100%;" ondrop="drop(event)" ondragover="allowDrop(event)">
 					                
 					            </div>
@@ -1497,19 +1497,22 @@ function openCreateCampaignDialog(visibleTableAPI, visibleTableJQ, evt){
 							        <tbody>
 							            <tr>
 								            <td>Width</td>
-								            <td><input type="number" id="elem_width"></td>
+								            <td><input type="number" id="elem_width" min="0"></td>
 							            </tr>
 							            <tr>
 								            <td>Height</td>
-								            <td><input type="number" id="elem_height"></td>
+								            <td><input type="number" id="elem_height" min="0"></td>
 							            </tr>
 							            <tr>
 								            <td>Top</td>
-								            <td><input type="number" id="elem_top_pos"></td>
+								            <td><input type="number" id="elem_top_pos" min="0"></td>
 							            </tr>
 							            <tr>
 								            <td>Left</td>
-								            <td><input type="number" id="elem_left_pos"></td>
+								            <td><input type="number" id="elem_left_pos" min="0"></td>
+							            </tr>
+							            <tr>
+											<td><button class="btn btn-danger deleteCampignItem">Delete</button></td>
 							            </tr>
 							        </tbody>
 							    </table>
@@ -1530,8 +1533,9 @@ function openCreateCampaignDialog(visibleTableAPI, visibleTableJQ, evt){
 	      $(".gridster").off('click').on('click', 'div', function(evt){
 	      	$(".gridster div").removeClass('selected');
 	      	$(evt.target).addClass('selected')
-	      	var elem_width = $(evt.target).width() + 2*(parseInt(($(evt.target).css('border-width'))));
-	      	var elem_height = $(evt.target).height() + 2*(parseInt(($(evt.target).css('border-width'))));
+	      	 // + 2*(parseInt(($(evt.target).css('border-width'))))
+	      	var elem_width = $(evt.target).width();
+	      	var elem_height = $(evt.target).height()
 	      	var elem_left_pos = $(evt.target).position().left
 	      	var elem_top_pos = $(evt.target).position().top
 
@@ -1549,12 +1553,69 @@ function openCreateCampaignDialog(visibleTableAPI, visibleTableJQ, evt){
 	      });
 
 	      	$("#elem_width").bind('input propertychange', function(evt){
-			  	$('.selected').width($(evt.target).val())
+			  	var elem_width = $(".selected").width();
+		      	var elem_height = $(".selected").height()
+		      	var elem_left_pos = parseInt($(".selected").css('left'))
+		      	var elem_top_pos = parseInt($(".selected").css('top'))
+
+			  	if((parseInt($(evt.target).val()) + parseInt($("#elem_left_pos").val())) <= 640)
+			  		$('.selected').width(parseInt($(evt.target).val()))
+			  	else 
+			  		$(evt.target).val(oldval);
+
+			  	oldval = parseInt($(evt.target).val());
+
+
 			});
 
 			$("#elem_height").bind('input propertychange', function(evt){
-			  	$('.selected').height($(evt.target).val())
+				var elem_width = $(".selected").width();
+		      	var elem_height = $(".selected").height()
+		      	var elem_left_pos = parseInt($(".selected").css('left'))
+		      	var elem_top_pos = parseInt($(".selected").css('top'))
+		      	console.log($(evt.target).val())
+		      	console.log(parseInt($("#elem_top_pos").val()));
+		      	if((parseInt($(evt.target).val()) + parseInt($("#elem_top_pos").val())) <= 360)
+			  		$('.selected').height(parseInt($(evt.target).val()))
+			  	else 
+			  		$(evt.target).val(oldval);
+
+			  	oldval = parseInt($(evt.target).val());
 			});
+
+			$("#elem_top_pos").bind('input propertychange', function(evt){
+
+				var elem_width = $(".selected").width();
+		      	var elem_height = $(".selected").height()
+		      	var elem_left_pos = parseInt($(".selected").css('left'))
+		      	var elem_top_pos = parseInt($(".selected").css('top'))
+
+		      	if((parseInt($(evt.target).val()) + parseInt($("#elem_height").val())) <= 360)
+				  	$('.selected').css('top',parseInt($(evt.target).val()))
+				else 
+			  		$(evt.target).val(oldval);
+
+			  	oldval = parseInt($(evt.target).val());  
+			});
+
+			$("#elem_left_pos").bind('input propertychange', function(evt){
+
+				var elem_width = $(".selected").width();
+		      	var elem_height = $(".selected").height()
+		      	var elem_left_pos = parseInt($(".selected").css('left'))
+		      	var elem_top_pos = parseInt($(".selected").css('top'))
+
+		      	if((parseInt($(evt.target).val()) + parseInt($("#elem_width").val())) <= 640)
+				  	$('.selected').css('left',parseInt($(evt.target).val()))
+				else 
+			  		$(evt.target).val(oldval);
+
+			  	oldval = parseInt($(evt.target).val());
+			});
+
+			$(".deleteCampignItem").off('click').on('click',function(evt){
+				$('.selected').remove();
+			})
 	}
 
 

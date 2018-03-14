@@ -179,10 +179,14 @@ table th:nth-child(8){
   /*min-height: 630px;*/
   /*height: 630px;*/
   /*margin-left: 10px;*/
-  min-width: 89.8%;
+  
+  /*min-width: 89.8%;
   min-height: 84.7%;
   width: 89.8%;
-  height: 84.7%;
+  height: 84.7%;*/
+
+  width: 644px;
+  height: 364px;
 }
 
 .demo {
@@ -333,7 +337,10 @@ svg {
 }
 
 .campaignItem{
+  position: absolute;
   width: 10px;
+  left: 0;
+  top: 0;
   height: 10px;
   border: 1px solid red;
 }
