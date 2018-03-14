@@ -1523,11 +1523,32 @@ function openCreateCampaignDialog(visibleTableAPI, visibleTableJQ, evt){
 		    	users.usersTableAPI.keys.enable();
 		    }
 		});
+			var resizing_target;
+	      $(".gridsterHolder").off('click').on('click', '.gridster', function(event){
+	      		$(event.target).closest('div.campaignItem').addClass("selected");
+	      		resizing_target = $(event.target);
+	      	
+	      })
 
-	      
+
 	      $(".gridsterItems ul li").off('click').on('click', function(evt){
 	      	$(".gridster").append(`<div class="campaignItem">
 	      		</div>`);
+		      	new ResizeSensor(jQuery('.campaignItem'), function(){
+		      		// resizing_target
+		      		var trgt_element = $("div.selected")
+			      	var elem_width = trgt_element.width();
+			      	var elem_height = trgt_element.height()
+			      	var elem_left_pos = trgt_element.position().left
+			      	var elem_top_pos = trgt_element.position().top
+			      	if(elem_width + elem_left_pos >= 640) $('div.selected').width(elem_width - (elem_width - (640 - elem_left_pos)));
+		      		if(elem_height + elem_top_pos >= 360) $('div.selected').height(elem_height - (elem_height - (360 - elem_top_pos)));
+			      	$("#elem_width").val(elem_width)
+			      	$("#elem_height").val(elem_height)
+			      	$("#elem_left_pos").val(elem_left_pos)
+			      	$("#elem_top_pos").val(elem_top_pos)
+				    
+				});
 	      })
 
 	      $(".gridster").off('click').on('click', 'div', function(evt){
@@ -1539,10 +1560,10 @@ function openCreateCampaignDialog(visibleTableAPI, visibleTableJQ, evt){
 	      	var elem_left_pos = $(evt.target).position().left
 	      	var elem_top_pos = $(evt.target).position().top
 
-	      	console.log(elem_width)
-	      	console.log(elem_height)
-	      	console.log(elem_left_pos)
-	      	console.log(elem_top_pos)
+	      	// console.log(elem_width)
+	      	// console.log(elem_height)
+	      	// console.log(elem_left_pos)
+	      	// console.log(elem_top_pos)
 
 	      	$("#elem_width").val(elem_width)
 	      	$("#elem_height").val(elem_height)
@@ -1616,6 +1637,8 @@ function openCreateCampaignDialog(visibleTableAPI, visibleTableJQ, evt){
 			$(".deleteCampignItem").off('click').on('click',function(evt){
 				$('.selected').remove();
 			})
+
+			
 	}
 
 
