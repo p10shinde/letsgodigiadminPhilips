@@ -26,15 +26,6 @@ if(!sessionStorage.apiurl || !sessionStorage.userName || !sessionStorage.clientL
 		})
 
 
-
-		$("#updateFirebaseButton").off('mouseenter').on('mouseenter', function(evt){
-			$(this).removeClass('animated');
-		})
-
-		$("#updateFirebaseButton").off('mouseleave').on('mouseleave', function(evt){
-			$(this).addClass('animated');
-		})
-
 		$("#logoutButton").off('click').on('click', function(evt){
 			sessionStorage.removeItem('googleId');
 			sessionStorage.removeItem('image');
