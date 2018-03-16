@@ -1,10 +1,10 @@
-
+''
 
 .main_container
 {
   position:absolute;
-  top:0;
-  left:0;
+  /*top:0;*/
+  /*left:0;*/
   height:100%;
   width:100%;
 }
@@ -20,11 +20,11 @@
 .frame_elts
 {
   position:absolute;
-  top:35px;
+  /*top:35px;*/
   left:0;
   width:100%;
-  height: calc(100% - 52px);
-  border:1px solid;
+  height: calc(100% - 30px);
+  /*border:1px solid;*/
 }
 footer{
   position: fixed;
