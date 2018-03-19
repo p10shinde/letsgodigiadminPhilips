@@ -79,7 +79,11 @@ function sendToken(id_token,googleUser){
 			// sessionStorage.apiurl = "http://68.66.200.220:49161/api/";
 			// sessionStorage.apiurl = "http://10.13.67.174:49161/api/";
 			// sessionStorage.apiurl = sessionStorage.apiurl;
-			window.location = window.location.pathname.split('login.html')[0]
+			// window.location = window.location.pathname.split('login.html')[0]
+      $(".login-view").hide();
+      $(".main_container").show();
+      loadIndexJS();
+
 	    },
 	    error : function(jqXHR, textStatus){
 			if(jqXHR.responseJSON){

@@ -1,7 +1,8 @@
-if(!sessionStorage.apiurl || !sessionStorage.userName || !sessionStorage.clientLocation || !sessionStorage.userName || !sessionStorage.id_token || !sessionStorage.clientName){
-	window.location.href = 'login.html'
-}else{
-	window.onload = function(){
+// if(!sessionStorage.apiurl || !sessionStorage.userName || !sessionStorage.clientLocation || !sessionStorage.userName || !sessionStorage.id_token || !sessionStorage.clientName){
+// 	window.location.href = 'login.html'
+// }else{
+	// window.onload = function(){
+	function loadIndexJS(){
 		configureView(sessionStorage.userType);
 		$("#userImage")[0].src = sessionStorage.image
 
@@ -32,6 +33,12 @@ if(!sessionStorage.apiurl || !sessionStorage.userName || !sessionStorage.clientL
 		function loadRelativeChannel(channelName){
 			if(layoutName == "firstChannel") loadFirstChannel();
 			if(layoutName == "secondChannel") loadSecondChannel();
+			if(layoutName == "thirdChannel") loadThirdChannel();
+			if(layoutName == "sos") loadSOS();
+			if(layoutName == "campaign") loadCampaign();
+			if(layoutName == "logs") loadLog();
+			if(layoutName == "tickers") loadTicker();
+			if(layoutName == "groups") loadGroup();
 		}
 
 
@@ -50,4 +57,4 @@ if(!sessionStorage.apiurl || !sessionStorage.userName || !sessionStorage.clientL
 		})
 		$("#channelMenu li:contains('First Channel')").click()
 	}
-}
+// }

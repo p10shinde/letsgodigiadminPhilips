@@ -1,7 +1,7 @@
-function loadSecondChannel(){
-
 secondChannel = {}
 secondChannel.resources = []
+function loadSecondChannel(){
+
 // secondChannel.resources = ["img1.jpg","img2.jpg","vid1.mp4","vid2.mp4","vid3.mp4","vid4.mp4","img3.jpg","img4.jpg"];
 // window.onload = function(){
 	// XMLHttpRequest.prototype.realSend = XMLHttpRequest.prototype.send;
@@ -51,7 +51,7 @@ secondChannel.resources = []
 	// }
 	
 
-	$(".secondChannelSection input[name='displayTypeRadio']").on('change',function(){
+	$(".secondChannelSection input[name='secondChannelDisplayTypeRadio']").on('change',function(){
 		console.log(this.value)
 		if(this.value == "Groups"){
 			tabIndex = $(".secondChannelSection #secondChannelTabs").tabs('getTabIndex',$(".secondChannelSection #secondChannelTabs").tabs('getSelected'))
@@ -604,7 +604,7 @@ secondChannel.resources = []
     	onSelect : function(title, index){
     		if(index == 0){
     			// if groups is checked
-    			if($(".secondChannelSection input[name='displayTypeRadio']")[0].checked){
+    			if($(".secondChannelSection input[name='secondChannelDisplayTypeRadio']")[0].checked){
     				groupName = $(".secondChannelSection #groupSelectFilter").multipleSelect('getSelects')[0];
     				$(".secondChannelSection .groupsSecondChannelGeneralTableDiv").show();
 					$(".secondChannelSection .clustersSecondChannelGeneralTableDiv").hide();
@@ -626,7 +626,7 @@ secondChannel.resources = []
 				// $(".secondChannelSection #deleteSelectedresourcesButton").show();
     		}else{
     			// if groups is checked
-    			if($(".secondChannelSection input[name='displayTypeRadio']")[0].checked){
+    			if($(".secondChannelSection input[name='secondChannelDisplayTypeRadio']")[0].checked){
 			    	groupName = $(".secondChannelSection #groupSelectFilter").multipleSelect('getSelects')[0];
 			    	$(".secondChannelSection .groupsSecondChannelPlannedTableDiv").show();
 					$(".secondChannelSection .clustersSecondChannelPlannedTableDiv").hide();
@@ -796,7 +796,7 @@ secondChannel.resources = []
 		if(trgtTd[0].nodeName == "TD"){
 			if((visibleTableJQ[0].id == "groupsSecondChannelPlannedTable" && trgtTd.index() == 2) || (visibleTableJQ[0].id == "clustersSecondChannelPlannedTable" && trgtTd.index() == 2)){
 				secondChannel.trgtTd = trgtTd
-				$(".secondChannelSection #modifyFieldDialog").dialog({
+				$("#modifyFieldDialog").dialog({
 		            constrain : true,
 		            top : trgtTd.offset().top,
 		            left : trgtTd.offset().left,
@@ -809,8 +809,8 @@ secondChannel.resources = []
 		            modal: true,
 		            shadow : false
 				});
-				$(".secondChannelSection #modifyFieldDialog div.elementHolder").empty();
-				$(".secondChannelSection #modifyFieldDialog div.elementHolder").append('<div class="input-group date" style="width:' + (parseInt(trgtTd.width()) + 7 -39) + 'px">'+
+				$("#modifyFieldDialog div.elementHolder").empty();
+				$("#modifyFieldDialog div.elementHolder").append('<div class="input-group date" style="width:' + (parseInt(trgtTd.width()) + 7 -39) + 'px">'+
 																	'<input class="myDateTimePicker form-control" id="startTime" '+
 																	'style="height:' + (parseInt(trgtTd.height()) + 7) + 'px;'+
 																	'width : ' + (parseInt(trgtTd.width()) + 7 -39) + 'px"></input>'+
@@ -818,11 +818,11 @@ secondChannel.resources = []
 		                        										'<span class="glyphicon glyphicon-calendar"></span>'+
 		                    										'</span>'+
 		                    									'</div>')	
-				$(".secondChannelSection #modifyFieldDialog .myDateTimePicker").datetimepicker({format: 'DD-MM-YYYY_hh:mm_A',stepping:20,minDate : new moment(),maxDate : new moment().add(7,'days').endOf('day')});
-				$(".secondChannelSection #modifyFieldDialog .myDateTimePicker").data("DateTimePicker").date(new moment(trgtTdValue,"DD-MM-YYYY_hh:mm_A"));
+				$("#modifyFieldDialog .myDateTimePicker").datetimepicker({format: 'DD-MM-YYYY_hh:mm_A',stepping:20,minDate : new moment(),maxDate : new moment().add(7,'days').endOf('day')});
+				$("#modifyFieldDialog .myDateTimePicker").data("DateTimePicker").date(new moment(trgtTdValue,"DD-MM-YYYY_hh:mm_A"));
 				
 				
-				$(".secondChannelSection #" + visibleTableJQ[0].id).off('keyup').on('keyup', function(evt){
+				$("#" + visibleTableJQ[0].id).off('keyup').on('keyup', function(evt){
 					// if(evt.keyCode == 13){
 					// 	commonData.updateTableWithResource();
 					// }else 
@@ -831,8 +831,8 @@ secondChannel.resources = []
 					}
 				});
 
-				$(".secondChannelSection .window-mask").off('click').on('click',function(){
-					startTime = $(".secondChannelSection #startTime").data("DateTimePicker").date().format('DD-MM-YYYY_hh:mm_A');
+				$(".window-mask").off('click').on('click',function(){
+					startTime = $("#startTime").data("DateTimePicker").date().format('DD-MM-YYYY_hh:mm_A');
 					text = ''
 					commonData.updateTableWithResource(secondChannel.visibleTableAPI, secondChannel.visibleTableJQ, startTime, '', 0);
 				})
@@ -843,7 +843,7 @@ secondChannel.resources = []
 				secondChannel.trgtTd = trgtTd
 				createPicker();
 				
-				// $(".secondChannelSection #modifyFieldDialog").dialog({
+				// $("#modifyFieldDialog").dialog({
 		  //           constrain : true,
 		  //           top : trgtTd.offset().top,
 		  //           left : trgtTd.offset().left,
@@ -856,7 +856,7 @@ secondChannel.resources = []
 		  //           modal: true,
 		  //           shadow : false
 				// });
-				// $(".secondChannelSection #modifyFieldDialog div.elementHolder").empty();
+				// $("#modifyFieldDialog div.elementHolder").empty();
 
 				
 				// imagesArray = [];
@@ -881,9 +881,9 @@ secondChannel.resources = []
 				// 				 	width:` + (parseInt(trgtTd.width()) + 16) + `px">` + 
 				// 				 	imagesOptGroup + videosOptGroup + `</select>`
 
-				// $(".secondChannelSection #modifyFieldDialog div.elementHolder").append(resourcesSelect)
+				// $("#modifyFieldDialog div.elementHolder").append(resourcesSelect)
 				
-				// $(".secondChannelSection select.resourceSelect").multipleSelect({
+				// $("select.resourceSelect").multipleSelect({
 				// 	single: true,
 				// 	filter: true,
 				// 	placeholder : 'Select Resource',
@@ -894,12 +894,12 @@ secondChannel.resources = []
 		  //           }
 				// })
 
-				// $(".secondChannelSection select.resourceSelect").multipleSelect("setSelects", [trgtTdValue]);
+				// $("select.resourceSelect").multipleSelect("setSelects", [trgtTdValue]);
 
-				// $(".secondChannelSection .ms-choice").focus();
+				// $(".ms-choice").focus();
 				
 
-				// $(".secondChannelSection .ms-choice").off('keyup').on('keyup', function(evt){
+				// $(".ms-choice").off('keyup').on('keyup', function(evt){
 				// 	// if(evt.keyCode == 13){
 				// 	// 	commonData.updateTableWithResource();
 				// 	// }else 
@@ -910,15 +910,15 @@ secondChannel.resources = []
 
 
 
-				// $(".secondChannelSection .window-mask").off('click').on('click',function(){
-				// 	resource = $(".secondChannelSection select.resourceSelect").multipleSelect('getSelects').length!=0 ? $(".secondChannelSection select.resourceSelect").multipleSelect('getSelects') : [""] 
+				// $(".window-mask").off('click').on('click',function(){
+				// 	resource = $("select.resourceSelect").multipleSelect('getSelects').length!=0 ? $("select.resourceSelect").multipleSelect('getSelects') : [""] 
 				// 	commonData.updateTableWithResource(secondChannel.visibleTableAPI, secondChannel.visibleTableJQ, '', resource[0], 0);
 					
 				// })
 			}else if(trgtTd.index() == 3){
 				secondChannel.trgtTd = trgtTd;
 				duration = trgtTd.text();
-				$(".secondChannelSection #modifyFieldDialog").dialog({
+				$("#modifyFieldDialog").dialog({
 		            constrain : true,
 		            top : trgtTd.offset().top,
 		            left : trgtTd.offset().left,
@@ -931,17 +931,17 @@ secondChannel.resources = []
 		            modal: true,
 		            shadow : false
 				});
-				$(".secondChannelSection #modifyFieldDialog div.elementHolder").empty();
+				$("#modifyFieldDialog div.elementHolder").empty();
 
 					durationInput = `<input type="text" id="duration" value="`+ duration +`" style="height:` + (parseInt(trgtTd.height())+7) + `px;
 							 	width:` + (parseInt(trgtTd.width()) + 7) + `px">`;
 
-					$(".secondChannelSection #modifyFieldDialog div.elementHolder").append(durationInput)
+					$("#modifyFieldDialog div.elementHolder").append(durationInput)
 					
-					$(".secondChannelSection #duration").focus();
-					$(".secondChannelSection #duration").off('keyup').on('keyup', function(evt){
+					$("#duration").focus();
+					$("#duration").off('keyup').on('keyup', function(evt){
 						if(evt.keyCode == 13){
-							duration = $(".secondChannelSection #duration").val();
+							duration = $("#duration").val();
 							commonData.updateTableWithResource(secondChannel.visibleTableAPI, secondChannel.visibleTableJQ,'','',duration);
 						}else 
 						if(evt.keyCode == 27){
@@ -949,20 +949,20 @@ secondChannel.resources = []
 						}
 					});
 
-					$(".secondChannelSection .window-mask").off('click').on('click',function(){
-						duration = $(".secondChannelSection #duration").val();
+					$(".window-mask").off('click').on('click',function(){
+						duration = $("#duration").val();
 						commonData.updateTableWithResource(secondChannel.visibleTableAPI, secondChannel.visibleTableJQ,'','',duration);
 					})
 
-						$(".secondChannelSection input#duration").off('input propertychange').on('input propertychange', function (xx,yy,zz) {
-					        $(".secondChannelSection #duration").val($(this).val().replace(/[A-Z 0a-z.~!@#$%^&*()\-_+=-?></.,":';/\|\{\}\[\]\\]/g, ''))
+						$("input#duration").off('input propertychange').on('input propertychange', function (xx,yy,zz) {
+					        $("#duration").val($(this).val().replace(/[A-Z 0a-z.~!@#$%^&*()\-_+=-?></.,":';/\|\{\}\[\]\\]/g, ''))
 					    })
 			}
 		}
 	}
 
-	$(".secondChannelSection input").on('input propertychange','#duration', function (xx,yy,zz) {
-        $(".secondChannelSection #duration").val($(this).val().replace(/[A-Z 0a-z.~!@#$%^&*()\-_+=-?></.,":';/\|\{\}\[\]\\]/g, ''))
+	$("input").on('input propertychange','#duration', function (xx,yy,zz) {
+        $("#duration").val($(this).val().replace(/[A-Z 0a-z.~!@#$%^&*()\-_+=-?></.,":';/\|\{\}\[\]\\]/g, ''))
     })
 
 	commonData.updateTableWithResource = function(visibleTableAPI, visibleTableJQ, startTime, resourceName, duration){
@@ -1013,15 +1013,15 @@ secondChannel.resources = []
 		commonData.updateSerialNo(visibleTableAPI);
 
 		visibleTableAPI.page( page ).draw( 'page' );
-		if($(".secondChannelSection #modifyFieldDialog").is(":visible"))
-			$(".secondChannelSection #modifyFieldDialog").dialog('close')
+		if($("#modifyFieldDialog").is(":visible"))
+			$("#modifyFieldDialog").dialog('close')
 		$(visibleTableAPI.rows().nodes().toJQuery()[rowNo]).fadeOut();
 		$(visibleTableAPI.rows().nodes().toJQuery()[rowNo]).fadeIn();
 		visibleTableAPI.keys.enable();
 	}
 
 	function revertTableUpdate(visibleTableAPI, visibleTableJQ){
-		$(".secondChannelSection #modifyFieldDialog").dialog('close')
+		$("#modifyFieldDialog").dialog('close')
 		visibleTableAPI.keys.enable()
 	}
 

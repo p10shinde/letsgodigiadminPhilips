@@ -1,52 +1,53 @@
 tickers = {}
-window.onload = function(){
+function loadTicker(){
+// window.onload = function(){
 	// XMLHttpRequest.prototype.realSend = XMLHttpRequest.prototype.send;
 	// XMLHttpRequest.prototype.send = function(value) {
 	// 	this.addEventListener('error', function(xx,yy){
 			
 	// 	}, false);
 	// 	this.addEventListener("loadstart", function(xx,yy){
-	//     	$("#loadingDiv").show();
+	//     	$(".tickersSection #loadingDiv").show();
 	//     }, false);
 	//     this.addEventListener("progress", function(xx,yy){
 	//     	loadedPer = xx.loaded/xx.total*100
-	//     	if(isNaN(loadedPer)) $(".ldBar")[0].ldBar.set(0)
-	//     	else $(".ldBar")[0].ldBar.set(loadedPer)
+	//     	if(isNaN(loadedPer)) $(".tickersSection .ldBar")[0].ldBar.set(0)
+	//     	else $(".tickersSection .ldBar")[0].ldBar.set(loadedPer)
 	//     }, false);
 	//     this.addEventListener("loadend", function(xx,yy){
 	//         setTimeout(function(){
-	//         	$("#loadingDiv").hide();
-	//         	$(".ldBar")[0].ldBar.set(0)
+	//         	$(".tickersSection #loadingDiv").hide();
+	//         	$(".tickersSection .ldBar")[0].ldBar.set(0)
 	//         },1300)
 	//     }, false);
 	//     this.realSend(value);
 	// };
 	$(document).ajaxStart(function () {
 
-    	// $(".ldBar div.ldBar-label").show()
-    	// $(".ldBar div.loadingError").hide()
+    	// $(".tickersSection .ldBar div.ldBar-label").show()
+    	// $(".tickersSection .ldBar div.loadingError").hide()
 	    $('#loadingDiv').show();
 		// setTimeout(function(){
-		// 	$(".ldBar")[0].ldBar.set(0)
+		// 	$(".tickersSection .ldBar")[0].ldBar.set(0)
 		// },100)
    })
 
   	$(document).ajaxStop(function () {
-		// $(".ldBar")[0].ldBar.set(0)
+		// $(".tickersSection .ldBar")[0].ldBar.set(0)
         setTimeout(function(){
 			$('#loadingDiv').hide();
         },2500)
     });
 
   	$( document ).ajaxError(function() {
-	 //  $(".ldBar div.ldBar-label").hide()
-		// $(".ldBar").append('<label class="text-danger loadingError">Error</label>')
+	 //  $(".tickersSection .ldBar div.ldBar-label").hide()
+		// $(".tickersSection .ldBar").append('<label class="text-danger loadingError">Error</label>')
 		setTimeout(function(){
 	    	$("#loadingDiv").hide();
 	    },2000)
 	});
 
-	$("#tickerText").keydown(function(e){
+	$(".tickersSection #tickerText").keydown(function(e){
 		if (e.keyCode == 13)
 		{
 		  // prevent default behavior
@@ -56,19 +57,19 @@ window.onload = function(){
 		  }
 	});	
 
-	$('[data-toggle="tooltip"]').tooltip();
+	$('.tickersSection [data-toggle="tooltip"]').tooltip();
 
-	$("input[name='displayTypeRadio']").on('change',function(){
+	$(".tickersSection input[name='TickerDisplayTypeRadio']").on('change',function(){
 		console.log(this.value)
 		if(this.value == "Groups"){
-			$("#clusterSelectFilterDiv").parent().hide();
-			$("#groupSelectFilterDiv").parent().show();
-			groupName = $("#groupSelectFilter").multipleSelect('getSelects')[0];
+			$(".tickersSection #clusterSelectFilterDiv").parent().hide();
+			$(".tickersSection #groupSelectFilterDiv").parent().show();
+			groupName = $(".tickersSection #groupSelectFilter").multipleSelect('getSelects')[0];
 			getTickerForGroup(groupName)
 		}else if(this.value == "Clusters"){
-			$("#groupSelectFilterDiv").parent().hide();
-			$("#clusterSelectFilterDiv").parent().show();
-			clusterName = $("#clusterSelectFilter").multipleSelect('getSelects')[0];
+			$(".tickersSection #groupSelectFilterDiv").parent().hide();
+			$(".tickersSection #clusterSelectFilterDiv").parent().show();
+			clusterName = $(".tickersSection #clusterSelectFilter").multipleSelect('getSelects')[0];
 			getTickerForCluster(clusterName);
 		}
 	});
@@ -89,17 +90,17 @@ window.onload = function(){
 						$.each(groups, function(index,value){
 							options += `<option value="`+value+`">`+value+`</option>`
 						});
-						$("#groupSelectFilter").empty();
-						$("#groupSelectFilter").append(options);
-						$("#groupSelectFilter").attr("disabled",true);
+						$(".tickersSection #groupSelectFilter").empty();
+						$(".tickersSection #groupSelectFilter").append(options);
+						$(".tickersSection #groupSelectFilter").attr("disabled",true);
 						
-						$("#groupSelectFilter").multipleSelect({
+						$(".tickersSection #groupSelectFilter").multipleSelect({
 							placeholder: "Select Group",
 							filter: true,
 							single : true,
 							allSelected : false,
 							onClick : function(view){
-								if($("input[name='displayTypeRadio']")[0].checked){
+								if($(".tickersSection input[name='TickerDisplayTypeRadio']")[0].checked){
 									groupName = view.value;
 									getTickerForGroup(groupName)
 								}else{
@@ -119,17 +120,17 @@ window.onload = function(){
 		// }else{
 		// 	var options = ""
 		// 	options += `<option value="`+clientName+`">`+clientName+`</option>`
-		// 	$("#groupSelectFilter").empty();
-		// 	$("#groupSelectFilter").append(options);
-		// 	$("#groupSelectFilter").attr('disabled',true);
+		// 	$(".tickersSection #groupSelectFilter").empty();
+		// 	$(".tickersSection #groupSelectFilter").append(options);
+		// 	$(".tickersSection #groupSelectFilter").attr('disabled',true);
 			
-		// 	$("#groupSelectFilter").multipleSelect({
+		// 	$(".tickersSection #groupSelectFilter").multipleSelect({
 		// 		placeholder: "Select Group",
 		// 		filter: true,
 		// 		single : true,
 		// 		allSelected : false,
 		// 		onClick : function(view){
-		// 			if($("input[name='displayTypeRadio']")[0].checked){
+		// 			if($(".tickersSection input[name='TickerDisplayTypeRadio']")[0].checked){
 		// 				groupName = view.value;
 		// 				getTickerForGroup(groupName)
 		// 			}else{
@@ -156,15 +157,15 @@ window.onload = function(){
 	// 				$.each(clusters, function(index,value){
 	// 					options += `<option value="`+value+`">`+value+`</option>`
 	// 				});
-	// 				$("#clusterSelectFilter").empty();
-	// 				$("#clusterSelectFilter").append(options);
+	// 				$(".tickersSection #clusterSelectFilter").empty();
+	// 				$(".tickersSection #clusterSelectFilter").append(options);
 					
-	// 				$("#clusterSelectFilter").multipleSelect({
+	// 				$(".tickersSection #clusterSelectFilter").multipleSelect({
 	// 					placeholder: "Select Cluster",
 	// 					filter: true,
 	// 					single : true,
 	// 					onClick : function(view){
-	// 						if($("input[name='displayTypeRadio']")[0].checked){
+	// 						if($(".tickersSection input[name='TickerDisplayTypeRadio']")[0].checked){
 	// 							groupName = view.value;
 	// 							getTickerForGroup(groupName)
 	// 						}else{
@@ -186,7 +187,7 @@ window.onload = function(){
 	getAllGroups();
 	// getAllClusters();
 
-	groupName = $("#groupSelectFilter").multipleSelect('getSelects')[0];
+	groupName = $(".tickersSection #groupSelectFilter").multipleSelect('getSelects')[0];
 	getTickerForGroup(groupName);
 
 
@@ -199,19 +200,19 @@ window.onload = function(){
 			complete : function(jqXHR, textstatus){
 				if(textstatus == "success"){
 					tickerText =jqXHR.responseJSON;
-					$("#tickerText").val(tickerText);
-					$("#tickerText").focus();
-					// $(".extraFields span.updatedBy").text(jqXHR.responseJSON[0].updatedBy)
-					// $(".extraFields span.updatedAt").text(jqXHR.responseJSON[0].updatedAt)
+					$(".tickersSection #tickerText").val(tickerText);
+					$(".tickersSection #tickerText").focus();
+					// $(".tickersSection .extraFields span.updatedBy").text(jqXHR.responseJSON[0].updatedBy)
+					// $(".tickersSection .extraFields span.updatedAt").text(jqXHR.responseJSON[0].updatedAt)
 
 				}else if(textstatus == "error"){
 					if(jqXHR.responseText)
 						$.notify(jqXHR.responseText,'error')
-					$("#tickerText").val('');
-					$("#tickerText").focus();
+					$(".tickersSection #tickerText").val('');
+					$(".tickersSection #tickerText").focus();
 					// console.log(jqXHR);
-					// $(".extraFields span.updatedBy").text("")
-					// $(".extraFields span.updatedAt").text("")
+					// $(".tickersSection .extraFields span.updatedBy").text("")
+					// $(".tickersSection .extraFields span.updatedAt").text("")
 				}
 			}
 		})
@@ -225,42 +226,42 @@ window.onload = function(){
 	// 		complete : function(jqXHR, textstatus){
 	// 			if(textstatus == "success"){
 	// 				tickerText =jqXHR.responseJSON;
-	// 				$("#tickerText").val(tickerText);
-	// 				$("#tickerText").focus();
-	// 				// $(".extraFields span.updatedBy").text(jqXHR.responseJSON[0].updatedBy)
-	// 				// $(".extraFields span.updatedAt").text(jqXHR.responseJSON[0].updatedAt)
+	// 				$(".tickersSection #tickerText").val(tickerText);
+	// 				$(".tickersSection #tickerText").focus();
+	// 				// $(".tickersSection .extraFields span.updatedBy").text(jqXHR.responseJSON[0].updatedBy)
+	// 				// $(".tickersSection .extraFields span.updatedAt").text(jqXHR.responseJSON[0].updatedAt)
 
 	// 			}else if(textstatus == "error"){
 	// 				if(jqXHR.responseText)
 	// 					$.notify(jqXHR.responseText,'error')
-	// 				$("#tickerText").val('');
-	// 				$("#tickerText").focus();
+	// 				$(".tickersSection #tickerText").val('');
+	// 				$(".tickersSection #tickerText").focus();
 	// 				// console.log(jqXHR);
 
-	// 				// $(".extraFields span.updatedBy").text("")
-	// 				// $(".extraFields span.updatedAt").text("")
+	// 				// $(".tickersSection .extraFields span.updatedBy").text("")
+	// 				// $(".tickersSection .extraFields span.updatedAt").text("")
 	// 			}
 	// 		}
 	// 	})
 	// }
 
-	$("#saveTickersButton").off('click').on('click',function(evt){
-		$("#loadingDiv").show();
+	$(".tickersSection #saveTickersButton").off('click').on('click',function(evt){
+		$(".tickersSection #loadingDiv").show();
 		groupOrClusterName = "";
 		postData = {}
-		if($("input[name='displayTypeRadio']")[0].checked){
-			groupOrClusterName = $("#groupSelectFilter").multipleSelect('getSelects')[0];
+		if($(".tickersSection input[name='TickerDisplayTypeRadio']")[0].checked){
+			groupOrClusterName = $(".tickersSection #groupSelectFilter").multipleSelect('getSelects')[0];
 			url = commonData.apiurl + 'ticker/' + groupName;
 			
 			// groupOrCluster = "groupName";
 			
 		}else{
-			groupOrClusterName = $("#clusterSelectFilter").multipleSelect('getSelects')[0];
+			groupOrClusterName = $(".tickersSection #clusterSelectFilter").multipleSelect('getSelects')[0];
 			url = commonData.apiurl + 'ticker/' + clusterName
 			
 			// groupOrCluster = "clusterName";
 		}
-		postData = {text : $("#tickerText").val()}
+		postData = {text : $(".tickersSection #tickerText").val()}
 		// postData[groupOrCluster] = groupOrClusterName;
 		
 
@@ -275,8 +276,8 @@ window.onload = function(){
 		  	// else if(groupOrCluster == "clusterName") getTickerForCluster(groupOrClusterName);
 		  	getTickerForGroup(groupOrClusterName)
 
-			// $(".extraFields span.updatedBy").text(data.updatedBy)
-			// $(".extraFields span.updatedAt").text(data.updatedAt)
+			// $(".tickersSection .extraFields span.updatedBy").text(data.updatedBy)
+			// $(".tickersSection .extraFields span.updatedAt").text(data.updatedAt)
 
 		  	// checkIfAnyUpdate(function(result){
 		  	// 	if(result == true){
@@ -292,7 +293,7 @@ window.onload = function(){
 		  	// })
 		  	// firstChannel.visibleTableAPI.ajax.reload();
 		  	// campaigns.groupsCampaignsTableAPI.ajax.reload(function(){
-				// $('#addNewResourceDialog').dialog('close');
+				// $('.tickersSection #addNewResourceDialog').dialog('close');
 			  	// recordsTotal = resources.resourcesTableAPI.page.info().recordsTotal;
 			  	// resources.resourcesTableAPI.page( 'first' ).draw( 'page' );
 			  	// $(clients.clientsTableAPI.rows().nodes().toJQuery()[recordsTotal]).fadeOut();

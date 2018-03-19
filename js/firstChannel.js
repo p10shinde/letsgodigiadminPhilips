@@ -1,7 +1,7 @@
-function loadFirstChannel(){
-
 firstChannel = {}
 firstChannel.resources = []
+function loadFirstChannel(){
+
 // firstChannel.resources = ["img1.jpg","img2.jpg","vid1.mp4","vid2.mp4","vid3.mp4","vid4.mp4","img3.jpg","img4.jpg"];
 // window.onload = function(){
 	// XMLHttpRequest.prototype.realSend = XMLHttpRequest.prototype.send;
@@ -51,7 +51,7 @@ firstChannel.resources = []
 	// }
 	
 
-	$(".firstChannelSection input[name='displayTypeRadio']").on('change',function(){
+	$(".firstChannelSection input[name='firstChannelDisplayTypeRadio']").on('change',function(){
 		console.log(this.value)
 		if(this.value == "Groups"){
 			tabIndex = $(".firstChannelSection #firstChannelTabs").tabs('getTabIndex',$(".firstChannelSection #firstChannelTabs").tabs('getSelected'))
@@ -604,7 +604,7 @@ firstChannel.resources = []
     	onSelect : function(title, index){
     		if(index == 0){
     			// if groups is checked
-    			if($(".firstChannelSection input[name='displayTypeRadio']")[0].checked){
+    			if($(".firstChannelSection input[name='firstChannelDisplayTypeRadio']")[0].checked){
     				groupName = $(".firstChannelSection #groupSelectFilter").multipleSelect('getSelects')[0];
     				$(".firstChannelSection .groupsFirstChannelGeneralTableDiv").show();
 					$(".firstChannelSection .clustersFirstChannelGeneralTableDiv").hide();
@@ -626,7 +626,7 @@ firstChannel.resources = []
 				// $(".firstChannelSection #deleteSelectedresourcesButton").show();
     		}else{
     			// if groups is checked
-    			if($(".firstChannelSection input[name='displayTypeRadio']")[0].checked){
+    			if($(".firstChannelSection input[name='firstChannelDisplayTypeRadio']")[0].checked){
 			    	groupName = $(".firstChannelSection #groupSelectFilter").multipleSelect('getSelects')[0];
 			    	$(".firstChannelSection .groupsFirstChannelPlannedTableDiv").show();
 					$(".firstChannelSection .clustersFirstChannelPlannedTableDiv").hide();
@@ -796,7 +796,7 @@ firstChannel.resources = []
 		if(trgtTd[0].nodeName == "TD"){
 			if((visibleTableJQ[0].id == "groupsFirstChannelPlannedTable" && trgtTd.index() == 2) || (visibleTableJQ[0].id == "clustersFirstChannelPlannedTable" && trgtTd.index() == 2)){
 				firstChannel.trgtTd = trgtTd
-				$(".firstChannelSection #modifyFieldDialog").dialog({
+				$("#modifyFieldDialog").dialog({
 		            constrain : true,
 		            top : trgtTd.offset().top,
 		            left : trgtTd.offset().left,
@@ -809,8 +809,8 @@ firstChannel.resources = []
 		            modal: true,
 		            shadow : false
 				});
-				$(".firstChannelSection #modifyFieldDialog div.elementHolder").empty();
-				$(".firstChannelSection #modifyFieldDialog div.elementHolder").append('<div class="input-group date" style="width:' + (parseInt(trgtTd.width()) + 7 -39) + 'px">'+
+				$("#modifyFieldDialog div.elementHolder").empty();
+				$("#modifyFieldDialog div.elementHolder").append('<div class="input-group date" style="width:' + (parseInt(trgtTd.width()) + 7 -39) + 'px">'+
 																	'<input class="myDateTimePicker form-control" id="startTime" '+
 																	'style="height:' + (parseInt(trgtTd.height()) + 7) + 'px;'+
 																	'width : ' + (parseInt(trgtTd.width()) + 7 -39) + 'px"></input>'+
@@ -818,11 +818,11 @@ firstChannel.resources = []
 		                        										'<span class="glyphicon glyphicon-calendar"></span>'+
 		                    										'</span>'+
 		                    									'</div>')	
-				$(".firstChannelSection #modifyFieldDialog .myDateTimePicker").datetimepicker({format: 'DD-MM-YYYY_hh:mm_A',stepping:20,minDate : new moment(),maxDate : new moment().add(7,'days').endOf('day')});
-				$(".firstChannelSection #modifyFieldDialog .myDateTimePicker").data("DateTimePicker").date(new moment(trgtTdValue,"DD-MM-YYYY_hh:mm_A"));
+				$("#modifyFieldDialog .myDateTimePicker").datetimepicker({format: 'DD-MM-YYYY_hh:mm_A',stepping:20,minDate : new moment(),maxDate : new moment().add(7,'days').endOf('day')});
+				$("#modifyFieldDialog .myDateTimePicker").data("DateTimePicker").date(new moment(trgtTdValue,"DD-MM-YYYY_hh:mm_A"));
 				
 				
-				$(".firstChannelSection #" + visibleTableJQ[0].id).off('keyup').on('keyup', function(evt){
+				$("#" + visibleTableJQ[0].id).off('keyup').on('keyup', function(evt){
 					// if(evt.keyCode == 13){
 					// 	commonData.updateTableWithResource();
 					// }else 
@@ -831,8 +831,8 @@ firstChannel.resources = []
 					}
 				});
 
-				$(".firstChannelSection .window-mask").off('click').on('click',function(){
-					startTime = $(".firstChannelSection #startTime").data("DateTimePicker").date().format('DD-MM-YYYY_hh:mm_A');
+				$(".window-mask").off('click').on('click',function(){
+					startTime = $("#startTime").data("DateTimePicker").date().format('DD-MM-YYYY_hh:mm_A');
 					text = ''
 					commonData.updateTableWithResource(firstChannel.visibleTableAPI, firstChannel.visibleTableJQ, startTime, '', 0);
 				})
@@ -843,7 +843,7 @@ firstChannel.resources = []
 				firstChannel.trgtTd = trgtTd
 				createPicker();
 				
-				// $(".firstChannelSection #modifyFieldDialog").dialog({
+				// $("#modifyFieldDialog").dialog({
 		  //           constrain : true,
 		  //           top : trgtTd.offset().top,
 		  //           left : trgtTd.offset().left,
@@ -856,7 +856,7 @@ firstChannel.resources = []
 		  //           modal: true,
 		  //           shadow : false
 				// });
-				// $(".firstChannelSection #modifyFieldDialog div.elementHolder").empty();
+				// $("#modifyFieldDialog div.elementHolder").empty();
 
 				
 				// imagesArray = [];
@@ -881,9 +881,9 @@ firstChannel.resources = []
 				// 				 	width:` + (parseInt(trgtTd.width()) + 16) + `px">` + 
 				// 				 	imagesOptGroup + videosOptGroup + `</select>`
 
-				// $(".firstChannelSection #modifyFieldDialog div.elementHolder").append(resourcesSelect)
+				// $("#modifyFieldDialog div.elementHolder").append(resourcesSelect)
 				
-				// $(".firstChannelSection select.resourceSelect").multipleSelect({
+				// $("select.resourceSelect").multipleSelect({
 				// 	single: true,
 				// 	filter: true,
 				// 	placeholder : 'Select Resource',
@@ -894,12 +894,12 @@ firstChannel.resources = []
 		  //           }
 				// })
 
-				// $(".firstChannelSection select.resourceSelect").multipleSelect("setSelects", [trgtTdValue]);
+				// $("select.resourceSelect").multipleSelect("setSelects", [trgtTdValue]);
 
-				// $(".firstChannelSection .ms-choice").focus();
+				// $(".ms-choice").focus();
 				
 
-				// $(".firstChannelSection .ms-choice").off('keyup').on('keyup', function(evt){
+				// $(".ms-choice").off('keyup').on('keyup', function(evt){
 				// 	// if(evt.keyCode == 13){
 				// 	// 	commonData.updateTableWithResource();
 				// 	// }else 
@@ -910,15 +910,15 @@ firstChannel.resources = []
 
 
 
-				// $(".firstChannelSection .window-mask").off('click').on('click',function(){
-				// 	resource = $(".firstChannelSection select.resourceSelect").multipleSelect('getSelects').length!=0 ? $(".firstChannelSection select.resourceSelect").multipleSelect('getSelects') : [""] 
+				// $(".window-mask").off('click').on('click',function(){
+				// 	resource = $("select.resourceSelect").multipleSelect('getSelects').length!=0 ? $("select.resourceSelect").multipleSelect('getSelects') : [""] 
 				// 	commonData.updateTableWithResource(firstChannel.visibleTableAPI, firstChannel.visibleTableJQ, '', resource[0], 0);
 					
 				// })
 			}else if(trgtTd.index() == 3){
 				firstChannel.trgtTd = trgtTd;
 				duration = trgtTd.text();
-				$(".firstChannelSection #modifyFieldDialog").dialog({
+				$("#modifyFieldDialog").dialog({
 		            constrain : true,
 		            top : trgtTd.offset().top,
 		            left : trgtTd.offset().left,
@@ -931,17 +931,17 @@ firstChannel.resources = []
 		            modal: true,
 		            shadow : false
 				});
-				$(".firstChannelSection #modifyFieldDialog div.elementHolder").empty();
+				$("#modifyFieldDialog div.elementHolder").empty();
 
 					durationInput = `<input type="text" id="duration" value="`+ duration +`" style="height:` + (parseInt(trgtTd.height())+7) + `px;
 							 	width:` + (parseInt(trgtTd.width()) + 7) + `px">`;
 
-					$(".firstChannelSection #modifyFieldDialog div.elementHolder").append(durationInput)
+					$("#modifyFieldDialog div.elementHolder").append(durationInput)
 					
-					$(".firstChannelSection #duration").focus();
-					$(".firstChannelSection #duration").off('keyup').on('keyup', function(evt){
+					$("#duration").focus();
+					$("#duration").off('keyup').on('keyup', function(evt){
 						if(evt.keyCode == 13){
-							duration = $(".firstChannelSection #duration").val();
+							duration = $("#duration").val();
 							commonData.updateTableWithResource(firstChannel.visibleTableAPI, firstChannel.visibleTableJQ,'','',duration);
 						}else 
 						if(evt.keyCode == 27){
@@ -949,20 +949,20 @@ firstChannel.resources = []
 						}
 					});
 
-					$(".firstChannelSection .window-mask").off('click').on('click',function(){
-						duration = $(".firstChannelSection #duration").val();
+					$(".window-mask").off('click').on('click',function(){
+						duration = $("#duration").val();
 						commonData.updateTableWithResource(firstChannel.visibleTableAPI, firstChannel.visibleTableJQ,'','',duration);
 					})
 
-						$(".firstChannelSection input#duration").off('input propertychange').on('input propertychange', function (xx,yy,zz) {
-					        $(".firstChannelSection #duration").val($(this).val().replace(/[A-Z 0a-z.~!@#$%^&*()\-_+=-?></.,":';/\|\{\}\[\]\\]/g, ''))
+						$("input#duration").off('input propertychange').on('input propertychange', function (xx,yy,zz) {
+					        $("#duration").val($(this).val().replace(/[A-Z 0a-z.~!@#$%^&*()\-_+=-?></.,":';/\|\{\}\[\]\\]/g, ''))
 					    })
 			}
 		}
 	}
 
-	$(".firstChannelSection input").on('input propertychange','#duration', function (xx,yy,zz) {
-        $(".firstChannelSection #duration").val($(this).val().replace(/[A-Z 0a-z.~!@#$%^&*()\-_+=-?></.,":';/\|\{\}\[\]\\]/g, ''))
+	$("input").on('input propertychange','#duration', function (xx,yy,zz) {
+        $("#duration").val($(this).val().replace(/[A-Z 0a-z.~!@#$%^&*()\-_+=-?></.,":';/\|\{\}\[\]\\]/g, ''))
     })
 
 	commonData.updateTableWithResource = function(visibleTableAPI, visibleTableJQ, startTime, resourceName, duration){
@@ -1013,15 +1013,15 @@ firstChannel.resources = []
 		commonData.updateSerialNo(visibleTableAPI);
 
 		visibleTableAPI.page( page ).draw( 'page' );
-		if($(".firstChannelSection #modifyFieldDialog").is(":visible"))
-			$(".firstChannelSection #modifyFieldDialog").dialog('close')
+		if($("#modifyFieldDialog").is(":visible"))
+			$("#modifyFieldDialog").dialog('close')
 		$(visibleTableAPI.rows().nodes().toJQuery()[rowNo]).fadeOut();
 		$(visibleTableAPI.rows().nodes().toJQuery()[rowNo]).fadeIn();
 		visibleTableAPI.keys.enable();
 	}
 
 	function revertTableUpdate(visibleTableAPI, visibleTableJQ){
-		$(".firstChannelSection #modifyFieldDialog").dialog('close')
+		$("#modifyFieldDialog").dialog('close')
 		visibleTableAPI.keys.enable()
 	}
 

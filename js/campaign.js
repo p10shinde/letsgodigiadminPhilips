@@ -1,33 +1,34 @@
 campaign = {}
 var gridster;
 var draggingEvent;
+function loadCampaign(){
 campaign.camps = ['campaign1','campaign2','campaign3']
 // campaign.resources = ["img1.jpg","img2.jpg","vid1.mp4","vid2.mp4","vid3.mp4","vid4.mp4","img3.jpg","img4.jpg"];
-window.onload = function(){
+// window.onload = function(){
 	// XMLHttpRequest.prototype.realSend = XMLHttpRequest.prototype.send;
 	// XMLHttpRequest.prototype.send = function(value) {
 	// 	this.addEventListener('error', function(xx,yy){
 			
 	// 	}, false);
 	// 	this.addEventListener("loadstart", function(xx,yy){
-	//     	$("#loadingDiv").show();
+	//     	$(".campaignSection #loadingDiv").show();
 	//     }, false);
 	//     this.addEventListener("progress", function(xx,yy){
-	//     	$("#loadingDiv").show();
+	//     	$(".campaignSection #loadingDiv").show();
 	//     	loadedPer = xx.loaded/xx.total*100
-	//     	if(isNaN(loadedPer)) $(".ldBar")[0].ldBar.set(0)
-	//     	else $(".ldBar")[0].ldBar.set(loadedPer)
+	//     	if(isNaN(loadedPer)) $(".campaignSection .ldBar")[0].ldBar.set(0)
+	//     	else $(".campaignSection .ldBar")[0].ldBar.set(loadedPer)
 	//     }, false);
 	//     this.addEventListener("loadend", function(xx,yy){
 	//         setTimeout(function(){
-	//         	$("#loadingDiv").hide();
-	//         	$(".ldBar")[0].ldBar.set(0)
+	//         	$(".campaignSection #loadingDiv").hide();
+	//         	$(".campaignSection .ldBar")[0].ldBar.set(0)
 	//         },1300)
 	//     }, false);
 	//     this.realSend(value);
 	// };
 	// initialize tooltips
-	$('[data-toggle="tooltip"]').tooltip();
+	$('.campaignSection [data-toggle="tooltip"]').tooltip();
 
 	// function getAllResources(groupName){
 	// 	$.ajax({
@@ -51,49 +52,49 @@ window.onload = function(){
 	// }
 	
 
-	$("input[name='displayTypeRadio']").on('change',function(){
+	$(".campaignSection input[name='CampaignDisplayTypeRadio']").on('change',function(){
 		console.log(this.value)
 		if(this.value == "Groups"){
-			tabIndex = $("#campaignTabs").tabs('getTabIndex',$("#campaignTabs").tabs('getSelected'))
-			groupName = $("#groupSelectFilter").multipleSelect('getSelects')[0]
+			tabIndex = $(".campaignSection #campaignTabs").tabs('getTabIndex',$(".campaignSection #campaignTabs").tabs('getSelected'))
+			groupName = $(".campaignSection #groupSelectFilter").multipleSelect('getSelects')[0]
 			if(tabIndex == 0){
 				loadGroupsCampaignGeneralTable(groupName)
 				campaign.visibleTableAPI = campaign.groupsCampaignGeneralTableAPI;
 		    	campaign.visibleTableJQ = campaign.groupsCampaignGeneralTableJQ;
-		    	$(".clustersCampaignGeneralTableDiv").hide();
-				$(".groupsCampaignGeneralTableDiv").show();
+		    	$(".campaignSection .clustersCampaignGeneralTableDiv").hide();
+				$(".campaignSection .groupsCampaignGeneralTableDiv").show();
 		    }else{
 		    	loadGroupsCampaignPlannedTable(groupName)
 				campaign.visibleTableAPI = campaign.groupsCampaignPlannedTableAPI;
 		    	campaign.visibleTableJQ = campaign.groupsCampaignPlannedTableJQ;
-		    	$(".clustersCampaignPlannedTableDiv").hide();
-				$(".groupsCampaignPlannedTableDiv").show();
+		    	$(".campaignSection .clustersCampaignPlannedTableDiv").hide();
+				$(".campaignSection .groupsCampaignPlannedTableDiv").show();
 		    }
 
-			$("#clusterSelectFilterDiv").parent().hide();
-			$("#groupSelectFilterDiv").parent().show();
+			$(".campaignSection #clusterSelectFilterDiv").parent().hide();
+			$(".campaignSection #groupSelectFilterDiv").parent().show();
 			
 		}
 		// else if(this.value == "Clusters"){
-		// 	tabIndex = $("#campaignTabs").tabs('getTabIndex',$("#campaignTabs").tabs('getSelected'))
-		// 	clusterName = $("#clusterSelectFilter").multipleSelect('getSelects')[0]
+		// 	tabIndex = $(".campaignSection #campaignTabs").tabs('getTabIndex',$(".campaignSection #campaignTabs").tabs('getSelected'))
+		// 	clusterName = $(".campaignSection #clusterSelectFilter").multipleSelect('getSelects')[0]
 		// 	if(tabIndex == 0){
 		// 		loadClustersCampaignGeneralTable(clusterName)
 		// 		campaign.visibleTableAPI = campaign.clustersCampaignGeneralTableAPI;
 		//     	campaign.visibleTableJQ = campaign.clustersCampaignGeneralTableJQ;
-		//     	$(".groupsCampaignGeneralTableDiv").hide();
-		// 		$(".clustersCampaignGeneralTableDiv").show();
+		//     	$(".campaignSection .groupsCampaignGeneralTableDiv").hide();
+		// 		$(".campaignSection .clustersCampaignGeneralTableDiv").show();
 		//     }else{
 		//     	loadClustersCampaignPlannedTable(clusterName)
 		// 		campaign.visibleTableAPI = campaign.clustersCampaignPlannedTableAPI;
 		//     	campaign.visibleTableJQ = campaign.clustersCampaignPlannedTableJQ;
-		//     	$(".groupsCampaignPlannedTableDiv").hide();
-		// 		$(".clustersCampaignPlannedTableDiv").show();
+		//     	$(".campaignSection .groupsCampaignPlannedTableDiv").hide();
+		// 		$(".campaignSection .clustersCampaignPlannedTableDiv").show();
 		//     }
 
 
-		// 	$("#groupSelectFilterDiv").parent().hide();
-		// 	$("#clusterSelectFilterDiv").parent().show();
+		// 	$(".campaignSection #groupSelectFilterDiv").parent().hide();
+		// 	$(".campaignSection #clusterSelectFilterDiv").parent().show();
 		// }
 	});
 
@@ -114,17 +115,17 @@ window.onload = function(){
 						$.each(groups, function(index,value){
 							options += `<option value="`+value+`">`+value+`</option>`
 						});
-						$("#groupSelectFilter").empty();
-						$("#groupSelectFilter").append(options);
-						$("#groupSelectFilter").attr("disabled",true);
+						$(".campaignSection #groupSelectFilter").empty();
+						$(".campaignSection #groupSelectFilter").append(options);
+						$(".campaignSection #groupSelectFilter").attr("disabled",true);
 						
-						$("#groupSelectFilter").multipleSelect({
+						$(".campaignSection #groupSelectFilter").multipleSelect({
 							placeholder: "Select Group",
 							filter: true,
 							single : true,
 							allSelected : false,
 							onClick : function(view){
-								tabIndex = $("#campaignTabs").tabs('getTabIndex',$("#campaignTabs").tabs('getSelected'))
+								tabIndex = $(".campaignSection #campaignTabs").tabs('getTabIndex',$(".campaignSection #campaignTabs").tabs('getSelected'))
 								groupName = view.value;
 								if(tabIndex == 0){
 									loadGroupsCampaignGeneralTable(groupName)
@@ -149,16 +150,16 @@ window.onload = function(){
 		}else{
 			var options = ""
 			options += `<option value="`+clientName+`">`+clientName+`</option>`
-			$("#groupSelectFilter").empty();
-			$("#groupSelectFilter").append(options);
-			$("#groupSelectFilter").attr('disabled',true);
-			$("#groupSelectFilter").multipleSelect({
+			$(".campaignSection #groupSelectFilter").empty();
+			$(".campaignSection #groupSelectFilter").append(options);
+			$(".campaignSection #groupSelectFilter").attr('disabled',true);
+			$(".campaignSection #groupSelectFilter").multipleSelect({
 					placeholder: "Select Group",
 					filter: true,
 					single : true,
 					allSelected : false,
 					onClick : function(view){
-						tabIndex = $("#campaignTabs").tabs('getTabIndex',$("#campaignTabs").tabs('getSelected'))
+						tabIndex = $(".campaignSection #campaignTabs").tabs('getTabIndex',$(".campaignSection #campaignTabs").tabs('getSelected'))
 						groupName = view.value;
 						if(tabIndex == 0){
 							loadGroupsCampaignGeneralTable(groupName)
@@ -189,15 +190,15 @@ window.onload = function(){
 	// 				$.each(clusters, function(index,value){
 	// 					options += `<option value="`+value+`">`+value+`</option>`
 	// 				});
-	// 				$("#clusterSelectFilter").empty();
-	// 				$("#clusterSelectFilter").append(options);
+	// 				$(".campaignSection #clusterSelectFilter").empty();
+	// 				$(".campaignSection #clusterSelectFilter").append(options);
 					
-	// 				$("#clusterSelectFilter").multipleSelect({
+	// 				$(".campaignSection #clusterSelectFilter").multipleSelect({
 	// 					placeholder: "Select Cluster",
 	// 					filter: true,
 	// 					single : true,
 	// 					onClick : function(view){
-	// 						tabIndex = $("#campaignTabs").tabs('getTabIndex',$("#campaignTabs").tabs('getSelected'))
+	// 						tabIndex = $(".campaignSection #campaignTabs").tabs('getTabIndex',$(".campaignSection #campaignTabs").tabs('getSelected'))
 	// 						groupName = view.value;
 	// 						if(tabIndex == 0){
 	// 							loadClustersCampaignGeneralTable(groupName)
@@ -223,7 +224,7 @@ window.onload = function(){
 
 	getAllGroups();
 	// getAllClusters();
-	groupName = $("#groupSelectFilter").multipleSelect('getSelects')[0];
+	groupName = $(".campaignSection #groupSelectFilter").multipleSelect('getSelects')[0];
 	loadGroupsCampaignPlannedTable(groupName)
 
 
@@ -233,7 +234,7 @@ window.onload = function(){
 	// 		campaign.groupsCampaignGeneralTableJQ.fnDestroy();
 	// 	}
 
-	// 	campaign.groupsCampaignGeneralTableAPI = $('#groupsCampaignGeneralTable').DataTable({
+	// 	campaign.groupsCampaignGeneralTableAPI = $('.campaignSection #groupsCampaignGeneralTable').DataTable({
 	//         "ajax" : {
 	// 			url : commonData.apiurl + "shared/ch1_g/" + "NO" + "/" + groupName,
 	// 			// url : "data/ch1_genGrp.json",
@@ -286,10 +287,10 @@ window.onload = function(){
 	//             // { "data": "updatedAt" }
 	//     	],
 	//     	drawCallback : function(settings){
-	//     		// $("#campaignGeneralTable tbody td:nth-child(1)").prepend('<div class="reorderHandler">::</div>')
+	//     		// $(".campaignSection #campaignGeneralTable tbody td:nth-child(1)").prepend('<div class="reorderHandler">::</div>')
 	//     	}
 	//     });
-	//     campaign.groupsCampaignGeneralTableJQ = $('#groupsCampaignGeneralTable').dataTable();
+	//     campaign.groupsCampaignGeneralTableJQ = $('.campaignSection #groupsCampaignGeneralTable').dataTable();
 
 	//     // campaign.visibleTableAPI = campaign.groupsCampaignGeneralTableAPI;
  //    	// campaign.visibleTableJQ = campaign.groupsCampaignGeneralTableJQ;
@@ -301,7 +302,7 @@ window.onload = function(){
 	// 		campaign.clustersCampaignGeneralTableJQ.fnDestroy();
 	// 	}
 
-	// 	campaign.clustersCampaignGeneralTableAPI = $('#clustersCampaignGeneralTable').DataTable({
+	// 	campaign.clustersCampaignGeneralTableAPI = $('.campaignSection #clustersCampaignGeneralTable').DataTable({
 	//         "ajax" : {
 	// 			url : commonData.apiurl + "ch1_genDev/" + clientName + "/" + clusterName,
 	// 			// url : "data/ch1_genCluster.json",
@@ -350,10 +351,10 @@ window.onload = function(){
 	//             // { "data": "updatedAt" }
 	//     	],
 	//     	drawCallback : function(settings){
-	//     		// $("#campaignGeneralTable tbody td:nth-child(1)").prepend('<div class="reorderHandler">::</div>')
+	//     		// $(".campaignSection #campaignGeneralTable tbody td:nth-child(1)").prepend('<div class="reorderHandler">::</div>')
 	//     	}
 	//     });
-	//     campaign.clustersCampaignGeneralTableJQ = $('#clustersCampaignGeneralTable').dataTable();
+	//     campaign.clustersCampaignGeneralTableJQ = $('.campaignSection #clustersCampaignGeneralTable').dataTable();
 
 	//     // campaign.visibleTableAPI = campaign.clustersCampaignGeneralTableAPI;
  //    	// campaign.visibleTableJQ = campaign.clustersCampaignGeneralTableJQ;
@@ -365,7 +366,7 @@ window.onload = function(){
 			campaign.groupsCampaignPlannedTableJQ.fnDestroy();
 		}
 
-	    campaign.groupsCampaignPlannedTableAPI = $('#groupsCampaignPlannedTable').DataTable({
+	    campaign.groupsCampaignPlannedTableAPI = $('.campaignSection #groupsCampaignPlannedTable').DataTable({
 	        "ajax" : {
 				// url : "/campData.json",
 				url : commonData.apiurl + "planned/campaign/" + "NO" + "/" + groupName,
@@ -476,7 +477,7 @@ window.onload = function(){
 	    		// }
 	    	]	    	
 	    });
-	    campaign.groupsCampaignPlannedTableJQ = $('#groupsCampaignPlannedTable').dataTable();
+	    campaign.groupsCampaignPlannedTableJQ = $('.campaignSection #groupsCampaignPlannedTable').dataTable();
 
 	}
 
@@ -486,7 +487,7 @@ window.onload = function(){
 	// 		campaign.clustersCampaignPlannedTableJQ.fnDestroy();
 	// 	}
 
-	//     campaign.clustersCampaignPlannedTableAPI = $('#clustersCampaignPlannedTable').DataTable({
+	//     campaign.clustersCampaignPlannedTableAPI = $('.campaignSection #clustersCampaignPlannedTable').DataTable({
 	//         "ajax" : {
 	// 			// url : commonData.apiurl + "ch1_planDev/" + clientName + "/" + clusterName,
 	// 			url : "data/ch1_planDev.json",
@@ -595,7 +596,7 @@ window.onload = function(){
 	//     		// }
 	//     	]
 	//     });
-	//     campaign.clustersCampaignPlannedTableJQ = $('#clustersCampaignPlannedTable').dataTable();
+	//     campaign.clustersCampaignPlannedTableJQ = $('.campaignSection #clustersCampaignPlannedTable').dataTable();
 
 	//     // campaign.visibleTableAPI = campaign.clustersCampaignPlannedTableAPI;
  //    	// campaign.visibleTableJQ = campaign.clustersCampaignPlannedTableJQ;
@@ -603,36 +604,36 @@ window.onload = function(){
 
     campaign.visibleTableAPI = campaign.groupsCampaignPlannedTableAPI;
 	campaign.visibleTableJQ = campaign.groupsCampaignPlannedTableJQ;
-    $("#campaignTabs").tabs({
+    $(".campaignSection #campaignTabs").tabs({
     	onSelect : function(title, index){
     		if(index == 0){
     			// if groups is checked
-    			if($("input[name='displayTypeRadio']")[0].checked){
-    				groupName = $("#groupSelectFilter").multipleSelect('getSelects')[0];
-    				$(".groupsCampaignGeneralTableDiv").show();
-					$(".clustersCampaignGeneralTableDiv").hide();
+    			if($(".campaignSection input[name='CampaignDisplayTypeRadio']")[0].checked){
+    				groupName = $(".campaignSection #groupSelectFilter").multipleSelect('getSelects')[0];
+    				$(".campaignSection .groupsCampaignGeneralTableDiv").show();
+					$(".campaignSection .clustersCampaignGeneralTableDiv").hide();
 					loadGroupsCampaignGeneralTable(groupName)
 
 			    	campaign.visibleTableAPI = campaign.groupsCampaignGeneralTableAPI;
 			    	campaign.visibleTableJQ = campaign.groupsCampaignGeneralTableJQ;
     			}else{
-    	// 			clusterName = $("#clusterSelectFilter").multipleSelect('getSelects')[0];
-    	// 			$(".groupsCampaignGeneralTableDiv").hide();
-					// $(".clustersCampaignGeneralTableDiv").show();
+    	// 			clusterName = $(".campaignSection #clusterSelectFilter").multipleSelect('getSelects')[0];
+    	// 			$(".campaignSection .groupsCampaignGeneralTableDiv").hide();
+					// $(".campaignSection .clustersCampaignGeneralTableDiv").show();
 					// loadClustersCampaignGeneralTable(clusterName)
 
     	// 			campaign.visibleTableAPI = campaign.clustersCampaignGeneralTableAPI;
 			  //   	campaign.visibleTableJQ = campaign.clustersCampaignGeneralTableJQ;
     			}
-		    	// $("#clearSelectedslotsButton").hide()
-		    	// $("#addNewResourceButton").show()
-				// $("#deleteSelectedresourcesButton").show();
+		    	// $(".campaignSection #clearSelectedslotsButton").hide()
+		    	// $(".campaignSection #addNewResourceButton").show()
+				// $(".campaignSection #deleteSelectedresourcesButton").show();
     		}else{
     			// if groups is checked
-    			if($("input[name='displayTypeRadio']")[0].checked){
-			    	groupName = $("#groupSelectFilter").multipleSelect('getSelects')[0];
-			    	$(".groupsCampaignPlannedTableDiv").show();
-					$(".clustersCampaignPlannedTableDiv").hide();
+    			if($(".campaignSection input[name='CampaignDisplayTypeRadio']")[0].checked){
+			    	groupName = $(".campaignSection #groupSelectFilter").multipleSelect('getSelects')[0];
+			    	$(".campaignSection .groupsCampaignPlannedTableDiv").show();
+					$(".campaignSection .clustersCampaignPlannedTableDiv").hide();
 					loadGroupsCampaignPlannedTable(groupName)
 
 			    	campaign.visibleTableAPI = campaign.groupsCampaignPlannedTableAPI;
@@ -640,68 +641,68 @@ window.onload = function(){
 
 
     			}else{
-    				clusterName = $("#clusterSelectFilter").multipleSelect('getSelects')[0];
-    				$(".groupsCampaignPlannedTableDiv").hide();
-					$(".clustersCampaignPlannedTableDiv").show();
+    				clusterName = $(".campaignSection #clusterSelectFilter").multipleSelect('getSelects')[0];
+    				$(".campaignSection .groupsCampaignPlannedTableDiv").hide();
+					$(".campaignSection .clustersCampaignPlannedTableDiv").show();
 					loadClustersCampaignPlannedTable(clusterName)
 
     				campaign.visibleTableAPI = campaign.clustersCampaignPlannedTableAPI;
 			    	campaign.visibleTableJQ = campaign.clustersCampaignPlannedTableJQ;
     			}
 
-				// $("#deleteSelectedresourcesButton").hide()
-		    	// $("#addNewResourceButton").hide()
-				// $("#clearSelectedslotsButton").show()
+				// $(".campaignSection #deleteSelectedresourcesButton").hide()
+		    	// $(".campaignSection #addNewResourceButton").hide()
+				// $(".campaignSection #clearSelectedslotsButton").show()
     		}
     	}
     })
 
- //    $('#groupsCampaignGeneralTable tbody').on('click','td:nth-child(3)',function(evt){
+ //    $('.campaignSection #groupsCampaignGeneralTable tbody').on('click','td:nth-child(3)',function(evt){
 	// 	openFieldEditorDialog(campaign.visibleTableAPI, campaign.visibleTableJQ, evt);
 	// });
 
-	$('#groupsCampaignPlannedTable tbody').on('click','td:nth-child(4)',function(evt){
+	$('.campaignSection #groupsCampaignPlannedTable tbody').on('click','td:nth-child(4)',function(evt){
 		openFieldEditorDialog(campaign.visibleTableAPI, campaign.visibleTableJQ, evt);
 	});
 
-	$('#groupsCampaignPlannedTable tbody').on('click','td:nth-child(3)',function(evt){
+	$('.campaignSection #groupsCampaignPlannedTable tbody').on('click','td:nth-child(3)',function(evt){
 		openFieldEditorDialog(campaign.visibleTableAPI, campaign.visibleTableJQ, evt);
 	});
 
-	$('#groupsCampaignPlannedTable tbody').on('click','td:nth-child(5)',function(evt){
+	$('.campaignSection #groupsCampaignPlannedTable tbody').on('click','td:nth-child(5)',function(evt){
 		openFieldEditorDialog(campaign.visibleTableAPI, campaign.visibleTableJQ, evt);
 	});
 
-	$('#createCampaignButtonDiv button').on('click',function(evt){
+	$('.campaignSection #createCampaignButtonDiv').on('click','button',function(evt){
 		openCreateCampaignDialog(campaign.visibleTableAPI, campaign.visibleTableJQ, evt);
 	});
 
 
 
-	// $('#groupsCampaignGeneralTable tbody').on('click','td:nth-child(4)',function(evt){
+	// $('.campaignSection #groupsCampaignGeneralTable tbody').on('click','td:nth-child(4)',function(evt){
 	// 	openFieldEditorDialog(campaign.visibleTableAPI, campaign.visibleTableJQ, evt);
 	// });
 
 
-	// $('#clustersCampaignGeneralTable tbody').on('click','td:nth-child(4)',function(evt){
+	// $('.campaignSection #clustersCampaignGeneralTable tbody').on('click','td:nth-child(4)',function(evt){
 	// 	openFieldEditorDialog(campaign.visibleTableAPI, campaign.visibleTableJQ, evt);
 	// });
 
-	// $('#clustersCampaignPlannedTable tbody').on('click','td:nth-child(4)',function(evt){
+	// $('.campaignSection #clustersCampaignPlannedTable tbody').on('click','td:nth-child(4)',function(evt){
 	// 	openFieldEditorDialog(campaign.visibleTableAPI, campaign.visibleTableJQ, evt);
 	// });
 
-	// $('#clustersCampaignPlannedTable tbody').on('click','td:nth-child(5)',function(evt){
+	// $('.campaignSection #clustersCampaignPlannedTable tbody').on('click','td:nth-child(5)',function(evt){
 	// 	openFieldEditorDialog(campaign.visibleTableAPI, campaign.visibleTableJQ, evt);
 	// });
 
-	// $('#clustersCampaignGeneralTable tbody').on('click','td:nth-child(5)',function(evt){
+	// $('.campaignSection #clustersCampaignGeneralTable tbody').on('click','td:nth-child(5)',function(evt){
 	// 	openFieldEditorDialog(campaign.visibleTableAPI, campaign.visibleTableJQ, evt);
 	// });
 
-	$("#deleteSelectedresourcesButton").off('click').on('click',function(evt){
+	$(".campaignSection #deleteSelectedresourcesButton").off('click').on('click',function(evt){
 		if(confirm("Are you you want to delete selected entries permanently and update?")){
-			$("#loadingDiv").show();
+			$(".campaignSection #loadingDiv").show();
 			page = campaign.visibleTableAPI.page.info().page;
 			checkboxTD = campaign.visibleTableAPI.rows().nodes().toJQuery();
 			deleteRowsIndexes = []
@@ -720,11 +721,11 @@ window.onload = function(){
 			})
 			commonData.updateSerialNo(campaign.visibleTableAPI);
 			campaign.visibleTableAPI.page( page ).draw( 'page' );
-			$("#saveResourcesButton").click();
+			$(".campaignSection #saveResourcesButton").click();
 		}
 	});
 
-	$("#clearSelectedslotsButton").off('click').on('click',function(evt){
+	$(".campaignSection #clearSelectedslotsButton").off('click').on('click',function(evt){
 		page = campaign.visibleTableAPI.page.info().page;
 		checkboxTD = campaign.visibleTableAPI.rows().nodes().toJQuery();
 		clearRowsIndexes = []
@@ -752,37 +753,37 @@ window.onload = function(){
 	});
 
 
-	$("#groupsCampaignGeneralTable").off('keyup').on('keyup', function(event){
+	$(".campaignSection #groupsCampaignGeneralTable").off('keyup').on('keyup', function(event){
 		if(event.keyCode == 32){
-			trgt = $("#groupsCampaignGeneralTable tbody td.focus").closest('tr').find('.tableCheckbox input')
+			trgt = $(".campaignSection #groupsCampaignGeneralTable tbody td.focus").closest('tr').find('.tableCheckbox input')
 			trgt.click();
 		}
 	});
 
-	// $("#clustersCampaignGeneralTable").off('keyup').on('keyup', function(event){
+	// $(".campaignSection #clustersCampaignGeneralTable").off('keyup').on('keyup', function(event){
 	// 	if(event.keyCode == 32){
-	// 		trgt = $("#clustersCampaignGeneralTable tbody td.focus").closest('tr').find('.tableCheckbox input')
+	// 		trgt = $(".campaignSection #clustersCampaignGeneralTable tbody td.focus").closest('tr').find('.tableCheckbox input')
 	// 		trgt.click();
 	// 	}
 	// });
 
-	$("#groupsCampaignPlannedTable").off('keyup').on('keyup', function(event){
+	$(".campaignSection #groupsCampaignPlannedTable").off('keyup').on('keyup', function(event){
 		if(event.keyCode == 32){
-			trgt = $("#groupsCampaignPlannedTable tbody td.focus").closest('tr').find('.tableCheckbox input')
+			trgt = $(".campaignSection #groupsCampaignPlannedTable tbody td.focus").closest('tr').find('.tableCheckbox input')
 			trgt.click();
 		}
 	});
 
-	// $("#clustersCampaignPlannedTable").off('keyup').on('keyup', function(event){
+	// $(".campaignSection #clustersCampaignPlannedTable").off('keyup').on('keyup', function(event){
 	// 	if(event.keyCode == 32){
-	// 		trgt = $("#clustersCampaignPlannedTable tbody td.focus").closest('tr').find('.tableCheckbox input')
+	// 		trgt = $(".campaignSection #clustersCampaignPlannedTable tbody td.focus").closest('tr').find('.tableCheckbox input')
 	// 		trgt.click();
 	// 	}
 	// });
 
 
 	// this will clear the planned tab;le
-	// $('table tbody').on('click','td:nth-child(6)',function(evt){
+	// $('.campaignSection table tbody').on('click','td:nth-child(6)',function(evt){
  //    	deleteOrEditGroup(campaign.visibleTableAPI, campaign.visibleTableJQ, evt);
 	// });
 	
@@ -955,7 +956,7 @@ window.onload = function(){
 				//content
 				masterDiv += fillMasterDiv(campaignInfo);
 
-				masterDiv += `<button id="saveCampaign" class="btn btn-success" style="right:25px;margin-top:20px;position:absolute;">Save</button>`;
+				masterDiv += `<button id="saveCampaign" class="btn btn-success">Save</button>`;
 
 				$('#addNewCampaignDialog').dialog({
 				    title: 'Select Campaign',
@@ -1265,8 +1266,8 @@ window.onload = function(){
 		if($("#modifyFieldDialog").is(":visible"))
 			$("#modifyFieldDialog").dialog('close')
 
-		if($("#addNewCampaignDialog").is(":visible"))
-			$("#addNewCampaignDialog").dialog('close')
+		if($(".campaignSection #addNewCampaignDialog").is(":visible"))
+			$(".campaignSection #addNewCampaignDialog").dialog('close')
 		$(visibleTableAPI.rows().nodes().toJQuery()[rowNo]).fadeOut();
 		$(visibleTableAPI.rows().nodes().toJQuery()[rowNo]).fadeIn();
 		visibleTableAPI.keys.enable();
@@ -1277,7 +1278,7 @@ window.onload = function(){
 		visibleTableAPI.keys.enable()
 	}
 
-	$("#addNewResourceButton").off('click').on('click',function(evt){
+	$(".campaignSection #addNewResourceButton").off('click').on('click',function(evt){
 		recordsTotal = campaign.visibleTableAPI.page.info().recordsTotal;
 
 		// if(!campaign.resources || campaign.resources.length == 0){
@@ -1292,18 +1293,18 @@ window.onload = function(){
 			dt = {};
 			if(campaign.visibleTableJQ.attr('id') == 'groupsCampaignGeneralTable'){
 				// groupOrClusterKey = "groupName";
-		    	// groupOrCluster = $("#groupSelectFilter").multipleSelect('getSelects')[0];
+		    	// groupOrCluster = $(".campaignSection #groupSelectFilter").multipleSelect('getSelects')[0];
 		    	dt = {sno :  recordsTotal + 1,campName : "",  duration : 2};
 			}
 			// if(campaign.visibleTableJQ.attr('id') == 'clustersCampaignGeneralTable'){
 			// 	groupOrClusterKey = "clusterName";
-			// 	groupOrCluster = $("#clusterSelectFilter").multipleSelect('getSelects')[0];
+			// 	groupOrCluster = $(".campaignSection #clusterSelectFilter").multipleSelect('getSelects')[0];
 			// 	dt = {sno :  recordsTotal + 1,resName : "",  duration : 5};
 			// }
 
 			if(campaign.visibleTableJQ.attr('id') == 'groupsCampaignPlannedTable'){
 				// groupOrClusterKey = "groupName";
-				// groupOrCluster = $("#groupSelectFilter").multipleSelect('getSelects')[0];
+				// groupOrCluster = $(".campaignSection #groupSelectFilter").multipleSelect('getSelects')[0];
 				remainder = new moment(new Date()).minutes()%5
 				startTime = new moment(new Date()).subtract(remainder,'minutes').add('minutes',5).format('DD-MM-YYYY_hh:mm_A')
 				// startTime.add('minutes',20);
@@ -1311,7 +1312,7 @@ window.onload = function(){
 			}
 			// if(campaign.visibleTableJQ.attr('id') == 'clustersCampaignPlannedTable'){
 			// 	groupOrClusterKey = "clusterName";
-			// 	groupOrCluster = $("#clusterSelectFilter").multipleSelect('getSelects')[0];
+			// 	groupOrCluster = $(".campaignSection #clusterSelectFilter").multipleSelect('getSelects')[0];
 			// 	remainder = new moment(new Date()).minutes()%20
 			// 	startTime = new moment(new Date()).subtract(remainder,'minutes').format('DD-MM-YYYY HH:mm')
 			// 	dt = {sno :  recordsTotal + 1,resName : "",  time : startTime};
@@ -1331,8 +1332,8 @@ window.onload = function(){
 	})
 
 
-	$("#saveResourcesButton").off('click').on('click',function(evt){
-		$("#loadingDiv").show();
+	$(".campaignSection #saveResourcesButton").off('click').on('click',function(evt){
+		$(".campaignSection #loadingDiv").show();
 		campaignDataArray = campaign.visibleTableJQ.fnGetData();
 		// postData = {}
 		// groupOrClusterNameFromTable = campaignDataArray[0].groupName;
@@ -1347,20 +1348,20 @@ window.onload = function(){
 			return value.campName != ""
 		})
 		if(campaign.visibleTableJQ.attr('id') == 'groupsCampaignGeneralTable'){
-			groupName = $("#groupSelectFilter").multipleSelect('getSelects')[0];
+			groupName = $(".campaignSection #groupSelectFilter").multipleSelect('getSelects')[0];
 			url = commonData.apiurl + 'shared/campaign' + "/" + "NO" + "/" + groupName
 		}
 		// if(campaign.visibleTableJQ.attr('id') == 'clustersCampaignGeneralTable'){
-		// 	clusterName = $("#clusterSelectFilter").multipleSelect('getSelects')[0];
+		// 	clusterName = $(".campaignSection #clusterSelectFilter").multipleSelect('getSelects')[0];
 		// 	url = commonData.apiurl + 'ch1_genDev' + "/" + clientName + "/" + clusterName
 		// }
 
 		if(campaign.visibleTableJQ.attr('id') == 'groupsCampaignPlannedTable'){
-			groupName = $("#groupSelectFilter").multipleSelect('getSelects')[0];
+			groupName = $(".campaignSection #groupSelectFilter").multipleSelect('getSelects')[0];
 			url = commonData.apiurl + 'planned/campaign' + "/" + "NO" + "/" + groupName
 		}
 		// if(campaign.visibleTableJQ.attr('id') == 'clustersCampaignPlannedTable'){
-		// 	clusterName = $("#clusterSelectFilter").multipleSelect('getSelects')[0];
+		// 	clusterName = $(".campaignSection #clusterSelectFilter").multipleSelect('getSelects')[0];
 		// 	url = commonData.apiurl + 'ch1_planDev' + "/" + clientName + "/" + clusterName
 		// }
 
@@ -1391,7 +1392,7 @@ window.onload = function(){
 			  	// 	}
 			  	// })
 			  	// campaigns.groupsCampaignsTableAPI.ajax.reload(function(){
-					// $('#addNewResourceDialog').dialog('close');
+					// $('.campaignSection #addNewResourceDialog').dialog('close');
 				  	// recordsTotal = resources.resourcesTableAPI.page.info().recordsTotal;
 				  	// resources.resourcesTableAPI.page( 'first' ).draw( 'page' );
 				  	// $(clients.clientsTableAPI.rows().nodes().toJQuery()[recordsTotal]).fadeOut();
@@ -1434,7 +1435,7 @@ window.onload = function(){
 
 function openCreateCampaignDialog(visibleTableAPI, visibleTableJQ, evt){
 
-		$('#createCampaignDialog').dialog({
+		$('.campaignSection #createCampaignDialog').dialog({
 		    title: 'Create New Campaign',
 		    // width: 400,
 		    // height: 300,
@@ -1520,15 +1521,16 @@ function openCreateCampaignDialog(visibleTableAPI, visibleTableJQ, evt){
 				        </div>`,
 		    modal: true,
 		    onClose : function(){
-		    	users.usersTableAPI.keys.enable();
+		    	campaign.visibleTableAPI.keys.enable();
 		    }
 		});
 			var resizing_target;
-	      $(".gridsterHolder").off('click').on('click', '.gridster', function(event){
-	      		$(event.target).closest('div.campaignItem').addClass("selected");
-	      		resizing_target = $(event.target);
+	      // $(".gridsterHolder").off('click').on('click', '.gridster', function(event){
+	      // 		$(event.target).find('div.campaignItem').removeClass("selected");
+	      // 		$(event.target).closest('div.campaignItem').addClass("selected");
+	      // 		resizing_target = $(event.target);
 	      	
-	      })
+	      // })
 
 
 	      $(".gridsterItems ul li").off('click').on('click', function(evt){

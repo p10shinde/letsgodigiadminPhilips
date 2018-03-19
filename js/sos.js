@@ -1,51 +1,52 @@
 sos = {};
-window.onload = function(){
+function loadSOS(){
+// window.onload = function(){
 	// XMLHttpRequest.prototype.realSend = XMLHttpRequest.prototype.send;
 	// XMLHttpRequest.prototype.send = function(value) {
 	// 	this.addEventListener('error', function(xx,yy){
 			
 	// 	}, false);
 	// 	this.addEventListener("loadstart", function(xx,yy){
-	//     	$("#loadingDiv").show();
+	//     	$(".sosSection #loadingDiv").show();
 	//     }, false);
 	//     this.addEventListener("progress", function(xx,yy){
 	//     	loadedPer = xx.loaded/xx.total*100
-	//     	if(isNaN(loadedPer)) $(".ldBar")[0].ldBar.set(0)
-	//     	else $(".ldBar")[0].ldBar.set(loadedPer)
+	//     	if(isNaN(loadedPer)) $(".sosSection .ldBar")[0].ldBar.set(0)
+	//     	else $(".sosSection .ldBar")[0].ldBar.set(loadedPer)
 	//     }, false);
 	//     this.addEventListener("loadend", function(xx,yy){
 	//         setTimeout(function(){
-	//         	$("#loadingDiv").hide();
-	//         	$(".ldBar")[0].ldBar.set(0)
+	//         	$(".sosSection #loadingDiv").hide();
+	//         	$(".sosSection .ldBar")[0].ldBar.set(0)
 	//         },1300)
 	//     }, false);
 	//     this.realSend(value);
 	// };
 	// initialize tooltips
-	$('[data-toggle="tooltip"]').tooltip();
+	$('.sosSection [data-toggle="tooltip"]').tooltip();
 
-	$("input[name='displayTypeRadio']").on('change',function(){
+	$("inpu.sosSection t[name='SosDisplayTypeRadio']").on('change',function(){
 		console.log(this.value)
 		if(this.value == "Groups"){
-			groupName = $("#groupSelectFilter").multipleSelect('getSelects')[0]
+			groupName = $(".sosSection #groupSelectFilter").multipleSelect('getSelects')[0]
 			loadGroupsSosTable(groupName)
 			sos.visibleTableAPI = sos.groupsSosTableAPI;
 	    	sos.visibleTableJQ = sos.groupsSosTableJQ;
-			$("#clusterSelectFilterDiv").parent().hide();
-			$("#groupSelectFilterDiv").parent().show();
-			$("#clustersSosTableDiv").hide();
-			$("#groupsSosTableDiv").show();
+			$(".sosSection #clusterSelectFilterDiv").parent().hide();
+			$(".sosSection #groupSelectFilterDiv").parent().show();
+			$(".sosSection #clustersSosTableDiv").hide();
+			$(".sosSection #groupsSosTableDiv").show();
 
 		}else if(this.value == "Clusters"){
-			clusterName = $("#clusterSelectFilter").multipleSelect('getSelects')[0]
+			clusterName = $(".sosSection #clusterSelectFilter").multipleSelect('getSelects')[0]
 			loadClustersSosTable(clusterName)
 			sos.visibleTableAPI = sos.clustersSosTableAPI;
 	    	sos.visibleTableJQ = sos.clustersSosTableJQ;
 
-			$("#groupSelectFilterDiv").parent().hide();
-			$("#clusterSelectFilterDiv").parent().show();
-			$("#groupsSosTableDiv").hide();
-			$("#clustersSosTableDiv").show();
+			$(".sosSection #groupSelectFilterDiv").parent().hide();
+			$(".sosSection #clusterSelectFilterDiv").parent().show();
+			$(".sosSection #groupsSosTableDiv").hide();
+			$(".sosSection #clustersSosTableDiv").show();
 
 		}
 	});
@@ -65,11 +66,11 @@ window.onload = function(){
 						$.each(groups, function(index,value){
 							options += `<option value="`+value+`">`+value+`</option>`
 						});
-						$("#groupSelectFilter").empty();
-						$("#groupSelectFilter").append(options);
-						$("#groupSelectFilter").attr("disabled",true);
+						$(".sosSection #groupSelectFilter").empty();
+						$(".sosSection #groupSelectFilter").append(options);
+						$(".sosSection #groupSelectFilter").attr("disabled",true);
 						
-						$("#groupSelectFilter").multipleSelect({
+						$(".sosSection #groupSelectFilter").multipleSelect({
 							placeholder: "Select Group",
 							filter: true,
 							single : true,
@@ -93,11 +94,11 @@ window.onload = function(){
 		}else{
 			var options = ""
 				options += `<option value="`+clientName+`">`+clientName+`</option>`
-			$("#groupSelectFilter").empty();
-			$("#groupSelectFilter").append(options);
-			$("#groupSelectFilter").attr('disabled',true);
+			$(".sosSection #groupSelectFilter").empty();
+			$(".sosSection #groupSelectFilter").append(options);
+			$(".sosSection #groupSelectFilter").attr('disabled',true);
 			
-			$("#groupSelectFilter").multipleSelect({
+			$(".sosSection #groupSelectFilter").multipleSelect({
 				placeholder: "Select Group",
 				filter: true,
 				single : true,
@@ -127,10 +128,10 @@ window.onload = function(){
 					$.each(clusters, function(index,value){
 						options += `<option value="`+value+`">`+value+`</option>`
 					});
-					$("#clusterSelectFilter").empty();
-					$("#clusterSelectFilter").append(options);
+					$(".sosSection #clusterSelectFilter").empty();
+					$(".sosSection #clusterSelectFilter").append(options);
 					
-					$("#clusterSelectFilter").multipleSelect({
+					$(".sosSection #clusterSelectFilter").multipleSelect({
 						placeholder: "Select Cluster",
 						filter: true,
 						single : true,
@@ -155,7 +156,7 @@ window.onload = function(){
 
 	getAllGroups();
 	// getAllClusters();
-	groupName = $("#groupSelectFilter").multipleSelect('getSelects')[0];
+	groupName = $(".sosSection #groupSelectFilter").multipleSelect('getSelects')[0];
 	loadGroupsSosTable(groupName)
 
 	function loadGroupsSosTable(groupName){
@@ -164,7 +165,7 @@ window.onload = function(){
 			sos.groupsSosTableJQ.fnDestroy();
 		}
 
-		sos.groupsSosTableAPI = $('#groupsSosTable').DataTable({
+		sos.groupsSosTableAPI = $('.sosSection #groupsSosTable').DataTable({
 	        "ajax" : {
 				url : commonData.apiurl + "planned/sos/" + "NO" + "/" + groupName,
 				// url : "data/sosGrp.json",
@@ -213,7 +214,7 @@ window.onload = function(){
 	    	]
 	    });
 
-	    sos.groupsSosTableJQ = $('#groupsSosTable').dataTable()
+	    sos.groupsSosTableJQ = $('.sosSection #groupsSosTable').dataTable()
 	}
 
 	// function loadClustersSosTable(clusterName){
@@ -222,7 +223,7 @@ window.onload = function(){
 	// 		sos.clustersSosTableJQ.fnDestroy();
 	// 	}
 
-	//     sos.clustersSosTableAPI = $('#clustersSosTable').DataTable({
+	//     sos.clustersSosTableAPI = $('.sosSection #clustersSosTable').DataTable({
 	//         "ajax" : {
 	// 			// url : commonData.apiurl + "sosDev/" + clientName + "/" + clusterName,
 	// 			url : "data/sosCluster.json",
@@ -271,33 +272,33 @@ window.onload = function(){
 	//     	]
 	//     });
 
-	//     sos.clustersSosTableJQ = $('#clustersSosTable').dataTable()
+	//     sos.clustersSosTableJQ = $('.sosSection #clustersSosTable').dataTable()
 	// }
 
 	// // keep the dialog box in center when user changes orientation or resizes the window
-	// $("#EditorPanel").panel({
+	// $(".sosSection #EditorPanel").panel({
 	// 	onResize:function(){
- //            $('#addNewSosDialog').dialog('center');
+ //            $('.sosSection #addNewSosDialog').dialog('center');
  //        }
 	// })
 
 
-    $("#addNewSosButton").off('click').on('click',function(evt){
-    	if($("#groupsSosTableDiv").is(':visible')){
+    $(".sosSection #addNewSosButton").off('click').on('click',function(evt){
+    	if($(".sosSection #groupsSosTableDiv").is(':visible')){
     		sos.visibleTableAPI = sos.groupsSosTableAPI;
 	    	sos.visibleTableJQ = sos.groupsSosTableJQ;
 	    	visibleTableAPI = sos.groupsSosTableAPI;
 	    	visibleTableJQ = sos.groupsSosTableJQ;
 	    	groupOrClusterKey = "groupName";
-	    	groupOrCluster = $("#groupSelectFilter").multipleSelect('getSelects')[0];
+	    	groupOrCluster = $(".sosSection #groupSelectFilter").multipleSelect('getSelects')[0];
 
-    	}else if($("#clustersSosTableDiv").is(':visible')){
+    	}else if($(".sosSection #clustersSosTableDiv").is(':visible')){
     		sos.visibleTableAPI = sos.clustersSosTableAPI;
 	    	sos.visibleTableJQ = sos.clustersSosTableJQ;
     		visibleTableAPI = sos.clustersSosTableAPI;
 	    	visibleTableJQ = sos.clustersSosTableJQ;
 	    	groupOrClusterKey = "clusterName";
-	    	groupOrCluster = $("#clusterSelectFilter").multipleSelect('getSelects')[0];
+	    	groupOrCluster = $(".sosSection #clusterSelectFilter").multipleSelect('getSelects')[0];
 
     	} 
 
@@ -318,21 +319,21 @@ window.onload = function(){
 
     sos.visibleTableAPI = sos.groupsSosTableAPI;
 	sos.visibleTableJQ = sos.groupsSosTableJQ;
-	$('#groupsSosTable tbody').on('click','td:nth-child(3)',function(evt){
+	$('.sosSection #groupsSosTable tbody').on('click','td:nth-child(3)',function(evt){
 		openFieldEditorDialog(sos.visibleTableAPI, sos.visibleTableJQ, evt);
 	});
 
-	$('#groupsSosTable tbody').on('click','td:nth-child(4)',function(evt){
+	$('.sosSection #groupsSosTable tbody').on('click','td:nth-child(4)',function(evt){
 		openFieldEditorDialog(sos.visibleTableAPI, sos.visibleTableJQ, evt);
 	});
 
 
 
-	// $('#clustersSosTable tbody').on('click','td:nth-child(4)',function(evt){
+	// $('.sosSection #clustersSosTable tbody').on('click','td:nth-child(4)',function(evt){
 	// 	openFieldEditorDialog(sos.visibleTableAPI, sos.visibleTableJQ, evt);
 	// });
 
-	// $('#clustersSosTable tbody').on('click','td:nth-child(5)',function(evt){
+	// $('.sosSection #clustersSosTable tbody').on('click','td:nth-child(5)',function(evt){
 	// 	openFieldEditorDialog(sos.visibleTableAPI, sos.visibleTableJQ, evt);
 	// });
 
@@ -417,18 +418,18 @@ window.onload = function(){
 
 
 
-	$("#deleteSelectedSosButton").off('click').on('click',function(evt){
+	$(".sosSection #deleteSelectedSosButton").off('click').on('click',function(evt){
 		if(confirm("Are you you want to delete selected entries permanently and update?")){
-			$("#loadingDiv").show();
-			if($("#groupsSosTableDiv").is(':visible')){
+			$(".sosSection #loadingDiv").show();
+			if($(".sosSection #groupsSosTableDiv").is(':visible')){
 		    	visibleTableAPI = sos.groupsSosTableAPI;
 		    	visibleTableJQ = sos.groupsSosTableJQ;
-		    	groupName = $("#groupSelectFilter").multipleSelect('getSelects')[0];
+		    	groupName = $(".sosSection #groupSelectFilter").multipleSelect('getSelects')[0];
 
-	    	}else if($("#clustersSosTableDiv").is(':visible')){
+	    	}else if($(".sosSection #clustersSosTableDiv").is(':visible')){
 	    		visibleTableAPI = sos.clustersSosTableAPI;
 		    	visibleTableJQ = sos.clustersSosTableJQ;
-		    	clusterName = $("#clusterSelectFilter").multipleSelect('getSelects')[0];
+		    	clusterName = $(".sosSection #clusterSelectFilter").multipleSelect('getSelects')[0];
 	    	}
 			page = visibleTableAPI.page.info().page;
 			checkboxTD = visibleTableAPI.rows().nodes().toJQuery();
@@ -450,10 +451,10 @@ window.onload = function(){
 			})
 			updateSerialNo(visibleTableAPI);
 			visibleTableAPI.page( page ).draw( 'page' );
-			$("#saveSosButton").click();
+			$(".sosSection #saveSosButton").click();
 		}
 
-		// if($("#groupsSosTableDiv").is(':visible')){
+		// if($(".sosSection #groupsSosTableDiv").is(':visible')){
 		// 	$.each(deleteRowsIndexes, function(index,startTime){
 		// 		$.ajax({
 		// 		    url: commonData.apiurl + "sosGrp/" + clientName + "/" + groupName + "/" + startTime,
@@ -470,7 +471,7 @@ window.onload = function(){
 		// 		});
 		// 		sos.visibleTableAPI.ajax.reload();
 		// 	})
-  //   	}else if($("#clustersSosTableDiv").is(':visible')){
+  //   	}else if($(".sosSection #clustersSosTableDiv").is(':visible')){
 		// 	$.each(deleteRowsIndexes, function(index,startTime){
 		// 		$.ajax({
 		// 		    url: commonData.apiurl + "sosDev/" + clientName + "/" + clusterName + "/" + startTime,
@@ -500,16 +501,16 @@ window.onload = function(){
 		// visibleTableAPI.page( page ).draw( 'page' );
 	});
 
-	$("#groupsSosTable").off('keyup').on('keyup', function(event){
+	$(".sosSection #groupsSosTable").off('keyup').on('keyup', function(event){
 		if(event.keyCode == 32){
-			trgt = $("#groupsSosTable tbody td.focus").closest('tr').find('.tableCheckbox input')
+			trgt = $(".sosSection #groupsSosTable tbody td.focus").closest('tr').find('.tableCheckbox input')
 			trgt.click();
 		}
 	});
 
-	$("#clustersSosTable").off('keyup').on('keyup', function(event){
+	$(".sosSection #clustersSosTable").off('keyup').on('keyup', function(event){
 		if(event.keyCode == 32){
-			trgt = $("#clustersSosTable tbody td.focus").closest('tr').find('.tableCheckbox input')
+			trgt = $(".sosSection #clustersSosTable tbody td.focus").closest('tr').find('.tableCheckbox input')
 			trgt.click();
 		}
 	});
@@ -537,9 +538,9 @@ window.onload = function(){
 		visibleTableAPI.keys.enable()
 	}
 
-	$("#saveSosButton").off('click').on('click', function(evt){
-		$("#loadingDiv").show();
-		// groupName = $("#groupSelectFilter").multipleSelect('getSelects')[0];
+	$(".sosSection #saveSosButton").off('click').on('click', function(evt){
+		$(".sosSection #loadingDiv").show();
+		// groupName = $(".sosSection #groupSelectFilter").multipleSelect('getSelects')[0];
 		sosDataArray = sos.visibleTableJQ.fnGetData(); 
   //   	postData = {}
 		// groupOrClusterNameFromTable = sosDataArray[0].groupName;
@@ -567,8 +568,8 @@ window.onload = function(){
 			  success: function(data){
 			  	$.notify('Success','success')
 			  	sos.groupsSosTableAPI.ajax.reload(function(){
-			  		$("#loadingDiv").hide();
-					// $('#addNewResourceDialog').dialog('close');
+			  		$(".sosSection #loadingDiv").hide();
+					// $('.sosSection #addNewResourceDialog').dialog('close');
 				  	// recordsTotal = resources.resourcesTableAPI.page.info().recordsTotal;
 				  	// resources.resourcesTableAPI.page( 'first' ).draw( 'page' );
 				  	// $(clients.clientsTableAPI.rows().nodes().toJQuery()[recordsTotal]).fadeOut();
@@ -597,7 +598,7 @@ window.onload = function(){
 		// }
 		// else{
 		// 	// clusters post
-		// 	// clusterName = $("#clusterSelectFilter").multipleSelect('getSelects')[0];
+		// 	// clusterName = $(".sosSection #clusterSelectFilter").multipleSelect('getSelects')[0];
 		// 	// sosDataArray = sos.clustersSosTableJQ.fnGetData(); 
 		// 	// sosDataArray = _.map(sosDataArray, function(model){
 	 //  //   		return _.omit(model, 'updatedBy','updatedAt','sno','clusterName','groupName',);
@@ -611,7 +612,7 @@ window.onload = function(){
 		// 	  success: function(data){
 		// 	  	$.notify('Success','success')
 		// 	  	sos.clustersSosTableAPI.ajax.reload(function(){
-		// 			// $('#addNewResourceDialog').dialog('close');
+		// 			// $('.sosSection #addNewResourceDialog').dialog('close');
 		// 		  	// recordsTotal = resources.resourcesTableAPI.page.info().recordsTotal;
 		// 		  	// resources.resourcesTableAPI.page( 'first' ).draw( 'page' );
 		// 		  	// $(clients.clientsTableAPI.rows().nodes().toJQuery()[recordsTotal]).fadeOut();

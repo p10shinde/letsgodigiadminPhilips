@@ -1,6 +1,15 @@
-''
+
 
 .main_container
+{
+  position:absolute;
+  /*top:0;*/
+  /*left:0;*/
+  height:100%;
+  width:100%;
+}
+
+.main_containerr
 {
   position:absolute;
   /*top:0;*/
@@ -257,6 +266,291 @@ li.disabled {
   background: #2a3b4c;
   color: white;
 }
+
+
+/* CAMPAIGN STYLE*/
+
+/* GRIDSTER */
+
+.gridster{
+  /*min-width: 1046px;*/
+  /*width: 1046px;*/
+  /*min-height: 630px;*/
+  /*height: 630px;*/
+  /*margin-left: 10px;*/
+  
+  /*min-width: 89.8%;
+  min-height: 84.7%;
+  width: 89.8%;
+  height: 84.7%;*/
+
+  width: 644px;
+  height: 364px;
+}
+
+.demo {
+  margin: 3em 0;
+  padding: 7.5em 0 5.5em;
+  background: #26941f;
+}
+.demo:hover .gridster {
+  margin: 0 auto;
+  opacity: .8;
+  -webkit-transition: opacity .6s;
+  -moz-transition: opacity .6s;
+  -o-transition: opacity .6s;
+  -ms-transition: opacity .6s;
+  transition: opacity .6s;
+}
+.content {
+  color: white;
+}
+.gridster .gs-w {
+  background: #61A9CF;
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  padding: 40px 0 0 0;
+}
+.gridster .player {
+  -webkit-box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+  background: #BBB;
+}
+.gridster .gs-w.try {
+  background-image: url(../img/sprite.png);
+  background-repeat: no-repeat;
+  background-position: 37px -169px;
+}
+.gridster .preview-holder {
+  border: none !important;
+  border-radius: 0 !important;
+  background: red !important;
+}
+.gridster ul {
+  background-color: #EFEFEF;
+}
+.gridster li {
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center;
+  line-height: 100%;
+}
+
+.gridsterr{
+  display: inline-flex;
+  width: 100%;
+  height: 100%;
+}
+
+.gridsterr ul, .gridster ul,  {
+  list-style-type: none;
+}
+.gridster li, .gridsterr li {
+  list-style: none;
+  font-weight: bold;
+}
+.gridster-box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.controls {
+  margin-bottom: 20px;
+}
+
+
+#createCampaignDialog .col-xs-1, #createCampaignDialog .col-xs-10, 
+#createCampaignDialog .col-xs-11, #createCampaignDialog .col-xs-12,
+#createCampaignDialog .col-xs-2, #createCampaignDialog .col-xs-3,
+#createCampaignDialog .col-xs-4, #createCampaignDialog .col-xs-5,
+#createCampaignDialog .col-xs-6, #createCampaignDialog .col-xs-7,
+#createCampaignDialog .col-xs-8, #createCampaignDialog .col-xs-9 ,
+#createCampaignDialog .row{
+  height: 100% !important;  
+  margin: 0 !important;
+  /*padding: 0;*/
+}
+.object-element{
+  border:2px solid white;
+  /*background: #e2e2e2;*/
+  height: 50px;
+  width: 150px;
+  /*margin: 10px;*/
+      background: #61A9CF;
+    cursor: pointer;
+    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+
+}
+
+.object-element-icon,
+.object-element-text{
+    height: 100%;
+    padding: 10px;
+}
+
+.object-element-icon{
+  font-size: 22px !important;
+  padding: 8px 0px 0px 11px;
+  color: white;
+}
+
+.object-element-text{
+  font-size: 12px;
+  border-left: 1px solid white;
+  /*color: #6b5b5b !important;*/
+  padding: 15px 0px 0 10px;
+  color: white;
+
+}
+
+svg {
+  width: 10px;
+  height: 10px;
+  display: block;
+}
+.close-x {
+  stroke: #457994;;;
+  stroke-linecap: round;
+  stroke-width: 7;
+}
+
+
+.gridsterItems{
+  width: 15%;
+  overflow-y: auto;
+  height: 100%;
+}
+
+
+.gridsterHolder{
+  width: 85%;
+  padding-left: 10px; 
+}
+
+
+.position_table tbody td{
+  padding:10px;
+  padding-left:0;
+}
+
+.campaignItem{
+  position: absolute !important;
+  width: 10px;
+  left: 0;
+  top: 0;
+  height: 10px;
+  border: 1px solid red;
+  background: #61a9cf;
+  /*resize: both;
+  overflow: auto*/;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.selected{
+  background: #174f6c;
+  resize: both;
+  overflow: auto;
+}
+
+#contentMasterDiv{
+  height: 100%;
+}
+
+#campaignContent{
+  height: calc(100% - 33px);
+  margin-top: 5px;
+}
+
+#saveCampaign{
+  right: 25px;
+  margin-top: -25px;
+  position: absolute;
+}
+
+/*(n*10)+4n
+
+
+ [data-col="1"] { left:4px !important; }
+ [data-col="2"] { left:14px !important; }
+ [data-col="3"] { left:28px !important; }
+ [data-col="4"] { left:42px !important; }
+ [data-col="5"] { left:56px !important; }
+ [data-col="6"] { left:64px !important; }
+ [data-col="7"] { left:78px !important; }
+ [data-col="8"] { left:732px !important; }
+ [data-col="9"] { left:836px !important; }
+ [data-col="10"] { left:940px !important; }
+ [data-col="11"] { left:1044px !important; }
+ [data-col="12"] { left:1148px !important; }
+ [data-col="13"] { left:1252px !important; }
+ [data-col="14"] { left:1356px !important; }
+ [data-col="15"] { left:1460px !important; }
+ [data-col="16"] { left:1564px !important; }
+ [data-col="17"] { left:1668px !important; }
+ [data-col="18"] { left:1772px !important; }
+ [data-col="19"] { left:1876px !important; }
+ [data-col="20"] { left:1980px !important; }
+ [data-row="1"] { top:4px !important; }
+ [data-row="2"] { top:14px !important; }
+ [data-row="3"] { top:28px !important; }
+ [data-row="4"] { top:42px !important; }
+ [data-row="5"] { top:56px !important; }
+ [data-row="6"] { top:64px !important; }
+ [data-row="7"] { top:78px !important; }
+ [data-row="8"] { top:732px !important; }
+ [data-row="9"] { top:836px !important; }
+ [data-row="10"] { top:940px !important; }
+ [data-row="11"] { top:1044px !important; }
+ [data-row="12"] { top:1148px !important; }
+ [data-row="13"] { top:1252px !important; }
+ [data-row="14"] { top:1356px !important; }
+ [data-row="15"] { top:1460px !important; }
+ [data-row="16"] { top:1564px !important; }
+ [data-sizey="1"] { height:10px !important; }
+ [data-sizey="2"] { height:24px !important; }
+ [data-sizey="3"] { height:38px !important; }
+ [data-sizey="4"] { height:52px !important; }
+ [data-sizey="5"] { height:66px !important; }
+ [data-sizey="6"] { height:80px !important; }
+ [data-sizey="7"] { height:94px !important; }
+ [data-sizey="8"] { height:828px !important; }
+ [data-sizey="9"] { height:932px !important; }
+ [data-sizey="10"] { height:1036px !important; }
+ [data-sizey="11"] { height:1140px !important; }
+ [data-sizey="12"] { height:1244px !important; }
+ [data-sizey="13"] { height:1348px !important; }
+ [data-sizey="14"] { height:1452px !important; }
+ [data-sizey="15"] { height:1556px !important; }
+ [data-sizex="1"] { width:10px !important; }
+ [data-sizex="2"] { width:24px !important; }
+ [data-sizex="3"] { width:38px !important; }
+ [data-sizex="4"] { width:52px !important; }
+ [data-sizex="5"] { width:66px !important; }
+ [data-sizex="6"] { width:80px !important; }
+ [data-sizex="7"] { width:94px !important; }
+ [data-sizex="8"] { width:828px !important; }
+ [data-sizex="9"] { width:932px !important; }
+ [data-sizex="10"] { width:1036px !important; }
+ [data-sizex="11"] { width:1044px !important; }
+ [data-sizex="12"] { width:1044px !important; }
+ [data-sizex="13"] { width:1044px !important; }
+ [data-sizex="14"] { width:1044px !important; }
+ [data-sizex="15"] { width:1044px !important; }
+ [data-sizex="16"] { width:1044px !important; }
+ [data-sizex="17"] { width:1044px !important; }
+ [data-sizex="18"] { width:1044px !important; }
+ [data-sizex="19"] { width:1044px !important; }*/
+
+
+
+
+
+
+
+
 
 ::-webkit-scrollbar {
     width: .8em;

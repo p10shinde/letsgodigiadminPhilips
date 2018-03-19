@@ -1,4 +1,5 @@
 groups = {};
+function loadGroup(){
 function takeScreenShot(evt){
 	evt.preventDefault();
 	groupName = $(evt.target).closest('tr').find('td:nth-child(3)').text();
@@ -36,7 +37,7 @@ function reloadImage(evt){
 	imageToRefresh.src = "http://63.142.250.105:6053/resources/screenshot/" + groupName + ".jpg?t="+ new Date().getTime()
 }
 
-window.onload = function(){
+// window.onload = function(){
 	// XMLHttpRequest.prototype.realSend = XMLHttpRequest.prototype.send;
 	// XMLHttpRequest.prototype.send = function(value) {
 	// 	this.addEventListener('error', function(xx,yy){
