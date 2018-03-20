@@ -1,100 +1,103 @@
+var AUTH0_CLIENT_ID='wSypUeUH688aidIp6jImqKl1o4lrxeP0';
+var AUTH0_DOMAIN='testing-app123.auth0.com';
+var AUTH0_CALLBACK_URL=location.href;
 sessionStorage.apiurl = 'http://63.142.250.105:6050/api/';
-  var startApp = function() {
-    gapi.load('auth2', function(){
-      // Retrieve the singleton for the GoogleAuth library and set up the client.
-      auth2 = gapi.auth2.init({
-        client_id: '58895878910-g39rj0mojh2h0tlafp2oo135lqm6eue1.apps.googleusercontent.com',
-        cookiepolicy: 'single_host_origin',
-      });
 
-      //after user signs in change button text
-      auth2.then(function(GoogleAuth){
-        	if(gapi.auth2.getAuthInstance().isSignedIn.get())
-  	    	$("#customBtn span.buttonText").text('Google ('+ gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getName() + ")")
-  	    }, function(err){
-  	    	console.log(err)
-	    })
+window.addEventListener('load', function() {
+  var content = document.querySelector('.content');
+  var loadingSpinner = document.getElementById('loadingSpinner');
+  content.style.display = 'block';
+  loadingSpinner.style.display = 'none';
 
-      auth2.isSignedIn.listen(function(state){
-      	gapi.auth2.getAuthInstance().signOut();
-      	gapi.auth2.getAuthInstance().disconnect();
+  var webAuth = new auth0.WebAuth({
+    domain: AUTH0_DOMAIN,
+    clientID: AUTH0_CLIENT_ID,
+    redirectUri: AUTH0_CALLBACK_URL,
+    audience: 'https://' + AUTH0_DOMAIN + '/userinfo',
+    responseType: 'token id_token',
+    scope: 'openid',
+    leeway: 60
+  });
 
-      	if(gapi.auth2.getAuthInstance().isSignedIn.get())
-	    	$("#customBtn span.buttonText").text('Google ('+ gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getName() + ")")
-	    else
-	    	$("#customBtn span.buttonText").text('Google')
-      })
-      // function renderButton() {
-        // gapi.signin.render('my-signin2', {
-        //   'scope': 'profile email openid',
-        //   'width': 240,
-        //   'height': 50,
-        //   'longtitle': true,
-        //   'theme': 'dark',
-        //   'cookie_policy' : 'single_host_origin'
-        // });
-    // }
+  var loginStatus = document.querySelector('.container h4');
+  var loginView = document.getElementById('login-view');
 
-      attachSignin(document.getElementById('customBtn'));
-    });
-  };
+  // buttons and event listeners
+  var loginBtn = document.getElementById('qsLoginBtn');
 
-  function attachSignin(element) {
-    auth2.attachClickHandler(element, {},
-        function(googleUser) {
-	    	$("#customBtn span.buttonText").text('Google ('+ gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getName() + ")")
-        	onSignIn(googleUser)
-        }, function(error) {
-          alert(error.error);
-        });
+ 
+
+  loginBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    webAuth.authorize();
+  });
+
+
+  function setSession(authResult) {
+    // Set the time that the access token will expire at
+    var expiresAt = JSON.stringify(
+      authResult.expiresIn * 1000 + new Date().getTime()
+    );
+    localStorage.setItem('access_token', authResult.accessToken);
+    localStorage.setItem('id_token2', authResult.idToken);
+    localStorage.setItem('expires_at', expiresAt);
   }
 
-function onSignIn(googleUser) {
-  id_token = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
-  sendToken(id_token,googleUser)
-}
-function sendToken(id_token,googleUser){
-	$.ajax({
-      	url:  sessionStorage.apiurl +'AUTH',	
-	    "async" : false,
-	    headers : {"token":id_token},
-	    success: function(result) {
-	        var profile = googleUser.getBasicProfile();
-		    // sessionStorage.usernamefull = profile.getName();
-     	  	// sessionStorage.useremail = profile.getEmail()
+  
 
-	  		sessionStorage.googleId = profile.getId();
-		    sessionStorage.image = profile.getImageUrl();
-     	  	sessionStorage.id_token = id_token;
-     	  	sessionStorage.userId = result.userID; //email
-     	  	sessionStorage.userName = result.userName;
-     	  	sessionStorage.userType = result.userType;
-          sessionStorage.clientLocation = result.clientLocation;
-     	  	sessionStorage.clientName = result.clientName;
+  function isAuthenticated() {
+    // Check whether the current time is past the
+    // access token's expiry time
+    var expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+    return new Date().getTime() < expiresAt;
+  }
 
-			// sessionStorage.username = 'sAdmin';
-			// sessionStorage.usertype = 'Super Admin';
-			// sessionStorage.clientName = 'PL';
-			// sessionStorage.password = 'prj@dm!n';
-			// sessionStorage.apiurl = "http://68.66.200.220:49161/api/";
-			// sessionStorage.apiurl = "http://10.13.67.174:49161/api/";
-			// sessionStorage.apiurl = sessionStorage.apiurl;
-			// window.location = window.location.pathname.split('login.html')[0]
-      $(".login-view").hide();
-      $(".main_container").show();
+  function handleAuthentication() {
+    webAuth.parseHash(function(err, authResult) {
+      if (authResult && authResult.accessToken && authResult.idToken) {
+        window.location.hash = '';
+        setSession(authResult);
+        loginBtn.style.display = 'none';
+      } else if (err) {
+        console.log(err);
+        alert(
+          'Error: ' + err.error + '. Check the console for further details.'
+        );
+      }
+      displayButtons();
+    });
+  }
+
+  function displayButtons() {
+    if (isAuthenticated()) {
+      loginBtn.style.display = 'none';
+
+      // sessionStorage.googleId = profile.getId();
+      sessionStorage.image = "https://lh3.googleusercontent.com/-EL1IRFxPixk/AAAAAAAAAAI/AAAAAAAAGfY/gwLT07Mqx9o/s96-c/photo.jpg";
+        sessionStorage.id_token = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImM2ZjBlZTE2YmU3MGM0ODhkZDM5ZGI3MGY2ZjRkMTM3YTA0ODkxZTMifQ.eyJhenAiOiI4NDg2MjY5MzM3NzUtMWV2MDR0bHRwdHVoOGEzMzJ1bnQzYXFob2hhcWg4MzkuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI4NDg2MjY5MzM3NzUtMWV2MDR0bHRwdHVoOGEzMzJ1bnQzYXFob2hhcWg4MzkuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDQ0MTI1NjY3MTc0NTk4OTU0NTEiLCJlbWFpbCI6InAxMHNoaW5kZUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6Il9tWDNjdjV3N2lfOExVc19vOWo2aHciLCJleHAiOjE1MjE1MjQ4NTEsImlzcyI6ImFjY291bnRzLmdvb2dsZS5jb20iLCJqdGkiOiJlZmM4YWNlZWNhZDY5YTQ3MTQzNjY0M2NmNjcxOTQyZjczNzkwNmRjIiwiaWF0IjoxNTIxNTIxMjUxLCJuYW1lIjoiUGFua2FqIFNoaW5kZSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vLUVMMUlSRnhQaXhrL0FBQUFBQUFBQUFJL0FBQUFBQUFBR2ZZL2d3TFQwN01xeDlvL3M5Ni1jL3Bob3RvLmpwZyIsImdpdmVuX25hbWUiOiJQYW5rYWoiLCJmYW1pbHlfbmFtZSI6IlNoaW5kZSIsImxvY2FsZSI6ImVuLUdCIn0.GJYnxocK-hF4uOHGmUyx0ZbgQ6wnhcHXLCbVG-5d6a9Q6p6TG0J4En8rqfoDrTjMMa33zkpYm_trJxEcCmBStvXO_EUYYqd0AHe6w2eXRd6Gdm6jsHDby-3xxcnupIYKsGyzj65cRZpk-UZop0npfvtQiQDk0GP044cD3DfsTLEoiBD6EUCUwqiIz2NXnXxms-dZs_JdDxLHziW1TYaxvTHffV9ZIlqXeCLFXbesjGdL72stVxt27qMu6Q1KjaFjBfkY7_JyjoMmnJBg1GswnTjMZ6SoWiobxKf-n9qOfrj_-iCd-pkbPpw-3HYTtJqYKkolsNmtw8LH409fGfEJUA";
+        // sessionStorage.userId = result.userID; //email
+        sessionStorage.userId = "p10shinde@gmail.com"; //email
+        // sessionStorage.userName = result.userName;
+        sessionStorage.userName = "Pankaj Shinde";
+        // sessionStorage.userType = result.userType;
+        sessionStorage.userType = "SuperAdmin";
+        // sessionStorage.clientLocation = result.clientLocation;
+        sessionStorage.clientLocation = "Noida";
+        // sessionStorage.clientName = result.clientName;
+        sessionStorage.clientName = "LGD";
+
+      $(".main_containerr").show();
+      $(".main_containerr").resize();
       loadIndexJS();
+      // loginStatus.innerHTML = 'You are logged in!';
+    } else {
+      loginBtn.style.display = 'inline-block';
+      loginView.style.display = 'inline-block'
 
-	    },
-	    error : function(jqXHR, textStatus){
-			if(jqXHR.responseJSON){
-        $.notify(jqXHR.responseJSON.Error,'error')
-      }else
-	 			$.notify(jqXHR.statusText,'error')
-		},
-		dataType: 'json',
-	});
+      // loginStatus.innerHTML =
+      //   'You are not logged in! Please log in to continue.';
+    }
+  }
 
-	  	
-
-}
-startApp();
+  handleAuthentication();
+});

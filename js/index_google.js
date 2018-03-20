@@ -54,10 +54,6 @@
 			sessionStorage.removeItem('userType');
 			sessionStorage.removeItem('clientLocation');
 			sessionStorage.removeItem('clientName');
-
-			localStorage.removeItem('access_token');
-		    localStorage.removeItem('id_token2');
-		    localStorage.removeItem('expires_at');
 			
 			sessionStorage.removeItem('apiurl');
 			window.location.reload();

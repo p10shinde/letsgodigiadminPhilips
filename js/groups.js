@@ -1,4 +1,16 @@
 groups = {};
+function showReloadButton(event){
+	// td = $(event.target).closest('tr').find('img').parent('td');
+	$(".preview-lgd i").show();
+	// td.append('<i class="fa fa-reload"></i>')
+
+}
+function reloadImage(evt){
+	groupName = $(evt.target).closest('tr').find('td:nth-child(3)').text();
+	imageToRefresh = $(evt.target).closest('tr').find('img')[0]
+	imageToRefresh.src = "";
+	imageToRefresh.src = "http://63.142.250.105:6053/resources/screenshot/" + groupName + ".jpg?t="+ new Date().getTime()
+}
 function loadGroup(){
 function takeScreenShot(evt){
 	evt.preventDefault();
@@ -21,21 +33,11 @@ function takeScreenShot(evt){
 
 }
 
-function showReloadButton(event){
-	// td = $(event.target).closest('tr').find('img').parent('td');
-	$(".preview-lgd i").show();
-	// td.append('<i class="fa fa-reload"></i>')
-
-}
 
 
 
-function reloadImage(evt){
-	groupName = $(evt.target).closest('tr').find('td:nth-child(3)').text();
-	imageToRefresh = $(evt.target).closest('tr').find('img')[0]
-	imageToRefresh.src = "";
-	imageToRefresh.src = "http://63.142.250.105:6053/resources/screenshot/" + groupName + ".jpg?t="+ new Date().getTime()
-}
+
+
 
 // window.onload = function(){
 	// XMLHttpRequest.prototype.realSend = XMLHttpRequest.prototype.send;
@@ -69,6 +71,11 @@ function reloadImage(evt){
 	// };
 	// initialize tooltips
 	$('[data-toggle="tooltip"]').tooltip();
+
+	if(groups.groupsTableJQ) {
+		groups.groupsTableJQ.fnClearTable();
+		groups.groupsTableJQ.fnDestroy();
+	}
 
 	groups.groupsTableAPI = $('#groupsTable').DataTable({
         "ajax" : {

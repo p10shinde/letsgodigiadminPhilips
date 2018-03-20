@@ -1,29 +1,30 @@
 users = {};
 clientNames = [];
-window.onload = function(){
+function loadUser(){
+// window.onload = function(){
 	// XMLHttpRequest.prototype.realSend = XMLHttpRequest.prototype.send;
 	// XMLHttpRequest.prototype.send = function(value) {
 	// 	this.addEventListener('error', function(xx,yy){
 			
 	// 	}, false);
 	// 	this.addEventListener("loadstart", function(xx,yy){
-	//     	$("#loadingDiv").show();
+	//     	$(".usersSection #loadingDiv").show();
 	//     }, false);
 	//     this.addEventListener("progress", function(xx,yy){
 	//     	loadedPer = xx.loaded/xx.total*100
-	//     	if(isNaN(loadedPer)) $(".ldBar")[0].ldBar.set(0)
-	//     	else $(".ldBar")[0].ldBar.set(loadedPer)
+	//     	if(isNaN(loadedPer)) $(".usersSection .ldBar")[0].ldBar.set(0)
+	//     	else $(".usersSection .ldBar")[0].ldBar.set(loadedPer)
 	//     }, false);
 	//     this.addEventListener("loadend", function(xx,yy){
 	//         setTimeout(function(){
-	//         	$("#loadingDiv").hide();
-	//         	$(".ldBar")[0].ldBar.set(0)
+	//         	$(".usersSection #loadingDiv").hide();
+	//         	$(".usersSection .ldBar")[0].ldBar.set(0)
 	//         },1300)
 	//     }, false);
 	//     this.realSend(value);
 	// };
 	// initialize tooltips
-	$('[data-toggle="tooltip"]').tooltip();
+	$('.usersSection [data-toggle="tooltip"]').tooltip();
 
 	function getAllClients(){
 		$.ajax({
@@ -46,7 +47,12 @@ window.onload = function(){
 	}
 	getAllClients();
 
-	users.usersTableAPI = $('#usersTable').DataTable({
+	if(users.usersTableJQ) {
+		users.usersTableJQ.fnClearTable();
+		users.usersTableJQ.fnDestroy();
+	}
+
+	users.usersTableAPI = $('.usersSection #usersTable').DataTable({
         "ajax" : {
 			url : commonData.apiurl + "users",
 			'async': 'false',
@@ -103,30 +109,30 @@ window.onload = function(){
     	]
     });
 
-    users.usersTableJQ = $('#usersTable').dataTable()
+    users.usersTableJQ = $('.usersSection #usersTable').dataTable()
 
 	// keep the dialog box in center when user changes orientation or resizes the window
-	$("#EditorPanel").panel({
+	$(".usersSection #EditorPanel").panel({
 		onResize:function(){
-        	if($('#addNewUserDialog').is(":visible"))
-            	$('#addNewUserDialog').dialog('center');
+        	if($('.usersSection #addNewUserDialog').is(":visible"))
+            	$('.usersSection #addNewUserDialog').dialog('center');
         }
 	})
 
 
-    $("#addNewUserButton").off('click').on('click',function(evt){
+    $(".usersSection #addNewUserButton").off('click').on('click',function(evt){
     	initializeUserDialog("","","","","",123456789);
 
     });
 
-    $('table tbody').on('click','td:nth-child(10)',function(evt){
+    $('.usersSection table tbody').on('click','td:nth-child(10)',function(evt){
 		deleteOrEditUser(evt);
 
 	});
 
-	$("#deleteSelectedUserButton").off('click').on('click',function(evt){
+	$(".usersSection #deleteSelectedUserButton").off('click').on('click',function(evt){
 		if(confirm("Are you you want to delete selected entries?")){
-			$("#loadingDiv").show();
+			$(".usersSection #loadingDiv").show();
 			page = users.usersTableAPI.page.info().page;
 			checkboxTD = users.usersTableAPI.rows().nodes().toJQuery();
 			deleteRowsIndexes = [];
@@ -165,39 +171,39 @@ window.onload = function(){
 		}
 	});
 
-	$("#usersTable").off('keyup').on('keyup', function(event){
+	$(".usersSection #usersTable").off('keyup').on('keyup', function(event){
 		if(event.keyCode == 32){
-			trgt = $("#usersTable tbody td.focus").closest('tr').find('.tableCheckbox input')
+			trgt = $(".usersSection #usersTable tbody td.focus").closest('tr').find('.tableCheckbox input')
 			trgt.click();
 		}
 		// else if(event.keyCode == 46){
-		// 	$("#deleteSelectedUserButton").click();
-		// 	$("#usersTable tbody td.focus").removeClass('focus')
+		// 	$(".usersSection #deleteSelectedUserButton").click();
+		// 	$(".usersSection #usersTable tbody td.focus").removeClass('focus')
 		// }
 	});
 
 	function initializeUserDialog(userID,userName,userEmail,clientName,userType,rowNo){
 		openUserDialog(userID,userName,userEmail,clientName,userType,rowNo);
 
-		val = $("#userName").val();
-		$("#userName").val('')
-    	$("#userName").focus();
-    	$("#userName").val(val)
+		val = $(".usersSection #userName").val();
+		$(".usersSection #userName").val('')
+    	$(".usersSection #userName").focus();
+    	$(".usersSection #userName").val(val)
 
-		$("#userID").val(userID)
-		$("#userEmail").val(userEmail)
-		// $("#password").val(password)
-		// $("#userType").val(userType)
-		$("select.userType").multipleSelect("setSelects", [userType]);
-		$("select.clientName").multipleSelect("setSelects", [clientName]);
+		$(".usersSection #userID").val(userID)
+		$(".usersSection #userEmail").val(userEmail)
+		// $(".usersSection #password").val(password)
+		// $(".usersSection #userType").val(userType)
+		$(".usersSection select.userType").multipleSelect("setSelects", [userType]);
+		$(".usersSection select.clientName").multipleSelect("setSelects", [clientName]);
 
-		$("#userID, #userName, #userEmail, #userType, #clientName").off('keypress').on('keypress', function(evt){
+		$(".usersSection #userID, #userName, #userEmail, #userType, #clientName").off('keypress').on('keypress', function(evt){
 			if(evt.keyCode == 13){
-				$("#addNewUserOkButton").click();
+				$(".usersSection #addNewUserOkButton").click();
 			}
 		})
 	
-	    $("#addNewUserOkButton").off('click').on('click',function(evt){
+	    $(".usersSection #addNewUserOkButton").off('click').on('click',function(evt){
 	    	updateTableWithNewRecord();
 	    });
 	}
@@ -232,7 +238,7 @@ window.onload = function(){
 			disabled = "disabled";
 			users.clientNameOld = clientName;
 		}
-		$('#addNewUserDialog').dialog({
+		$('.usersSection #addNewUserDialog').dialog({
 		    title: title,
 		    // width: 400,
 		    // height: 320,
@@ -272,12 +278,12 @@ window.onload = function(){
 		    }
 		});
 
-		$("select.userType").multipleSelect({
+		$(".usersSection select.userType").multipleSelect({
 			single: true,
 			filter: true,
 			allSelected : false
 		})
-		$("select.clientName").multipleSelect({
+		$(".usersSection select.clientName").multipleSelect({
 			single: true,
 			filter: true,
 			allSelected : false,
@@ -314,15 +320,15 @@ window.onload = function(){
 	}
 
     function updateTableWithNewRecord(){
-    	$("#loadingDiv").show();
+    	$(".usersSection #loadingDiv").show();
     	userDataObj = {}
-    	userDataObj.userID = $("#userID").val()
-    	userDataObj.userName = $("#userName").val()
-    	userDataObj.userEmail = $("#userEmail").val()
-    	// userDataObj.password = $("#password").val()
-    	// userDataObj.userType = $("#userType").val()
-    	userDataObj.userType  = $("select.userType").multipleSelect('getSelects')[0];
-    	userDataObj.clientName = $("select.clientName").multipleSelect('getSelects')[0];;
+    	userDataObj.userID = $(".usersSection #userID").val()
+    	userDataObj.userName = $(".usersSection #userName").val()
+    	userDataObj.userEmail = $(".usersSection #userEmail").val()
+    	// userDataObj.password = $(".usersSection #password").val()
+    	// userDataObj.userType = $(".usersSection #userType").val()
+    	userDataObj.userType  = $(".usersSection select.userType").multipleSelect('getSelects')[0];
+    	userDataObj.clientName = $(".usersSection select.clientName").multipleSelect('getSelects')[0];;
     	if(users.rowNo == 123456789){
     		$.ajax({
 			  type: "POST",
@@ -332,7 +338,7 @@ window.onload = function(){
 			  success: function(data){
 			  	$.notify('Success','success')
 			  	users.usersTableAPI.ajax.reload(function(){
-					$('#addNewUserDialog').dialog('close');
+					$('.usersSection #addNewUserDialog').dialog('close');
 			    	recordsTotal = users.usersTableAPI.page.info().recordsTotal;
 		    		users.usersTableAPI.page( 'first' ).draw( 'page' );
 			  	});
@@ -355,7 +361,7 @@ window.onload = function(){
 			  success: function(data){
 			  	$.notify('Success','success')
 			  	users.usersTableAPI.ajax.reload(function(){
-					$('#addNewUserDialog').dialog('close');
+					$('.usersSection #addNewUserDialog').dialog('close');
 				  	users.usersTableAPI.page( 'first' ).draw( 'page' );
 			  	});
 			  },
@@ -370,7 +376,7 @@ window.onload = function(){
     	}
 
 
-    	// $('#addNewUserDialog').dialog('close');
+    	// $('.usersSection #addNewUserDialog').dialog('close');
 
     	// users.usersTableAPI.keys.enable();
 	}

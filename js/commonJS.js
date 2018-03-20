@@ -18,11 +18,11 @@ $.ajaxSetup({
 // 	window.location.href = 'login.html'
 // }else{
 commonData = {};
-commonData.username = sessionStorage.username;
-commonData.usernamefull = sessionStorage.usernamefull;
-commonData.useremail = sessionStorage.useremail;
+commonData.username = sessionStorage.userName;
+commonData.usernamefull = sessionStorage.userName;
+commonData.useremail = sessionStorage.userId;
 commonData.userType = sessionStorage.userType;
-commonData.password = sessionStorage.password;
+// commonData.password = sessionStorage.password;
 commonData.apiurl = sessionStorage.apiurl;
 commonData.googleId = sessionStorage.googleId;
 commonData.image = sessionStorage.image;

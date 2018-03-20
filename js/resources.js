@@ -15,17 +15,17 @@ function getAllGroups(){
 					$.each(groups, function(index,value){
 						options += `<option value="`+value+`">`+value+`</option>`
 					});
-					$("#groupSelectFilter").empty();
-					$("#groupSelectFilter").append(options);
-					$("#groupSelectFilter").attr("disabled",true);
+					$(".resourcesSection #groupSelectFilter").empty();
+					$(".resourcesSection #groupSelectFilter").append(options);
+					$(".resourcesSection #groupSelectFilter").attr("disabled",true);
 					
-					$("#groupSelectFilter").multipleSelect({
+					$(".resourcesSection #groupSelectFilter").multipleSelect({
 						placeholder: "Select Group",
 						filter: true,
 						single : true,
 						allSelected : false,
 						onClick : function(view){
-							tabIndex = $("#resourcesTabs").tabs('getTabIndex',$("#resourcesTabs").tabs('getSelected'))
+							tabIndex = $(".resourcesSection #resourcesTabs").tabs('getTabIndex',$(".resourcesSection #resourcesTabs").tabs('getSelected'))
 							groupName = view.value;
 							if(tabIndex == 0){
 								// loadSocietyContent(groupName);
@@ -35,8 +35,8 @@ function getAllGroups(){
 					});
 
 
-					// loadSocietyContent($("#groupSelectFilter").multipleSelect('getSelects')[0]);
-					loadAdvtContent($("#groupSelectFilter").multipleSelect('getSelects')[0]);
+					// loadSocietyContent($(".resourcesSection #groupSelectFilter").multipleSelect('getSelects')[0]);
+					loadAdvtContent($(".resourcesSection #groupSelectFilter").multipleSelect('getSelects')[0]);
 
 				}else if(textstatus == "error"){
 					if(jqXHR.responseText)
@@ -48,24 +48,24 @@ function getAllGroups(){
 	// }else{
 	// 	var options = ""
 	// 	options += `<option value="`+clientName+`">`+clientName+`</option>`
-	// 	$("#groupSelectFilter").empty();
-	// 	$("#groupSelectFilter").append(options);
-	// 	$("#groupSelectFilter").attr('disabled',true);
+	// 	$(".resourcesSection #groupSelectFilter").empty();
+	// 	$(".resourcesSection #groupSelectFilter").append(options);
+	// 	$(".resourcesSection #groupSelectFilter").attr('disabled',true);
 		
-	// 	$("#groupSelectFilter").multipleSelect({
+	// 	$(".resourcesSection #groupSelectFilter").multipleSelect({
 	// 		placeholder: "Select Group",
 	// 		filter: true,
 	// 		single : true,
 	// 		allSelected : false,
 	// 		onClick : function(view){
-	// 			tabIndex = $("#resourcesTabs").tabs('getTabIndex',$("#resourcesTabs").tabs('getSelected'))
+	// 			tabIndex = $(".resourcesSection #resourcesTabs").tabs('getTabIndex',$(".resourcesSection #resourcesTabs").tabs('getSelected'))
 	// 			groupName = view.value;
 	// 			if(tabIndex == 0){
 	// 				loadSocietyContent(groupName);
 	// 		    }
 	// 		}
 	// 	});
-	// 	loadSocietyContent($("#groupSelectFilter").multipleSelect('getSelects')[0]);
+	// 	loadSocietyContent($(".resourcesSection #groupSelectFilter").multipleSelect('getSelects')[0]);
 	// }
 }
 
@@ -73,14 +73,14 @@ function getAllGroups(){
 
 //upload to google drive
 var alws = function(thisButton){
-	tabIndex = $("#resourcesTabs").tabs('getSelected').panel('options').index
+	tabIndex = $(".resourcesSection #resourcesTabs").tabs('getSelected').panel('options').index
 	postData = {};
 	thisButton = thisButton;
 	postData.resName = $(thisButton).closest('tr').find('td:nth-child(2)').text().trim();
 	groupName = ""
 	if(tabIndex == 0){
 		// postData.resDir = 'society'
-		groupName = $("#groupSelectFilter").multipleSelect('getSelects')[0];
+		groupName = $(".resourcesSection #groupSelectFilter").multipleSelect('getSelects')[0];
 	}else{
 		// postData.resDir = 'advt'
 		groupName = 'advt';
@@ -113,15 +113,16 @@ function refreshTable(thisButton){
 		$(thisButton).closest('tr').find('td:nth-child(6) button').click();
 	},1000)
 }
-window.onload = function(){
+function loadResource(){
+// window.onload = function(){
 	
 	configureView(sessionStorage.userType);
 	getAllGroups();
 
 	
-$(".resourcesSocietyTableDiv").off('click').on('click','a.galleryLink',function(evt){
+$(".resourcesSection .resourcesSocietyTableDiv").off('click').on('click','a.galleryLink',function(evt){
 	dataArray = [];
-	$.each($("#resourcesSocietyTable a.galleryLink"), function(index, key){
+	$.each($(".resourcesSection #resourcesSocietyTable a.galleryLink"), function(index, key){
 		if(/\.(mp4)$/i.test(key.title)){
 			type = 'video/mp4'
 		}else{
@@ -141,11 +142,11 @@ $(".resourcesSocietyTableDiv").off('click').on('click','a.galleryLink',function(
 	return false;
 })
 
-$(".resourcesAdvtTableDiv").off('click').on('click','a.galleryLink',function(evt){
+$(".resourcesSection .resourcesAdvtTableDiv").off('click').on('click','a.galleryLink',function(evt){
 	dataArray = [];
 	
 
-	$.each($("#resourcesAdvtTable a.galleryLink"), function(index,key){
+	$.each($(".resourcesSection #resourcesAdvtTable a.galleryLink"), function(index,key){
 		if(/\.(mp4)$/i.test(key.title)){
 			type = 'video/mp4'
 		}else{
