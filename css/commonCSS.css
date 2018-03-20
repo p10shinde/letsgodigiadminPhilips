@@ -32,7 +32,7 @@ body{
 
 }
 
-#loadingDiv{
+/*#loadingDiv{
   z-index: 9999999;
   position: absolute;
   height: 100%;
@@ -51,7 +51,7 @@ body{
   background-color: rgba(40, 38, 35, 0.7);
   z-index: 99;
   text-align: center;
-}
+}*/
 
 .label-center{
   font-size: 20px;

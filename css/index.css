@@ -10,7 +10,7 @@
   /*display: none;*/
 }
 
-#loadingSpinner {
+#loadingSpinnerr {
   position: absolute;
   display: flex;
   justify-content: center;
@@ -184,6 +184,10 @@ footer{
     width: 100%;
 }
 
+.ms-parent{
+  width: 100% !important;
+}
+
 
 #loadingWashout {
     width: 100%;
@@ -196,6 +200,15 @@ footer{
     background-color: rgba(195, 195, 195,.7);
     z-index: 99;
     text-align: center;
+}
+
+#loadingSpinner i{
+  font-size: 25px !important;
+}
+#loadingSpinner{
+  position: relative;
+  top: 50%;
+  text-align: center;
 }
 
 
