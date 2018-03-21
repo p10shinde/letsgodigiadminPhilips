@@ -82,7 +82,7 @@ window.onload = function(){
 	    redirectUri: AUTH0_CALLBACK_URL,
 	    audience: 'https://' + AUTH0_DOMAIN + '/userinfo',
 	    responseType: 'token id_token',
-	    scope: 'openid',
+	    scope: '',
 	    leeway: 60
 	  });
 
@@ -141,7 +141,7 @@ window.onload = function(){
 	    if (isAuthenticated()) {
 	    	$.ajax({
 	    		url : "http://localhost:3010/api/private-scoped",
-	    		headers : {'authorization' : 'Bearer ' + localStorage.id_token2,"cache-control": "no-cache"},
+	    		headers : {'authorization' : 'Bearer ' + localStorage.id_token2},
 	    		complete : function(jqXHR, status){
 	    			console.log(status);
 	    		},
