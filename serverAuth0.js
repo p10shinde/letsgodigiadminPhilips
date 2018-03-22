@@ -13,10 +13,7 @@ if (!process.env.AUTH0_DOMAIN || !process.env.AUTH0_AUDIENCE) {
 }
 
 
-var corsOptions = {
-  origin: 'http://localhost:6051',
-}
-app.use(cors(corsOptions));
+app.use(cors());
 
 const checkJwt = jwt({
   // Dynamically provide a signing key based on the kid in the header and the singing keys provided by the JWKS endpoint.
@@ -55,7 +52,7 @@ const checkScopes = jwtAuthz([]);
   }
 
 app.get('/api/private-scoped',checkJwt, checkScopes, function(req, res) {
-console.log(req.headers)
+  console.log(req.ip)
   try{
     var decoded = jwt_decode(req.headers.authorization.split(" ")[1]);
     console.log(decoded)

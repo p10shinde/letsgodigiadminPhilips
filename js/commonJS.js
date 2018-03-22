@@ -28,6 +28,7 @@ commonData.googleId = localStorage.googleId;
 commonData.image = localStorage.image;
 commonData.id_token = localStorage.id_token;
 commonData.id_token = localStorage.clientLocation;
+commonData.indexLoaded = localStorage.qwerty;
 
 var clientName = localStorage.clientName;
 

@@ -6,8 +6,10 @@ var AUTH0_DOMAIN='testing-app123.auth0.com';
 var AUTH0_CALLBACK_URL=location.href;
 localStorage.apiurl = 'http://63.142.250.105:6050/api/';
 var lock;
+var qwerty;
 	
 	function loadIndexJS(){
+		localStorage.qwerty = true;
 		configureView(localStorage.userType);
 		$("#userImage")[0].src = localStorage.image
 
@@ -64,6 +66,7 @@ var lock;
 			localStorage.removeItem('access_token');
 		    localStorage.removeItem('id_token2');
 		    localStorage.removeItem('expires_at');
+		    localStorage.removeItem('qwerty');
 			
 			localStorage.removeItem('apiurl');
 
@@ -88,26 +91,30 @@ window.onload = function(){
 		    responseType: 'token code id_token',
 		    params: {
 		      scope: 'openid profile'
-		    }
+		    },
+		    redirect: false
 	  	},
 	  	autoclose: true,
 		closable: false,
 		rememberLastLogin: true
 	}
 
-	lock = new Auth0Lock('wSypUeUH688aidIp6jImqKl1o4lrxeP0', 'testing-app123.auth0.com',option)
+	lock = new Auth0Lock('wSypUeUH688aidIp6jImqKl1o4lrxeP0', 'testing-app123.auth0.com',option);
 	let profile = JSON.parse(localStorage.getItem('profile'));
     let isAuthenticated = localStorage.getItem('isAuthenticated');
+    let qwerty = localStorage.getItem('qwerty');
 
     if(isAuthenticated == null){
     	// loginBtn.style.display = 'inline-block';
       	loginView.style.display = 'inline-block';
       	// content.style.display = 'inline-block';
     }else{
-
+    	$(".main_containerr").show();
+      	$(".main_containerr").resize();
+      	loadIndexJS();
     }
 
-    function updateValues(userProfile, authStatus) {
+    function updateGlobalValues(userProfile, authStatus) {
         profile = userProfile;
         isAuthenticated = authStatus;
     }
@@ -129,11 +136,17 @@ window.onload = function(){
 	}
 
 	function processAutheticatedUser(){
+
+
+		qwerty = localStorage.getItem("qwerty")
 		// loginBtn.style.display = 'none';
-    	loginView.style.display = 'none';
-    	$(".main_containerr").show();
-      	$(".main_containerr").resize();
-      	loadIndexJS();
+	    	lock.hide();
+		if(qwerty == null){
+	    	loginView.style.display = 'none';
+	    	$(".main_containerr").show();
+	      	$(".main_containerr").resize();
+	      	loadIndexJS();
+	    }
 	}
 
 	function setSessionNew(authResult, profile) {
@@ -168,19 +181,17 @@ window.onload = function(){
 	lock.on("authenticated", function(authResult) {
 	  lock.getUserInfo(authResult.accessToken, function(error, profile) {
 	    if (error) {
-	      // Handle error
-	      console.log(error)
-	      return;
-	    }
-
-        updateValues(profile, true);
-
+	    	console.log(error) 
+	    	return 
+	   }
+        updateGlobalValues(profile, true);
         $.ajax({
             url : "http://localhost:3010/api/private-scoped",
             headers : {'authorization' : 'Bearer ' + authResult.idToken},
             complete : function(jqXHR, textStatus, statusCode){
                 if(textStatus == "success"){
                     //move next
+
                     handleAuthenticationNew(true,authResult, profile)
                 }else{
                     handleAuthenticationNew(false,authResult,profile)
