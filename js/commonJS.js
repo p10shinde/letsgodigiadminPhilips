@@ -3,7 +3,7 @@ GoogleData.client_id = '58895878910-g39rj0mojh2h0tlafp2oo135lqm6eue1.apps.google
 disabledChannels = ['Second Channel','Full Screen','Groups','Clients','Users','Advertisers','Clusters','Devices']
 $.ajaxSetup({
     beforeSend: function(xhr) {
-        xhr.setRequestHeader('token', sessionStorage.id_token);
+        xhr.setRequestHeader('token', localStorage.id_token);
     },
     error : function(jqXHR, textStatus, errorThrown) {
         // if (jqXHR.status == 404) {
@@ -14,22 +14,22 @@ $.ajaxSetup({
     }
 });
 
-// if(!sessionStorage.apiurl || !sessionStorage.userName || !sessionStorage.clientLocation || !sessionStorage.userName || !sessionStorage.id_token || !sessionStorage.clientName){
+// if(!localStorage.apiurl || !localStorage.userName || !localStorage.clientLocation || !localStorage.userName || !localStorage.id_token || !localStorage.clientName){
 // 	window.location.href = 'login.html'
 // }else{
 commonData = {};
-commonData.username = sessionStorage.userName;
-commonData.usernamefull = sessionStorage.userName;
-commonData.useremail = sessionStorage.userId;
-commonData.userType = sessionStorage.userType;
-// commonData.password = sessionStorage.password;
-commonData.apiurl = sessionStorage.apiurl;
-commonData.googleId = sessionStorage.googleId;
-commonData.image = sessionStorage.image;
-commonData.id_token = sessionStorage.id_token;
-commonData.id_token = sessionStorage.clientLocation;
+commonData.username = localStorage.userName;
+commonData.usernamefull = localStorage.userName;
+commonData.useremail = localStorage.userId;
+commonData.userType = localStorage.userType;
+// commonData.password = localStorage.password;
+commonData.apiurl = localStorage.apiurl;
+commonData.googleId = localStorage.googleId;
+commonData.image = localStorage.image;
+commonData.id_token = localStorage.id_token;
+commonData.id_token = localStorage.clientLocation;
 
-var clientName = sessionStorage.clientName;
+var clientName = localStorage.clientName;
 
 function configureView(usertype){
 	_channels = $("#channelMenu li");

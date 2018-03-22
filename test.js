@@ -2,7 +2,7 @@ window.onload = function(){
 
 option = {
 	auth: {
-	    responseType: 'token code id_token',
+	    responseType: 'token code id_token refresh_token',
 	    params: {
 	      scope: 'openid profile'
 	    }
@@ -40,11 +40,25 @@ let lock = new Auth0Lock('wSypUeUH688aidIp6jImqKl1o4lrxeP0', 'testing-app123.aut
 	      return;
 	    }
 
-	    localStorage.setItem('accessToken', authResult.accessToken);
+        localStorage.setItem('accessToken', authResult.accessToken);
+	    localStorage.setItem('id_token', authResult.idToken);
         localStorage.setItem('profile', JSON.stringify(profile));
         localStorage.setItem('isAuthenticated', true);
         updateValues(profile, true);
         document.getElementById("btn-login").disabled = true
+
+        $.ajax({
+            url : "http://localhost:3010/api/private-scoped",
+            headers : {'authorization' : 'Bearer ' + localStorage.id_token},
+            complete : function(jqXHR, textStatus, statusCode){
+                if(textStatus == "success"){
+                    //move next
+                }else{
+                    console.log("Errror")
+                    console.log(jqXHR.responseText);
+                }
+            },
+        })
 
 	  });
 	});
@@ -59,7 +73,7 @@ let lock = new Auth0Lock('wSypUeUH688aidIp6jImqKl1o4lrxeP0', 'testing-app123.aut
         localStorage.clear();
         isAuthenticated = false;
         lock.logout({ 
-            returnTo: "/" 
+            returnTo: "http://localhost:6051/index2.html" 
         });
     }
 }
